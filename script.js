@@ -18,6 +18,13 @@ class VaesenCharacterSheet {
         this.updateTalentSlots();
         this.updateAttributePoints();
         this.updateSkillPoints();
+        this.updateStatusBalloons();
+        
+        // Force level initialization
+        setTimeout(() => {
+            this.updateXPDisplay();
+            console.log('XP/Level system initialized');
+        }, 100);
     }
 
     getDefaultCharacter() {
@@ -28,6 +35,7 @@ class VaesenCharacterSheet {
             motivation: '',
             trauma: '',
             darkSecret: '',
+            appearance: '',
             attributes: {
                 fisico: 2,
                 precisao: 2,
@@ -274,6 +282,25 @@ class VaesenCharacterSheet {
             });
         }
 
+        // Status button
+        const statusBtn = document.getElementById('statusBtn');
+        if (statusBtn) {
+            statusBtn.addEventListener('click', () => {
+                document.getElementById('statusModal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                this.updateStatusDisplay();
+            });
+        }
+
+        // Souvenir button
+        const souvenirBtn = document.getElementById('souvenirBtn');
+        if (souvenirBtn) {
+            souvenirBtn.addEventListener('click', () => {
+                document.getElementById('souvenirModal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
         // Attribute buttons
         document.querySelectorAll('.attribute-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -318,6 +345,21 @@ class VaesenCharacterSheet {
             });
         });
 
+        // XP/Level system
+        document.querySelectorAll('.xp-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = e.target.dataset.action;
+                this.handleXPChange(action);
+            });
+        });
+
+        // Remove old stat-btn listeners (they're replaced by xp-btn)
+        // document.querySelectorAll('.stat-btn').forEach(btn => {
+        //     btn.addEventListener('click', (e) => {
+        //         // Old code removed
+        //     });
+        // });
+
         // Skill inputs
         Object.keys(this.character.skills).forEach(skill => {
             const element = document.getElementById(skill);
@@ -345,6 +387,13 @@ class VaesenCharacterSheet {
 
         // Relationships
         document.getElementById('addRelationship').addEventListener('click', () => this.addRelationship());
+        
+        // Remove relationship buttons (delegation for dynamic content)
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-relationship')) {
+                e.target.closest('.relationship-item').remove();
+            }
+        });
 
         // Add new talent slot
         document.getElementById('addCustomTalent').addEventListener('click', () => this.addNewTalent());
@@ -379,7 +428,12 @@ class VaesenCharacterSheet {
         });
 
         // Custom souvenir
-        document.getElementById('customSouvenirBtn').addEventListener('click', () => this.showCustomSouvenirModal());
+        document.getElementById('customSouvenirBtn').addEventListener('click', () => {
+            // Close main souvenir modal
+            document.getElementById('souvenirModal').style.display = 'none';
+            // Show custom souvenir modal
+            this.showCustomSouvenirModal();
+        });
 
         // Condition buttons
         document.addEventListener('click', (e) => {
@@ -392,7 +446,12 @@ class VaesenCharacterSheet {
         });
 
         // Souvenir roll
-        document.getElementById('rollSouvenirBtn').addEventListener('click', () => this.showSouvenirModal());
+        document.getElementById('rollSouvenirBtn').addEventListener('click', () => {
+            // Close main souvenir modal
+            document.getElementById('souvenirModal').style.display = 'none';
+            // Show roll modal
+            this.showSouvenirModal();
+        });
 
         // Modal close buttons
         document.querySelectorAll('.close').forEach(closeBtn => {
@@ -502,6 +561,135 @@ class VaesenCharacterSheet {
         } else if (usedPoints === maxPoints) {
             counter.classList.add('success');
         }
+    }
+
+    handleXPChange(action) {
+        const currentXP = this.character.xp || 0;
+        const currentLevel = this.character.level || 1;
+        let newXP = currentXP;
+        
+        if (action === 'add') {
+            newXP = currentXP + 1;
+        } else if (action === 'subtract' && currentXP > 0) {
+            newXP = currentXP - 1;
+        }
+        
+        if (newXP !== currentXP) {
+            const oldLevel = currentLevel;
+            this.character.xp = newXP;
+            
+            // Update hidden input
+            const xpInput = document.getElementById('characterXP');
+            if (xpInput) xpInput.value = newXP;
+            
+            // Calculate new level
+            const newLevel = this.calculateLevel(newXP);
+            this.character.level = newLevel;
+            
+            // Update hidden input
+            const levelInput = document.getElementById('characterLevel');
+            if (levelInput) levelInput.value = newLevel;
+            
+            // Update display
+            this.updateXPDisplay();
+            
+            // Check for level up
+            if (newLevel > oldLevel) {
+                this.handleLevelUp(newLevel);
+            }
+        }
+    }
+
+    calculateLevel(xp) {
+        // Every 5 XP = 1 level, starting from level 1
+        return Math.floor(xp / 5) + 1;
+    }
+
+    updateXPDisplay() {
+        const currentXP = this.character.xp || 0;
+        const currentLevel = this.character.level || 1;
+        
+        // Update XP display - show total XP (not reset to 0)
+        const xpCurrentElement = document.getElementById('xpCurrent');
+        const levelDisplayElement = document.getElementById('characterLevelDisplay');
+        
+        if (xpCurrentElement) xpCurrentElement.textContent = currentXP;
+        if (levelDisplayElement) levelDisplayElement.textContent = currentLevel;
+    }
+
+    handleLevelUp(newLevel) {
+        // Add level up animation
+        const levelCircle = document.querySelector('.level-circle');
+        if (levelCircle) {
+            levelCircle.classList.add('level-up');
+            setTimeout(() => {
+                levelCircle.classList.remove('level-up');
+            }, 600);
+        }
+        
+        // Update talent slots
+        this.updateTalentSlots();
+        
+        // Show notification (optional)
+        console.log(`Level up! Agora você está no nível ${newLevel}!`);
+        
+        // You could add a toast notification here if desired
+        this.showLevelUpNotification(newLevel);
+    }
+
+    showLevelUpNotification(level) {
+        // Create a simple notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #d4af37, #b8860b);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Crimson Text', serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        `;
+        notification.textContent = `Level Up! Nível ${level}`;
+        
+        // Add animation keyframes
+        if (!document.getElementById('levelUpStyles')) {
+            const style = document.createElement('style');
+            style.id = 'levelUpStyles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    updateLevel() {
+        // This method is kept for compatibility but now just calls updateXPDisplay
+        this.updateXPDisplay();
     }
 
     updateTalentSlots() {
@@ -649,27 +837,27 @@ class VaesenCharacterSheet {
         const card = document.createElement('div');
         card.className = 'talent-category-card';
         
-        let icon = '⚡';
+        let icon = '';
         let description = 'Talentos especializados';
         
         if (categoryType === 'geral') {
-            icon = '✨';
+            icon = '';
             description = 'Talentos disponíveis para todos';
         } else {
-            // Ícones únicos e criativos por arquétipo
+            // Remove all archetype icons
             const icons = {
-                'Acadêmico': '🎓',
-                'Andarilho': '🥾',
-                'Caçador': '�',
-                'Escritora': '✒️',
-                'Médica': '🩺',
-                'Ocultista': '🔮',
-                'Oficial': '🎖️',
-                'Padre': '⛪',
-                'Serviçal': '🔧',
-                'Veterana': '🛡️'
+                'Acadêmico': '',
+                'Andarilho': '',
+                'Caçador': '',
+                'Escritora': '',
+                'Médica': '',
+                'Ocultista': '',
+                'Oficial': '',
+                'Padre': '',
+                'Serviçal': '',
+                'Veterana': ''
             };
-            icon = icons[categoryName] || '⚡';
+            icon = icons[categoryName] || '';
         }
         
         card.innerHTML = `
@@ -795,7 +983,7 @@ class VaesenCharacterSheet {
         toast.className = 'talent-toast';
         toast.innerHTML = `
             <div class="toast-content">
-                <span class="toast-icon">⚡</span>
+                <span class="toast-icon"></span>
                 <span class="toast-text">Talento selecionado: <strong>${talentName}</strong></span>
             </div>
         `;
@@ -893,12 +1081,12 @@ class VaesenCharacterSheet {
 
     getAgeIcon(ageKey) {
         const icons = {
-            'crianca': '👶',
-            'adolescente': '🧒',
-            'adulto': '🧑',
-            'idoso': '👴'
+            'crianca': '',
+            'adolescente': '',
+            'adulto': '',
+            'idoso': ''
         };
-        return icons[ageKey] || '👤';
+        return icons[ageKey] || '';
     }
 
     showAgeSelectedFeedback(ageName, attrPoints, skillPoints) {
@@ -973,35 +1161,298 @@ class VaesenCharacterSheet {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            const imageArea = document.getElementById('characterImageArea');
-            
-            // Remover o placeholder e adicionar a imagem
-            imageArea.innerHTML = `
-                <img src="${e.target.result}" alt="Imagem do Personagem" class="character-image">
-                <div class="image-overlay">
-                    <button class="change-image-btn" onclick="document.getElementById('characterImageInput').click()">
-                        📷 Alterar
-                    </button>
-                </div>
-            `;
-            
-            // Salvar a imagem no character data
-            this.character.image = e.target.result;
+            this.showImageCropModal(e.target.result);
         };
         
         reader.readAsDataURL(file);
     }
 
-    updateLevel(xp) {
-        // Calcular nível baseado no XP (a cada 5 XP = 1 nível)
-        const level = Math.floor(xp / 5) + 1;
+    showImageCropModal(imageData) {
+        const modal = document.getElementById('imageCropModal');
+        const canvas = document.getElementById('cropCanvas');
+        const ctx = canvas.getContext('2d');
         
-        // Atualizar o campo de nível
-        document.getElementById('characterLevel').value = level;
+        // Limpar canvas anterior
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Criar imagem
+        const img = new Image();
+        img.onload = () => {
+            // Configurar canvas principal com tamanho maior
+            const maxWidth = 600;
+            const maxHeight = 500;
+            
+            // Calcular dimensões proporcionais
+            const imgAspect = img.width / img.height;
+            let displayWidth, displayHeight;
+            
+            if (img.width > img.height) {
+                displayWidth = Math.min(maxWidth, img.width);
+                displayHeight = displayWidth / imgAspect;
+                
+                if (displayHeight > maxHeight) {
+                    displayHeight = maxHeight;
+                    displayWidth = displayHeight * imgAspect;
+                }
+            } else {
+                displayHeight = Math.min(maxHeight, img.height);
+                displayWidth = displayHeight * imgAspect;
+                
+                if (displayWidth > maxWidth) {
+                    displayWidth = maxWidth;
+                    displayHeight = displayWidth / imgAspect;
+                }
+            }
+            
+            canvas.width = displayWidth;
+            canvas.height = displayHeight;
+            
+            // Desenhar imagem no canvas com suavização
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, 0, 0, displayWidth, displayHeight);
+            
+            // Configurar sistema de recorte
+            this.initializeCropSystem(canvas, null, img, imageData);
+        };
+        
+        img.src = imageData;
+        
+        // Mostrar modal
+        document.body.style.overflow = 'hidden';
+        modal.style.display = 'block';
+    }
+
+    initializeCropSystem(canvas, previewCanvas, originalImg, originalImageData) {
+        const cropSelector = document.getElementById('cropSelector');
+        const ctx = canvas.getContext('2d');
+        
+        // Estado do crop
+        let cropState = {
+            x: Math.max(10, (canvas.width - 200) / 2),
+            y: Math.max(10, (canvas.height - 240) / 2),
+            width: Math.min(200, canvas.width - 20),
+            height: Math.min(240, canvas.height - 20),
+            isDragging: false,
+            isResizing: false,
+            resizeHandle: null,
+            dragStart: { x: 0, y: 0 }
+        };
+        
+        // Atualizar posição do seletor
+        const updateCropSelector = () => {
+            cropSelector.style.left = cropState.x + 'px';
+            cropSelector.style.top = cropState.y + 'px';
+            cropSelector.style.width = cropState.width + 'px';
+            cropSelector.style.height = cropState.height + 'px';
+        };
+        
+        // Posicionamento inicial
+        updateCropSelector();
+        
+        // Event listeners para drag
+        cropSelector.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            
+            if (e.target.classList.contains('crop-handle')) {
+                cropState.isResizing = true;
+                cropState.resizeHandle = e.target.className;
+                cropState.dragStart = { x: clickX, y: clickY };
+            } else {
+                cropState.isDragging = true;
+                // Calcular offset relativo à posição atual do seletor
+                cropState.dragStart = {
+                    x: clickX - cropState.x,
+                    y: clickY - cropState.y
+                };
+            }
+            
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        
+        // Event listeners globais para mouse move e mouse up
+        const handleMouseMove = (e) => {
+            if (cropState.isDragging) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Calcular nova posição baseada no offset inicial
+                let newX = mouseX - cropState.dragStart.x;
+                let newY = mouseY - cropState.dragStart.y;
+                
+                // Limitar aos bounds do canvas
+                newX = Math.max(0, Math.min(newX, canvas.width - cropState.width));
+                newY = Math.max(0, Math.min(newY, canvas.height - cropState.height));
+                
+                cropState.x = newX;
+                cropState.y = newY;
+                updateCropSelector();
+            } else if (cropState.isResizing) {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                // Lógica de resize proporcional baseada no handle
+                if (cropState.resizeHandle.includes('nw')) {
+                    // Handle noroeste - redimensiona a partir do canto superior esquerdo
+                    const deltaX = cropState.x - mouseX;
+                    const deltaY = cropState.y - mouseY;
+                    const delta = Math.max(deltaX, deltaY); // Usar o maior delta para manter proporção
+                    
+                    const newX = Math.max(0, cropState.x - delta);
+                    const newY = Math.max(0, cropState.y - delta);
+                    const newWidth = Math.min(cropState.width + delta, canvas.width - newX);
+                    const newHeight = Math.min(cropState.height + delta, canvas.height - newY);
+                    
+                    if (newWidth >= 50 && newHeight >= 50) {
+                        cropState.x = newX;
+                        cropState.y = newY;
+                        cropState.width = newWidth;
+                        cropState.height = newHeight;
+                    }
+                } else if (cropState.resizeHandle.includes('ne')) {
+                    // Handle nordeste - redimensiona a partir do canto superior direito
+                    const deltaX = mouseX - (cropState.x + cropState.width);
+                    const deltaY = cropState.y - mouseY;
+                    const delta = Math.max(deltaX, deltaY); // Usar o maior delta para manter proporção
+                    
+                    const newY = Math.max(0, cropState.y - delta);
+                    const newWidth = Math.min(cropState.width + delta, canvas.width - cropState.x);
+                    const newHeight = Math.min(cropState.height + delta, canvas.height - newY);
+                    
+                    if (newWidth >= 50 && newHeight >= 50) {
+                        cropState.y = newY;
+                        cropState.width = newWidth;
+                        cropState.height = newHeight;
+                    }
+                } else if (cropState.resizeHandle.includes('sw')) {
+                    // Handle sudoeste - redimensiona a partir do canto inferior esquerdo
+                    const deltaX = cropState.x - mouseX;
+                    const deltaY = mouseY - (cropState.y + cropState.height);
+                    const delta = Math.max(deltaX, deltaY); // Usar o maior delta para manter proporção
+                    
+                    const newX = Math.max(0, cropState.x - delta);
+                    const newWidth = Math.min(cropState.width + delta, canvas.width - newX);
+                    const newHeight = Math.min(cropState.height + delta, canvas.height - cropState.y);
+                    
+                    if (newWidth >= 50 && newHeight >= 50) {
+                        cropState.x = newX;
+                        cropState.width = newWidth;
+                        cropState.height = newHeight;
+                    }
+                } else if (cropState.resizeHandle.includes('se')) {
+                    // Handle sudeste - redimensiona a partir do canto inferior direito
+                    const deltaX = mouseX - (cropState.x + cropState.width);
+                    const deltaY = mouseY - (cropState.y + cropState.height);
+                    const delta = Math.max(deltaX, deltaY); // Usar o maior delta para manter proporção
+                    
+                    const newWidth = Math.min(cropState.width + delta, canvas.width - cropState.x);
+                    const newHeight = Math.min(cropState.height + delta, canvas.height - cropState.y);
+                    
+                    if (newWidth >= 50 && newHeight >= 50) {
+                        cropState.width = newWidth;
+                        cropState.height = newHeight;
+                    }
+                }
+                
+                updateCropSelector();
+            }
+        };
+        
+        const handleMouseUp = () => {
+            cropState.isDragging = false;
+            cropState.isResizing = false;
+            cropState.resizeHandle = null;
+        };
+        
+        // Adicionar listeners globais
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        
+        // Confirmar recorte
+        document.getElementById('confirmCrop').onclick = () => {
+            this.confirmImageCrop(originalImg, cropState, canvas.width, canvas.height);
+        };
+        
+        // Cancelar
+        document.getElementById('cancelCrop').onclick = () => {
+            this.closeImageCropModal();
+        };
+        
+        // Salvar referências para cleanup
+        this.cropCleanup = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }
+
+    confirmImageCrop(originalImg, cropState, canvasWidth, canvasHeight) {
+        // Criar canvas temporário para o crop final
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        
+        // Configurar canvas com qualidade máxima
+        tempCanvas.width = 200;
+        tempCanvas.height = 240;
+        
+        // Habilitar suavização de alta qualidade
+        tempCtx.imageSmoothingEnabled = true;
+        tempCtx.imageSmoothingQuality = 'high';
+        
+        // Calcular coordenadas da imagem original
+        const scaleX = originalImg.width / canvasWidth;
+        const scaleY = originalImg.height / canvasHeight;
+        
+        const sourceX = cropState.x * scaleX;
+        const sourceY = cropState.y * scaleY;
+        const sourceWidth = cropState.width * scaleX;
+        const sourceHeight = cropState.height * scaleY;
+        
+        // Desenhar a área recortada
+        tempCtx.drawImage(
+            originalImg,
+            sourceX, sourceY, sourceWidth, sourceHeight,
+            0, 0, tempCanvas.width, tempCanvas.height
+        );
+        
+        // Converter para base64 com qualidade alta
+        const croppedImageData = tempCanvas.toDataURL('image/png');
+        
+        // Aplicar à imagem do personagem
+        const imageArea = document.getElementById('characterImageArea');
+        imageArea.innerHTML = `
+            <img src="${croppedImageData}" alt="Imagem do Personagem" class="character-image">
+            <div class="image-overlay">
+                <button class="change-image-btn" onclick="document.getElementById('characterImageInput').click()">
+                    📷 Alterar
+                </button>
+            </div>
+        `;
         
         // Salvar no character data
-        this.character.xp = xp;
-        this.character.level = level;
+        this.character.image = croppedImageData;
+        
+        // Fechar modal
+        this.closeImageCropModal();
+    }
+
+    closeImageCropModal() {
+        const modal = document.getElementById('imageCropModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        
+        // Cleanup event listeners
+        if (this.cropCleanup) {
+            this.cropCleanup();
+            this.cropCleanup = null;
+        }
+        
+        // Limpar input file
+        document.getElementById('characterImageInput').value = '';
     }
 
     showArchetypeModal() {
@@ -1108,14 +1559,19 @@ class VaesenCharacterSheet {
     getArchetypeIcon(archetypeName) {
         const icons = {
             'Acadêmico': '📚',
+            'Andarilho': '🗺️',
             'Caçador': '🏹',
             'Detetive Particular': '🔍',
+            'Escritora': '📝',
             'Jornalista': '📰',
+            'Médica': '💉',
             'Médico': '⚕️',
             'Ocultista': '🔮',
+            'Oficial': '🪖',
             'Padre': '✝️',
             'Policial Militar': '⚔️',
             'Serviçal': '🛎️',
+            'Veterana': '🎯',
             'Veterano': '🎖️'
         };
         return icons[archetypeName] || '👤';
@@ -1143,9 +1599,10 @@ class VaesenCharacterSheet {
     }
 
     showSouvenirModal() {
-        const modal = document.getElementById('souvenirModal');
+        const modal = document.getElementById('souvenirRollModal');
         this.rollSouvenir();
         modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
         
         // Setup souvenir modal buttons
         document.getElementById('acceptSouvenir').onclick = () => {
@@ -1153,6 +1610,7 @@ class VaesenCharacterSheet {
             this.character.equipment.souvenir = description;
             this.updateSouvenirDisplay();
             modal.style.display = 'none';
+            document.body.style.overflow = '';
             this.showToast('Souvenir adicionado!', 'success');
         };
         
@@ -1259,6 +1717,7 @@ class VaesenCharacterSheet {
         this.character.motivation = document.getElementById('motivation').value;
         this.character.trauma = document.getElementById('trauma').value;
         this.character.darkSecret = document.getElementById('darkSecret').value;
+        this.character.appearance = document.getElementById('appearance').value;
 
         // Attributes
         ['fisico', 'precisao', 'logica', 'empatia'].forEach(attr => {
@@ -1301,9 +1760,8 @@ class VaesenCharacterSheet {
             souvenir: document.getElementById('souvenir').value
         };
 
-        // Conditions
-        this.character.conditions.physical = Array.from(document.querySelectorAll('[name^="physical"]')).map(cb => cb.checked);
-        this.character.conditions.mental = Array.from(document.querySelectorAll('[name^="mental"]')).map(cb => cb.checked);
+        // Conditions - já são gerenciadas diretamente no character object
+        // Não precisamos coletar do DOM pois usamos this.character.conditions diretamente
     }
 
     populateForm() {
@@ -1313,6 +1771,9 @@ class VaesenCharacterSheet {
         // XP and Level
         document.getElementById('characterXP').value = this.character.xp || 0;
         document.getElementById('characterLevel').value = this.character.level || 1;
+        
+        // Update XP/Level display
+        this.updateXPDisplay();
         
         // Character image
         if (this.character.image) {
@@ -1352,6 +1813,7 @@ class VaesenCharacterSheet {
         document.getElementById('motivation').value = this.character.motivation || '';
         document.getElementById('trauma').value = this.character.trauma || '';
         document.getElementById('darkSecret').value = this.character.darkSecret || '';
+        document.getElementById('appearance').value = this.character.appearance || '';
 
         // Resource Level - update button text
         if (this.character.resourceLevel) {
@@ -1413,19 +1875,16 @@ class VaesenCharacterSheet {
             document.getElementById('souvenir').value = this.character.equipment.souvenir || '';
         }
 
-        // Conditions
-        if (this.character.conditions) {
-            document.querySelectorAll('[name^="physical"]').forEach((cb, index) => {
-                cb.checked = this.character.conditions.physical[index] || false;
-            });
-            document.querySelectorAll('[name^="mental"]').forEach((cb, index) => {
-                cb.checked = this.character.conditions.mental[index] || false;
-            });
-        }
+        // Conditions - no need to populate checkboxes since we use buttons now
+        // The conditions are handled directly in this.character.conditions
         
         // Update all counters
         this.updateAttributePoints();
         this.updateSkillPoints();
+        
+        // Update status display and balloons
+        this.updateStatusDisplay();
+        this.updateStatusBalloons();
     }
 
     // === EQUIPMENT MANAGEMENT ===
@@ -1683,7 +2142,11 @@ class VaesenCharacterSheet {
         const souvenirText = document.getElementById('souvenirText');
         if (souvenirText) {
             const souvenir = this.character.equipment.souvenir;
-            souvenirText.textContent = souvenir || 'Nenhum souvenir definido';
+            if (souvenir) {
+                souvenirText.textContent = souvenir;
+            } else {
+                souvenirText.textContent = 'Nenhum souvenir definido';
+            }
         }
     }
 
@@ -1750,6 +2213,78 @@ class VaesenCharacterSheet {
         } else {
             buttonElement.classList.remove('active');
         }
+
+        // Atualizar balões de status
+        this.updateStatusBalloons();
+    }
+
+    updateStatusBalloons() {
+        const physicalBalloons = document.getElementById('physicalBalloons');
+        const mentalBalloons = document.getElementById('mentalBalloons');
+        
+        // Limpar balões existentes
+        physicalBalloons.innerHTML = '';
+        mentalBalloons.innerHTML = '';
+
+        // Definir as condições e suas abreviações
+        const conditions = {
+            physical: [
+                { name: 'Ferido', abbrev: 'FER', description: 'Pequenos ferimentos e contusões' },
+                { name: 'Gravemente Ferido', abbrev: 'GRV', description: 'Ferimentos sérios que limitam ações' },
+                { name: 'Incapacitado', abbrev: 'INC', description: 'Mal consegue se mover' },
+                { name: 'Morrendo', abbrev: 'MOR', description: 'À beira da morte' }
+            ],
+            mental: [
+                { name: 'Perturbado', abbrev: 'PER', description: 'Ligeiramente abalado' },
+                { name: 'Assombrado', abbrev: 'ASS', description: 'Visões e pesadelos persistem' },
+                { name: 'Demente', abbrev: 'DEM', description: 'Perdendo contato com a realidade' },
+                { name: 'Insano', abbrev: 'INS', description: 'Mente completamente fragmentada' }
+            ]
+        };
+
+        // Adicionar balões para condições ativas
+        ['physical', 'mental'].forEach(type => {
+            const container = type === 'physical' ? physicalBalloons : mentalBalloons;
+            
+            this.character.conditions[type].forEach((isActive, index) => {
+                if (isActive) {
+                    const condition = conditions[type][index];
+                    const balloon = document.createElement('div');
+                    balloon.className = `status-balloon ${type}`;
+                    balloon.innerHTML = `
+                        <div class="balloon-content">
+                            <div class="balloon-title">${condition.name}</div>
+                            <div class="balloon-description">${condition.description}</div>
+                        </div>
+                    `;
+                    
+                    // Adicionar click para remover condição
+                    balloon.addEventListener('click', () => {
+                        this.character.conditions[type][index] = false;
+                        this.updateStatusDisplay();
+                        this.updateStatusBalloons();
+                    });
+                    
+                    container.appendChild(balloon);
+                }
+            });
+        });
+    }
+
+    updateStatusDisplay() {
+        // Atualizar os botões no modal para refletir o estado atual
+        ['physical', 'mental'].forEach(type => {
+            this.character.conditions[type].forEach((isActive, index) => {
+                const btn = document.querySelector(`[data-condition="${type}"][data-index="${index}"]`);
+                if (btn) {
+                    if (isActive) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            });
+        });
     }
 }
 

@@ -6,7 +6,7 @@
     <title>Ficha de Personagem - Vaesen</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Cinzel:wght@400;600&family=Uncial+Antiqua&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,20 +20,19 @@
                 <span class="navbar-title">VAESEN</span>
             </div>
             <div class="navbar-right">
-                <button id="saveBtn" class="navbar-btn">� Salvar</button>
-                <button id="loadBtn" class="navbar-btn">📁 Carregar</button>
+                <button id="saveBtn" class="navbar-btn">Salvar</button>
+                <button id="loadBtn" class="navbar-btn">Carregar</button>
             </div>
         </nav>
 
         <!-- Informações Básicas -->
         <section class="basic-info">
             <div class="section-ornament">❦ ❦ ❦</div>
-            <h3>Identidade do Personagem</h3>
             
             <div class="character-identity">
                 <div class="character-left">
                     <div class="image-placeholder" id="characterImageArea">
-                        <div class="image-icon">📷</div>
+                        <div class="image-icon"></div>
                         <div class="image-text">CLIQUE PARA ADICIONAR IMAGEM</div>
                         <div class="image-subtitle">Recorte disponível</div>
                     </div>
@@ -41,23 +40,27 @@
                     
                     <div class="character-stats">
                         <div class="stats-row">
-                            <div class="stat-box">
+                            <div class="level-section">
                                 <label>Nível</label>
-                                <input type="number" id="characterLevel" name="characterLevel" min="1" max="20" value="1" readonly>
+                                <div class="level-circle">
+                                    <span id="characterLevelDisplay">1</span>
+                                </div>
                             </div>
-                            <div class="stat-box">
-                                <label>XP</label>
-                                <input type="number" id="characterXP" name="characterXP" min="0" max="999" value="0">
+                            
+                            <div class="xp-section">
+                                <label>Experiência</label>
+                                <div class="xp-container">
+                                    <button type="button" class="xp-btn xp-minus" data-action="subtract">−</button>
+                                    <div class="xp-display">
+                                        <span class="xp-current" id="xpCurrent">0</span>
+                                    </div>
+                                    <button type="button" class="xp-btn xp-plus" data-action="add">+</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="resource-box">
-                            <label>Recursos</label>
-                            <button type="button" id="resourceBtn" class="resource-selector">
-                                <span id="resourceText">3 - Classe Baixa</span>
-                                <span class="arrow">▼</span>
-                            </button>
-                            <input type="hidden" id="resourceLevel" name="resourceLevel" value="3">
-                        </div>
+                        
+                        <input type="hidden" id="characterXP" name="characterXP" value="0">
+                        <input type="hidden" id="characterLevel" name="characterLevel" value="1">
                     </div>
                 </div>
                 
@@ -87,22 +90,32 @@
                             <input type="hidden" id="age" name="age" value="">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-field">
-                            <label for="motivation">Motivação</label>
-                            <textarea id="motivation" name="motivation" rows="2" placeholder="O que move seu personagem"></textarea>
+                            <label for="status">Estado do Personagem</label>
+                            <button type="button" id="statusBtn" class="selector-btn">
+                                <span id="statusText">Gerenciar Estado</span>
+                                <span class="arrow">▼</span>
+                            </button>
                         </div>
                         <div class="form-field">
-                            <label for="trauma">Trauma</label>
-                            <textarea id="trauma" name="trauma" rows="2" placeholder="Experiência traumática"></textarea>
+                            <label for="resources">Recursos</label>
+                            <button type="button" id="resourceBtn" class="selector-btn">
+                                <span id="resourceText">3 - Classe Baixa</span>
+                                <span class="arrow">▼</span>
+                            </button>
+                            <input type="hidden" id="resourceLevel" name="resourceLevel" value="3">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-field full-width">
-                            <label for="darkSecret">Segredo Sombrio</label>
-                            <textarea id="darkSecret" name="darkSecret" rows="2" placeholder="Algo que você esconde dos outros"></textarea>
+                            <label for="souvenir">Souvenir Místico</label>
+                            <button type="button" id="souvenirBtn" class="selector-btn">
+                                <span id="souvenirText">Nenhum souvenir definido</span>
+                                <span class="arrow">▼</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -278,19 +291,6 @@
             <button id="addCustomTalent" class="add-btn">+ Adicionar Slot de Talento</button>
         </section>
 
-        <!-- Relacionamentos -->
-        <section class="relationships">
-            <h3>Relacionamentos</h3>
-            <div id="relationshipsContainer">
-                <div class="relationship-item">
-                    <input type="text" placeholder="Nome do PJ" class="relationship-name">
-                    <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
-                    <button class="remove-relationship">❌</button>
-                </div>
-            </div>
-            <button id="addRelationship" class="add-btn">+ Adicionar Relacionamento</button>
-        </section>
-
         <!-- Equipamentos -->
         <section class="equipment">
             <h3>Equipamentos & Posses</h3>
@@ -298,7 +298,7 @@
                 <div class="equipment-category">
                     <div class="equipment-dropdown" data-category="armas">
                         <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">⚔️ Armas</span>
+                            <span class="equipment-category-name">Armas</span>
                             <span class="dropdown-arrow">▼</span>
                         </div>
                         <div class="equipment-dropdown-content">
@@ -315,7 +315,7 @@
                 <div class="equipment-category">
                     <div class="equipment-dropdown" data-category="protecoes">
                         <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">🛡️ Proteções</span>
+                            <span class="equipment-category-name">Proteções</span>
                             <span class="dropdown-arrow">▼</span>
                         </div>
                         <div class="equipment-dropdown-content">
@@ -332,7 +332,7 @@
                 <div class="equipment-category">
                     <div class="equipment-dropdown" data-category="equipamentos">
                         <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">⚒️ Equipamentos Gerais</span>
+                            <span class="equipment-category-name">Equipamentos Gerais</span>
                             <span class="dropdown-arrow">▼</span>
                         </div>
                         <div class="equipment-dropdown-content">
@@ -345,28 +345,74 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="equipment-category souvenir-section">
-                    <h4>💎 Souvenir Místico</h4>
-                    <div class="souvenir-controls">
-                        <div id="souvenirDisplay" class="souvenir-display">
-                            <span id="souvenirText">Nenhum souvenir definido</span>
-                        </div>
-                        <div class="souvenir-buttons">
-                            <button id="rollSouvenirBtn" class="action-btn">🎲 Rolar Tabela D66</button>
-                            <button id="customSouvenirBtn" class="action-btn">✏️ Criar Personalizado</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- Condições -->
-        <section class="conditions">
+        <!-- Descrição -->
+        <section class="description">
+            <h3>Descrição do Personagem</h3>
+            <div class="description-grid">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="appearance">Aparência</label>
+                        <textarea id="appearance" name="appearance" rows="3" placeholder="Descreva a aparência física do seu personagem"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label for="motivation">Motivação</label>
+                        <textarea id="motivation" name="motivation" rows="3" placeholder="O que move seu personagem"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="trauma">Trauma</label>
+                        <textarea id="trauma" name="trauma" rows="3" placeholder="Experiência traumática"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label for="darkSecret">Segredo Sombrio</label>
+                        <textarea id="darkSecret" name="darkSecret" rows="3" placeholder="Algo que você esconde dos outros"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relacionamentos -->
+            <div class="relationships-subsection">
+                <h4>Relacionamentos</h4>
+                <div id="relationshipsContainer" class="relationships-grid">
+                    <div class="relationship-item">
+                        <input type="text" placeholder="Nome do PJ" class="relationship-name">
+                        <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
+                        <button class="remove-relationship">×</button>
+                    </div>
+                    <div class="relationship-item">
+                        <input type="text" placeholder="Nome do PJ" class="relationship-name">
+                        <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
+                        <button class="remove-relationship">×</button>
+                    </div>
+                </div>
+                <button id="addRelationship" class="add-btn">+ Adicionar Relacionamento</button>
+            </div>
+            <div class="ornate-divider">❦ ❦ ❦</div>
+        </section>
+    </div>
+
+    <!-- Status Balloons -->
+    <div id="statusBalloons" class="status-balloons">
+        <!-- Physical status balloons will appear on the left -->
+        <div id="physicalBalloons" class="status-balloons-left"></div>
+        <!-- Mental status balloons will appear on the right -->
+        <div id="mentalBalloons" class="status-balloons-right"></div>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal de Estado do Personagem -->
+    <div id="statusModal" class="modal status-modal">
+        <div class="modal-content status-modal-content">
+            <span class="close">&times;</span>
             <h3>Estado do Personagem</h3>
-            <div class="conditions-grid">
+            <div class="status-grid">
                 <div class="condition-group aged-paper">
-                    <h4>💔 Condição Física</h4>
+                    <h4>Condição Física</h4>
                     <div class="condition-boxes">
                         <button type="button" class="condition-btn physical" data-condition="physical" data-index="0">
                             <span class="condition-name">Ferido</span>
@@ -387,7 +433,7 @@
                     </div>
                 </div>
                 <div class="condition-group aged-paper">
-                    <h4>🧠 Condição Mental</h4>
+                    <h4>Condição Mental</h4>
                     <div class="condition-boxes">
                         <button type="button" class="condition-btn mental" data-condition="mental" data-index="0">
                             <span class="condition-name">Perturbado</span>
@@ -408,11 +454,9 @@
                     </div>
                 </div>
             </div>
-            <div class="ornate-divider">❦ ❦ ❦</div>
-        </section>
+        </div>
     </div>
 
-    <!-- Modais -->
     <div id="ageModal" class="modal age-modal">
         <div class="modal-content age-modal-content">
             <span class="close">&times;</span>
@@ -420,19 +464,6 @@
             <div class="age-subtitle">Escolha a idade que define a experiência do seu personagem</div>
             <div class="ages-grid" id="agesGrid">
                 <!-- Cards de idades serão inseridos dinamicamente -->
-            </div>
-        </div>
-    </div>
-
-    <div id="souvenirModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Tabela de Souvenirs (D66)</h3>
-            <div class="souvenir-roll">
-                <p>Resultado: <span id="souvenirRoll"></span></p>
-                <p id="souvenirDescription"></p>
-                <button id="acceptSouvenir" class="action-btn">Aceitar</button>
-                <button id="rerollSouvenir" class="action-btn">Rolar Novamente</button>
             </div>
         </div>
     </div>
@@ -531,6 +562,45 @@
         </div>
     </div>
 
+    <!-- Modal de Souvenir -->
+    <div id="souvenirModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Souvenir Místico</h3>
+            <div class="souvenir-subtitle">Escolha como definir seu objeto especial</div>
+            <div class="souvenir-options">
+                <div class="souvenir-option">
+                    <button id="rollSouvenirBtn" class="action-btn large-btn">
+                        <span class="btn-icon"></span>
+                        <span class="btn-text">Rolar Tabela D66</span>
+                        <span class="btn-desc">Deixe o destino escolher seu souvenir</span>
+                    </button>
+                </div>
+                <div class="souvenir-option">
+                    <button id="customSouvenirBtn" class="action-btn large-btn">
+                        <span class="btn-icon"></span>
+                        <span class="btn-text">Criar Personalizado</span>
+                        <span class="btn-desc">Descreva seu próprio objeto místico</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Resultado do Souvenir -->
+    <div id="souvenirRollModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Tabela de Souvenirs (D66)</h3>
+            <div class="souvenir-roll">
+                <p>Resultado: <span id="souvenirRoll"></span></p>
+                <p id="souvenirDescription"></p>
+                <button id="acceptSouvenir" class="action-btn">Aceitar</button>
+                <button id="rerollSouvenir" class="action-btn">Rolar Novamente</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Talentos -->
     <div id="talentModal" class="modal talent-modal">
         <div class="modal-content talent-modal-content">
@@ -603,6 +673,27 @@
                     <button id="createCustomSouvenir" class="action-btn">Criar Souvenir</button>
                     <button id="cancelCustomSouvenir" class="action-btn secondary">Cancelar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Recorte de Imagem -->
+    <div id="imageCropModal" class="modal image-crop-modal">
+        <div class="modal-content image-crop-content">
+            <div class="crop-container">
+                <div class="crop-canvas-container">
+                    <canvas id="cropCanvas" class="crop-canvas"></canvas>
+                    <div id="cropSelector" class="crop-selector">
+                        <div class="crop-handle crop-handle-nw"></div>
+                        <div class="crop-handle crop-handle-ne"></div>
+                        <div class="crop-handle crop-handle-sw"></div>
+                        <div class="crop-handle crop-handle-se"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="confirmCrop" class="action-btn">✓ Confirmar</button>
+                <button id="cancelCrop" class="action-btn secondary">✗ Cancelar</button>
             </div>
         </div>
     </div>
