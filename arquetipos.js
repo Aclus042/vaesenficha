@@ -18,148 +18,145 @@ const ARQUETIPOS_VAESEN = [
   {
     nome: "Andarilho",
     atributoPrincipal: "Físico",
-    periciaPrincipal: "Furtividade",
+    periciaPrincipal: "Manipulação",
     talentos: [
-      "Sombra Silenciosa",
-      "Contato",
-      "Mentiroso Convincente"
+      "Truques de Mendigos",
+      "Suspeita",
+      "Viajado"
     ],
-    recursos: "2–4",
+    recursos: "1–3",
     equipamento: [
-      "Instrumento musical ou equipamento de ofício",
-      "mapa da região ou bússola",
-      "mochila com tralhas"
+      "Bengala",
+      "faca ou pé de cabra",
+      "licor ou cão de companhia"
     ]
   },
   {
     nome: "Caçador",
-    atributoPrincipal: "Físico",
-    periciaPrincipal: "Furtividade",
+    atributoPrincipal: "Precisão",
+    periciaPrincipal: "Combate à Distância",
     talentos: [
-      "Caçador Silencioso",
-      "Conhecimento da Natureza",
-      "Tiro Certeiro"
+      "Cãode de Caça",
+      "Herbalismo",
+      "Pontaria"
     ],
     recursos: "2–4",
     equipamento: [
-      "Arma de fogo, arma branca, equipamento de caça",
-      "armadilha, corda ou binóculo"
+      "Rifle",
+      "faca de caça ou cão de caça",
+      "armadilha de caça ou equipamento de caça"
+    ]
+  },
+  {
+    nome: "Detetive Particular",
+    atributoPrincipal: "Lógica",
+    periciaPrincipal: "Investigação",
+    talentos: [
+      "Olhos de Águia",
+      "Elementar",
+      "Foco"
+    ],
+    recursos: "2–5",
+    equipamento: [
+      "Lupa ou gazuas",
+      "revólver",
+      "soqueira ou binóculos"
     ]
   },
   {
     nome: "Escritora",
     atributoPrincipal: "Empatia",
-    periciaPrincipal: "Manipulação",
+    periciaPrincipal: "Inspiração",
     talentos: [
-      "Mentiroso Convincente",
-      "Contato",
-      "Intuição"
+      "Escrita Automática",
+      "Jornalismo",
+      "Jeito Com as Palavras"
     ],
-    recursos: "3–5",
+    recursos: "2–5",
     equipamento: [
-      "Caderneta e lápis",
-      "máquina de escrever portátil ou tinteiro",
-      "livros ou fonte confiável"
+      "Papel e utensílios de escrita",
+      "câmera ou binóculo de teatro",
+      "cão de companhia ou coleção de livros"
     ]
   },
   {
     nome: "Médica",
-    atributoPrincipal: "Precisão",
+    atributoPrincipal: "Lógica",
     periciaPrincipal: "Medicina",
     talentos: [
       "Médica de Campo",
-      "Erudição",
-      "Estudiosa de Vaesen"
+      "Médica Chefe",
+      "Medicina Emergencial"
     ],
     recursos: "4–6",
     equipamento: [
-      "Maleta médica e medicamentos",
-      "álcool ou bisturi",
-      "livro médico"
+      "Bolsa médica com equipamentos médicos",
+      "licor ou vinho fino",
+      "cavalo fraco ou veneno forte"
     ]
   },
   {
     nome: "Ocultista",
-    atributoPrincipal: "Lógica",
-    periciaPrincipal: "Vigilância",
+    atributoPrincipal: "Precisão",
+    periciaPrincipal: "Furtividade",
     talentos: [
-      "Estudiosa de Vaesen",
-      "Erudição",
-      "Contato"
+      "Truques Mágicos",
+      "Médium",
+      "Amedrontar"
     ],
-    recursos: "2–4",
+    recursos: "1–4",
     equipamento: [
-      "Livros ou artefatos ocultistas",
-      "vela ou espelho negro",
-      "tabuleiro ou bússola espiritual"
+      "Bola de cristal",
+      "pó de chifre de cervo ou pederneira",
+      "adaga ou panela"
     ]
   },
   {
     nome: "Oficial",
-    atributoPrincipal: "Físico",
-    periciaPrincipal: "Combate Corpo a Corpo",
+    atributoPrincipal: "Precisão",
+    periciaPrincipal: "Combate à Distância",
     talentos: [
-      "Durona",
-      "Contato",
-      "Foco"
+      "Veterano de Guerra",
+      "Cavalheiro",
+      "Estrategista"
     ],
-    recursos: "3–5",
+    recursos: "3–7",
     equipamento: [
-      "Cacetete ou sabre",
-      "uniforme",
-      "algemas ou distintivo",
-      "licor"
+      "Rifle ou pistola",
+      "bússola ou baioneta",
+      "livro de mapas ou sabre"
     ]
   },
   {
-    nome: "Padre",
+    nome: "Pastor",
     atributoPrincipal: "Empatia",
-    periciaPrincipal: "Inspiração",
+    periciaPrincipal: "Observação",
     talentos: [
-      "Pregador",
-      "Contato",
-      "Saber é Reconfortante"
+      "Perdão",
+      "Bênção",
+      "Confissão"
     ],
-    recursos: "3–5",
+    recursos: "4–6",
     equipamento: [
-      "Bíblia ou livro de salmos",
-      "objeto religioso",
-      "roupa de padre ou cálice",
-      "vinho"
+      "Instrumento musical ou vinhos finos",
+      "papel e utensílios de escrita",
+      "água benta ou bíblia velha"
     ]
   },
   {
     nome: "Serviçal",
-    atributoPrincipal: "Precisão",
-    periciaPrincipal: "Furtividade",
-    talentos: [
-      "Sombra Silenciosa",
-      "Contato",
-      "Mentiroso Convincente"
-    ],
-    recursos: "2–4",
-    equipamento: [
-      "Utensílios domésticos",
-      "roupas de serviçal",
-      "lamparina ou faca escondida",
-      "objeto sentimental"
-    ]
-  },
-  {
-    nome: "Veterana",
     atributoPrincipal: "Físico",
     periciaPrincipal: "Força",
     talentos: [
-      "Durona",
-      "Foco",
-      "Intuição"
+      "Leal",
+      "Robustez",
+      "Forte Como Uma Rocha"
     ],
-    recursos: "3–5",
+    recursos: "2–4",
     equipamento: [
-      "Arma de guerra",
-      "medalha ou recordação",
-      "cantil de bebida",
-      "relíquia pessoal"
+      "Revólver",
+      "lamparina de querosene ou maquiagem",
+      "cozinha de campo ou ataduras simples"
     ]
   }
 ];

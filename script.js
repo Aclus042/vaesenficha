@@ -105,14 +105,14 @@ class VaesenCharacterSheet {
 
     // Calcula valor máximo individual para atributos baseado no nível
     getMaxAttributeValue(level) {
-        // Nível 1-2: máximo 5, depois +1 a cada 2 níveis
-        return 5 + Math.floor((level - 1) / 2);
+        // Sem limite máximo - permite valores até 99
+        return 99;
     }
 
     // Calcula valor máximo individual para perícias baseado no nível
     getMaxSkillValue(level) {
-        // Nível 1-2: máximo 3, depois +1 a cada 2 níveis
-        return 3 + Math.floor((level - 1) / 2);
+        // Sem limite máximo - permite valores até 99
+        return 99;
     }
 
     getAgeData() {
@@ -533,34 +533,22 @@ class VaesenCharacterSheet {
         this.character.attributes = { fisico, precisao, logica, empatia };
         
         const counter = document.getElementById('attributePoints');
-        const maxPoints = this.getMaxPointsByLevel('attribute');
         counter.textContent = `Pontos usados: ${usedPoints}`;
         
-        // Aplicar classes baseado nos pontos
+        // Manter apenas a classe base, sem mudança de cor
         counter.className = 'points-counter';
-        
-        if (usedPoints > maxPoints) {
-            counter.classList.add('error');
-        } else if (usedPoints === maxPoints) {
-            counter.classList.add('success');
-        }
     }
 
     updateSkillPoints() {
         const usedPoints = Object.values(this.character.skills).reduce((sum, val) => sum + val, 0);
-        const maxPoints = this.getMaxPointsByLevel('skill');
         
         const counter = document.getElementById('skillPoints');
         if (!counter) return;
 
         counter.textContent = `Pontos de perícia usados: ${usedPoints}`;
         
+        // Manter apenas a classe base, sem mudança de cor
         counter.className = 'points-counter';
-        if (usedPoints > maxPoints) {
-            counter.classList.add('error');
-        } else if (usedPoints === maxPoints) {
-            counter.classList.add('success');
-        }
     }
 
     handleXPChange(action) {
@@ -888,8 +876,6 @@ class VaesenCharacterSheet {
         document.getElementById('talentsList').style.display = 'block';
         document.getElementById('talentBackBtn').style.display = 'flex';
         document.getElementById('talentModalTitle').textContent = `Talentos - ${categoryName}`;
-        document.getElementById('talentCategorySubtitle').textContent = 
-            categoryType === 'geral' ? 'Talentos gerais disponíveis para todos' : `Talentos do arquétipo ${categoryName}`;
         
         const talentsGrid = document.getElementById('talentsGrid');
         talentsGrid.innerHTML = '';
@@ -1062,7 +1048,7 @@ class VaesenCharacterSheet {
         
         // Atualizar o botão de seleção
         const ageBtn = document.getElementById('ageText');
-        ageBtn.textContent = `${this.getAgeIcon(ageKey)} ${ageData.name} (${ageData.range})`;
+        ageBtn.textContent = `${ageData.name} (${ageData.range})`;
         
         // Atualizar o campo hidden
         document.getElementById('age').value = ageKey;
@@ -1079,23 +1065,12 @@ class VaesenCharacterSheet {
         this.showAgeSelectedFeedback(ageData.name, ageData.attributePoints, ageData.skillPoints);
     }
 
-    getAgeIcon(ageKey) {
-        const icons = {
-            'crianca': '',
-            'adolescente': '',
-            'adulto': '',
-            'idoso': ''
-        };
-        return icons[ageKey] || '';
-    }
-
     showAgeSelectedFeedback(ageName, attrPoints, skillPoints) {
         // Criar um toast notification
         const toast = document.createElement('div');
         toast.className = 'age-toast';
         toast.innerHTML = `
             <div class="toast-content">
-                <span class="toast-icon">${this.getAgeIcon(this.character.age)}</span>
                 <div class="toast-text">
                     <strong>Idade selecionada: ${ageName}</strong><br>
                     <small>Atributos: ${attrPoints} | Perícias: ${skillPoints}</small>
@@ -1357,6 +1332,46 @@ class VaesenCharacterSheet {
                         cropState.width = newWidth;
                         cropState.height = newHeight;
                     }
+                } else if (cropState.resizeHandle.includes('crop-handle-n')) {
+                    // Handle norte - redimensiona apenas a altura pela parte superior
+                    const deltaY = cropState.y - mouseY;
+                    
+                    const newY = Math.max(0, cropState.y - deltaY);
+                    const newHeight = Math.min(cropState.height + deltaY, canvas.height - newY);
+                    
+                    if (newHeight >= 50) {
+                        cropState.y = newY;
+                        cropState.height = newHeight;
+                    }
+                } else if (cropState.resizeHandle.includes('crop-handle-s')) {
+                    // Handle sul - redimensiona apenas a altura pela parte inferior
+                    const deltaY = mouseY - (cropState.y + cropState.height);
+                    
+                    const newHeight = Math.min(cropState.height + deltaY, canvas.height - cropState.y);
+                    
+                    if (newHeight >= 50) {
+                        cropState.height = newHeight;
+                    }
+                } else if (cropState.resizeHandle.includes('crop-handle-e')) {
+                    // Handle leste - redimensiona apenas a largura pela parte direita
+                    const deltaX = mouseX - (cropState.x + cropState.width);
+                    
+                    const newWidth = Math.min(cropState.width + deltaX, canvas.width - cropState.x);
+                    
+                    if (newWidth >= 50) {
+                        cropState.width = newWidth;
+                    }
+                } else if (cropState.resizeHandle.includes('crop-handle-w')) {
+                    // Handle oeste - redimensiona apenas a largura pela parte esquerda
+                    const deltaX = cropState.x - mouseX;
+                    
+                    const newX = Math.max(0, cropState.x - deltaX);
+                    const newWidth = Math.min(cropState.width + deltaX, canvas.width - newX);
+                    
+                    if (newWidth >= 50) {
+                        cropState.x = newX;
+                        cropState.width = newWidth;
+                    }
                 }
                 
                 updateCropSelector();
@@ -1540,7 +1555,7 @@ class VaesenCharacterSheet {
         
         // Atualizar o botão de seleção
         const archetypeBtn = document.getElementById('archetypeText');
-        archetypeBtn.textContent = `${this.getArchetypeIcon(arquetipo.nome)} ${arquetipo.nome}`;
+        archetypeBtn.textContent = `${arquetipo.nome}`;
         
         // Atualizar o campo hidden
         document.getElementById('archetype').value = arquetipo.nome.toLowerCase();
@@ -1556,34 +1571,12 @@ class VaesenCharacterSheet {
         this.showArchetypeSelectedFeedback(arquetipo.nome);
     }
 
-    getArchetypeIcon(archetypeName) {
-        const icons = {
-            'Acadêmico': '📚',
-            'Andarilho': '🗺️',
-            'Caçador': '🏹',
-            'Detetive Particular': '🔍',
-            'Escritora': '📝',
-            'Jornalista': '📰',
-            'Médica': '💉',
-            'Médico': '⚕️',
-            'Ocultista': '🔮',
-            'Oficial': '🪖',
-            'Padre': '✝️',
-            'Policial Militar': '⚔️',
-            'Serviçal': '🛎️',
-            'Veterana': '🎯',
-            'Veterano': '🎖️'
-        };
-        return icons[archetypeName] || '👤';
-    }
-
     showArchetypeSelectedFeedback(archetypeName) {
         // Criar um toast notification
         const toast = document.createElement('div');
         toast.className = 'archetype-toast';
         toast.innerHTML = `
             <div class="toast-content">
-                <span class="toast-icon">${this.getArchetypeIcon(archetypeName)}</span>
                 <span class="toast-text">Arquétipo selecionado: <strong>${archetypeName}</strong></span>
             </div>
         `;
@@ -1646,45 +1639,107 @@ class VaesenCharacterSheet {
     }
 
     saveCharacter() {
+        // Coletar todos os dados atuais do formulário
         this.collectFormData();
-        const characterData = JSON.stringify(this.character, null, 2);
-        localStorage.setItem('vaesenCharacter', characterData);
-        alert('Personagem salvo com sucesso!');
+        
+        // Preparar dados completos para salvar
+        const characterData = {
+            ...this.character,
+            // Metadados do arquivo
+            _metadata: {
+                version: "1.0",
+                created: new Date().toISOString(),
+                system: "Vaesen RPG"
+            }
+        };
+        
+        // Criar nome do arquivo baseado no nome do personagem
+        const fileName = this.character.name 
+            ? `${this.character.name.replace(/[^a-zA-Z0-9]/g, '_')}_vaesen_character.json`
+            : 'personagem_vaesen.json';
+        
+        // Criar e baixar arquivo JSON
+        const jsonString = JSON.stringify(characterData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        URL.revokeObjectURL(url);
+        
+        // Mostrar feedback de sucesso
+        this.showSaveSuccessFeedback(fileName);
     }
 
     loadCharacter() {
+        // Abrir seletor de arquivo
         document.getElementById('fileInput').click();
     }
 
     handleFileLoad(event) {
         const file = event.target.files[0];
         if (!file) {
-            // Try loading from localStorage instead
-            const saved = localStorage.getItem('vaesenCharacter');
-            if (saved) {
-                try {
-                    this.character = JSON.parse(saved);
-                    this.populateForm();
-                    alert('Personagem carregado do armazenamento local!');
-                } catch (e) {
-                    alert('Erro ao carregar personagem do armazenamento local.');
-                }
-            } else {
-                alert('Nenhum personagem salvo encontrado.');
-            }
+            this.showLoadErrorFeedback('Nenhum arquivo selecionado.');
+            return;
+        }
+
+        // Verificar se é um arquivo JSON
+        if (!file.name.toLowerCase().endsWith('.json')) {
+            this.showLoadErrorFeedback('Por favor, selecione um arquivo JSON válido.');
             return;
         }
 
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                this.character = JSON.parse(e.target.result);
+                const loadedData = JSON.parse(e.target.result);
+                
+                // Validar estrutura básica do arquivo
+                if (!this.validateCharacterData(loadedData)) {
+                    this.showLoadErrorFeedback('Arquivo não contém dados válidos de personagem Vaesen.');
+                    return;
+                }
+                
+                // Carregar dados do personagem
+                this.character = {
+                    ...this.getDefaultCharacter(),
+                    ...loadedData
+                };
+                
+                // Garantir que arrays e objetos necessários existam
+                this.ensureCharacterStructure();
+                
+                // Atualizar toda a interface
                 this.populateForm();
-                alert('Personagem carregado com sucesso!');
+                this.updateAttributePoints();
+                this.updateSkillPoints();
+                this.updateTalentSlots();
+                this.updateEquipmentDisplay();
+                this.updateStatusDisplay();
+                this.updateXPDisplay();
+                
+                // Limpar input file
+                event.target.value = '';
+                
+                // Mostrar feedback de sucesso
+                this.showLoadSuccessFeedback(this.character.name || 'Personagem', file.name);
+                
             } catch (error) {
-                alert('Erro ao carregar arquivo. Verifique se é um arquivo JSON válido.');
+                console.error('Erro ao carregar arquivo:', error);
+                this.showLoadErrorFeedback('Erro ao ler arquivo. Verifique se é um arquivo JSON válido.');
             }
         };
+        
+        reader.onerror = () => {
+            this.showLoadErrorFeedback('Erro ao ler o arquivo selecionado.');
+        };
+        
         reader.readAsText(file);
     }
 
@@ -1702,6 +1757,134 @@ class VaesenCharacterSheet {
         URL.revokeObjectURL(url);
     }
 
+    // === SAVE/LOAD HELPER METHODS ===
+    validateCharacterData(data) {
+        // Verificar se tem estrutura básica de personagem
+        if (!data || typeof data !== 'object') return false;
+        
+        // Verificar campos obrigatórios ou estruturas esperadas
+        const hasBasicStructure = (
+            data.hasOwnProperty('attributes') ||
+            data.hasOwnProperty('skills') ||
+            data.hasOwnProperty('talents') ||
+            data.hasOwnProperty('name')
+        );
+        
+        return hasBasicStructure;
+    }
+
+    ensureCharacterStructure() {
+        // Garantir que o personagem carregado tenha toda a estrutura necessária
+        const defaultChar = this.getDefaultCharacter();
+        
+        // Merge com valores padrão para campos que possam estar faltando
+        this.character = {
+            ...defaultChar,
+            ...this.character,
+            attributes: { ...defaultChar.attributes, ...(this.character.attributes || {}) },
+            skills: { ...defaultChar.skills, ...(this.character.skills || {}) },
+            equipment: { ...defaultChar.equipment, ...(this.character.equipment || {}) },
+            conditions: { ...defaultChar.conditions, ...(this.character.conditions || {}) }
+        };
+        
+        // Garantir que arrays existam
+        if (!Array.isArray(this.character.talents)) {
+            this.character.talents = defaultChar.talents;
+        }
+        if (!Array.isArray(this.character.relationships)) {
+            this.character.relationships = defaultChar.relationships;
+        }
+    }
+
+    showSaveSuccessFeedback(fileName) {
+        const toast = document.createElement('div');
+        toast.className = 'save-toast success';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">💾</span>
+                <div class="toast-text">
+                    <strong>Personagem salvo com sucesso!</strong><br>
+                    <small>Arquivo: ${fileName}</small>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 4000);
+    }
+
+    showLoadSuccessFeedback(characterName, fileName) {
+        const toast = document.createElement('div');
+        toast.className = 'load-toast success';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">📂</span>
+                <div class="toast-text">
+                    <strong>Personagem carregado!</strong><br>
+                    <small>${characterName} (${fileName})</small>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 4000);
+    }
+
+    showLoadErrorFeedback(errorMessage) {
+        const toast = document.createElement('div');
+        toast.className = 'load-toast error';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">⚠️</span>
+                <div class="toast-text">
+                    <strong>Erro ao carregar</strong><br>
+                    <small>${errorMessage}</small>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 5000);
+    }
+
+    // === HELPER METHODS ===
+    getAgeIcon(ageKey) {
+        // Remover ícones - retorna string vazia para compatibilidade
+        return '';
+    }
+
+    getArchetypeIcon(archetypeName) {
+        // Remover ícones - retorna string vazia para compatibilidade
+        return '';
+    }
+
     newCharacter() {
         if (confirm('Tem certeza que deseja criar uma nova ficha? Todos os dados não salvos serão perdidos.')) {
             this.character = this.getDefaultCharacter();
@@ -1711,17 +1894,24 @@ class VaesenCharacterSheet {
 
     collectFormData() {
         // Basic info
-        this.character.name = document.getElementById('characterName').value;
-        this.character.age = document.getElementById('age').value;
-        this.character.archetype = document.getElementById('archetype').value;
-        this.character.motivation = document.getElementById('motivation').value;
-        this.character.trauma = document.getElementById('trauma').value;
-        this.character.darkSecret = document.getElementById('darkSecret').value;
-        this.character.appearance = document.getElementById('appearance').value;
+        this.character.name = document.getElementById('characterName')?.value || '';
+        this.character.age = document.getElementById('age')?.value || '';
+        this.character.archetype = document.getElementById('archetype')?.value || '';
+        this.character.motivation = document.getElementById('motivation')?.value || '';
+        this.character.trauma = document.getElementById('trauma')?.value || '';
+        this.character.darkSecret = document.getElementById('darkSecret')?.value || '';
+        this.character.appearance = document.getElementById('appearance')?.value || '';
+
+        // XP and Level
+        this.character.xp = parseInt(document.getElementById('characterXP')?.value) || 0;
+        this.character.level = parseInt(document.getElementById('characterLevel')?.value) || 1;
 
         // Attributes
         ['fisico', 'precisao', 'logica', 'empatia'].forEach(attr => {
-            this.character.attributes[attr] = parseInt(document.getElementById(attr).value) || 2;
+            const element = document.getElementById(attr);
+            if (element) {
+                this.character.attributes[attr] = parseInt(element.value) || 2;
+            }
         });
 
         // Skills
@@ -1732,36 +1922,44 @@ class VaesenCharacterSheet {
             }
         });
 
-        // Talents - collect from dynamic list
-        this.character.talents = [];
-        document.querySelectorAll('[name^="talent"]').forEach(select => {
-            this.character.talents.push(select.value);
-        });
+        // Talents - os talentos já são gerenciados diretamente no character object
+        // Não precisamos coletar do DOM
 
         // Resources
-        this.character.resourceLevel = document.getElementById('resourceLevel').value;
+        const resourceElement = document.getElementById('resourceLevel');
+        if (resourceElement) {
+            this.character.resourceLevel = resourceElement.value;
+        }
 
         // Relationships
         const relationships = [];
         document.querySelectorAll('.relationship-item').forEach(item => {
-            const name = item.querySelector('.relationship-name').value;
-            const description = item.querySelector('.relationship-desc').value;
-            if (name || description) {
-                relationships.push({ name, description });
+            const nameInput = item.querySelector('.relationship-name');
+            const descInput = item.querySelector('.relationship-desc');
+            if (nameInput && descInput) {
+                const name = nameInput.value;
+                const description = descInput.value;
+                if (name || description) {
+                    relationships.push({ name, description });
+                }
             }
         });
         this.character.relationships = relationships;
 
-        // Equipment
-        this.character.equipment = {
-            general: document.getElementById('generalEquipment').value,
-            weapons: document.getElementById('weapons').value,
-            armor: document.getElementById('armor').value,
-            souvenir: document.getElementById('souvenir').value
-        };
+        // Equipment - os equipamentos já são gerenciados diretamente no character object
+        // Não precisamos coletar do DOM pois usamos this.character.equipment diretamente
+
+        // Souvenir
+        const souvenirInput = document.getElementById('souvenir');
+        if (souvenirInput) {
+            if (!this.character.equipment) {
+                this.character.equipment = {};
+            }
+            this.character.equipment.souvenir = souvenirInput.value;
+        }
 
         // Conditions - já são gerenciadas diretamente no character object
-        // Não precisamos coletar do DOM pois usamos this.character.conditions diretamente
+        // Image - já é gerenciada diretamente no character object quando upload é feito
     }
 
     populateForm() {
@@ -1791,7 +1989,7 @@ class VaesenCharacterSheet {
         // Age - update button text
         if (this.character.age && this.ageData[this.character.age]) {
             const ageData = this.ageData[this.character.age];
-            document.getElementById('ageText').textContent = `${this.getAgeIcon(this.character.age)} ${ageData.name} (${ageData.range})`;
+            document.getElementById('ageText').textContent = `${ageData.name} (${ageData.range})`;
             document.getElementById('age').value = this.character.age;
         } else {
             document.getElementById('ageText').textContent = 'Selecione a idade';
@@ -1802,7 +2000,7 @@ class VaesenCharacterSheet {
         if (this.character.archetype) {
             const arquetipo = ARQUETIPOS_VAESEN.find(a => a.nome.toLowerCase() === this.character.archetype);
             if (arquetipo) {
-                document.getElementById('archetypeText').textContent = `${this.getArchetypeIcon(arquetipo.nome)} ${arquetipo.nome}`;
+                document.getElementById('archetypeText').textContent = `${arquetipo.nome}`;
                 document.getElementById('archetype').value = this.character.archetype;
             }
         } else {
@@ -1856,27 +2054,31 @@ class VaesenCharacterSheet {
 
         // Relationships
         const container = document.getElementById('relationshipsContainer');
-        container.innerHTML = '';
-        this.character.relationships.forEach(rel => {
-            this.addRelationship();
-            const lastItem = container.lastElementChild;
-            lastItem.querySelector('.relationship-name').value = rel.name;
-            lastItem.querySelector('.relationship-desc').value = rel.description;
-        });
-        if (this.character.relationships.length === 0) {
-            this.addRelationship();
+        if (container) {
+            container.innerHTML = '';
+            this.character.relationships.forEach(rel => {
+                this.addRelationship();
+                const lastItem = container.lastElementChild;
+                if (lastItem) {
+                    const nameInput = lastItem.querySelector('.relationship-name');
+                    const descInput = lastItem.querySelector('.relationship-desc');
+                    if (nameInput) nameInput.value = rel.name;
+                    if (descInput) descInput.value = rel.description;
+                }
+            });
+            if (this.character.relationships.length === 0) {
+                this.addRelationship();
+            }
         }
 
-        // Equipment
-        if (this.character.equipment) {
-            document.getElementById('generalEquipment').value = this.character.equipment.general || '';
-            document.getElementById('weapons').value = this.character.equipment.weapons || '';
-            document.getElementById('armor').value = this.character.equipment.armor || '';
-            document.getElementById('souvenir').value = this.character.equipment.souvenir || '';
+        // Souvenir
+        const souvenirInput = document.getElementById('souvenir');
+        if (souvenirInput && this.character.equipment && this.character.equipment.souvenir) {
+            souvenirInput.value = this.character.equipment.souvenir;
         }
 
-        // Conditions - no need to populate checkboxes since we use buttons now
-        // The conditions are handled directly in this.character.conditions
+        // Equipment is handled by updateEquipmentDisplay()
+        // Conditions are handled by updateStatusDisplay()
         
         // Update all counters
         this.updateAttributePoints();
@@ -1921,7 +2123,7 @@ class VaesenCharacterSheet {
         
         div.innerHTML = `
             <div class="equipment-item-content">
-                <span class="equipment-name">${displayText}</span>
+                <span class="equipment-name" onclick="vaesenSheet.showEquipmentDetails('${item}', '${category}')" title="Clique para ver detalhes">${displayText}</span>
                 <button type="button" class="remove-equipment-btn" onclick="vaesenSheet.removeEquipment('${category}', ${index})" title="Remover item">×</button>
             </div>
         `;
@@ -2285,6 +2487,210 @@ class VaesenCharacterSheet {
                 }
             });
         });
+    }
+
+    // Método para mostrar detalhes de um equipamento específico
+    showEquipmentDetails(itemName, category) {
+        const equipData = this.findEquipmentData(itemName, category);
+        
+        if (!equipData) {
+            // Se não encontrar dados detalhados, mostrar informações básicas
+            this.showBasicEquipmentInfo(itemName);
+            return;
+        }
+        
+        // Criar modal de detalhes do equipamento
+        this.showEquipmentDetailsModal(equipData, category);
+    }
+
+    showBasicEquipmentInfo(itemName) {
+        // Criar um toast notification para equipamentos sem dados detalhados
+        const toast = document.createElement('div');
+        toast.className = 'equipment-toast';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">⚡</span>
+                <span class="toast-text"><strong>${itemName}</strong><br><small>Equipamento personalizado</small></span>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Mostrar e depois remover
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    showEquipmentDetailsModal(equipData, category) {
+        // Criar modal overlay se não existir
+        let detailsModal = document.getElementById('equipmentDetailsModal');
+        if (!detailsModal) {
+            detailsModal = this.createEquipmentDetailsModal();
+            document.body.appendChild(detailsModal);
+        }
+        
+        // Preencher conteúdo do modal
+        this.populateEquipmentDetailsModal(detailsModal, equipData, category);
+        
+        // Mostrar modal
+        document.body.style.overflow = 'hidden';
+        detailsModal.style.display = 'block';
+    }
+
+    createEquipmentDetailsModal() {
+        const modal = document.createElement('div');
+        modal.id = 'equipmentDetailsModal';
+        modal.className = 'modal equipment-details-modal';
+        
+        modal.innerHTML = `
+            <div class="modal-content equipment-details-content">
+                <div class="modal-header">
+                    <span class="close" onclick="vaesenSheet.closeEquipmentDetailsModal()">&times;</span>
+                    <h3 id="equipmentDetailsTitle">Detalhes do Equipamento</h3>
+                </div>
+                <div class="modal-body" id="equipmentDetailsBody">
+                    <!-- Conteúdo será preenchido dinamicamente -->
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" onclick="vaesenSheet.closeEquipmentDetailsModal()">Fechar</button>
+                </div>
+            </div>
+        `;
+        
+        return modal;
+    }
+
+    populateEquipmentDetailsModal(modal, equipData, category) {
+        const title = modal.querySelector('#equipmentDetailsTitle');
+        const body = modal.querySelector('#equipmentDetailsBody');
+        
+        title.textContent = equipData.nome;
+        
+        // Determinar tipo de equipamento para icone
+        let icon = '⚡';
+        let categoryName = 'Equipamento';
+        
+        if (category === 'armas') {
+            if (equipData.alcance && equipData.alcance !== '0') {
+                icon = '🏹';
+                categoryName = 'Arma à Distância';
+            } else {
+                icon = '⚔️';
+                categoryName = 'Arma Corpo a Corpo';
+            }
+        } else if (category === 'protecoes') {
+            icon = '🛡️';
+            categoryName = 'Proteção';
+        } else {
+            icon = '⚒️';
+            categoryName = 'Equipamento Geral';
+        }
+        
+        // Construir HTML dos detalhes
+        let detailsHTML = `
+            <div class="equipment-details-header">
+                <div class="equipment-icon">${icon}</div>
+                <div class="equipment-info">
+                    <div class="equipment-category-badge">${categoryName}</div>
+                    <h4 class="equipment-name">${equipData.nome}</h4>
+                </div>
+            </div>
+            
+            <div class="equipment-stats">
+        `;
+        
+        // Adicionar estatísticas específicas
+        if (equipData.dano) {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">💥 Dano</div>
+                    <div class="stat-value">${equipData.dano}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.protecao) {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">🛡️ Proteção</div>
+                    <div class="stat-value">${equipData.protecao}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.alcance && equipData.alcance !== '0') {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">🎯 Alcance</div>
+                    <div class="stat-value">${equipData.alcance}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.bonus && equipData.bonus !== '—' && equipData.bonus !== '±0') {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">⚡ Bônus</div>
+                    <div class="stat-value">${equipData.bonus}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.disponibilidade && equipData.disponibilidade !== '—') {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">💰 Disponibilidade</div>
+                    <div class="stat-value">Nível ${equipData.disponibilidade}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.agilidade) {
+            detailsHTML += `
+                <div class="equipment-stat penalty">
+                    <div class="stat-label">🏃 Agilidade</div>
+                    <div class="stat-value">${equipData.agilidade}</div>
+                </div>
+            `;
+        }
+        
+        if (equipData.pericia) {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">🎲 Perícia</div>
+                    <div class="stat-value">${equipData.pericia}</div>
+                </div>
+            `;
+        }
+        
+        detailsHTML += `</div>`;
+        
+        // Adicionar efeitos se existirem
+        if (equipData.efeito && equipData.efeito !== '—') {
+            detailsHTML += `
+                <div class="equipment-effect">
+                    <h5>📜 Efeito Especial</h5>
+                    <p>${equipData.efeito}</p>
+                </div>
+            `;
+        }
+        
+        body.innerHTML = detailsHTML;
+    }
+
+    closeEquipmentDetailsModal() {
+        const modal = document.getElementById('equipmentDetailsModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
     }
 }
 

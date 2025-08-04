@@ -1,29 +1,41 @@
 /* Vaesen Character Sheet Styles - Inspired by Johan Egerkrans' Nordic Horror */
 
 :root {
-    --primary-color: #1a1a1a;
-    --secondary-color: #2d2d2d;
-    --accent-color: #b8860b;
-    --accent-dark: #8b6914;
-    --text-light: #f5f5dc;
-    --text-dark: #1a1a1a;
-    --text-muted: #4a4a4a;
-    --background: #f4f1e8;
-    --paper: #faf8f1;
-    --border-color: #8b6914;
-    --border-ornament: #b8860b;
-    --shadow: rgba(26, 26, 26, 0.4);
-    --shadow-light: rgba(26, 26, 26, 0.1);
-    --error-color: #8b2635;
+    --bg-main: #1B2A23;         /* Fundo geral - verde-musgo escuro */
+    --bg-section: #2E3B35;      /* Cards e caixas internas - verde acinzentado */
+    --text-main: #E5E5E5;       /* Texto primário - cinza claro */
+    --text-header: #C9BA9C;     /* Cabeçalhos - bege sépia */
+    --text-description: #A8B8A8; /* Texto de descrições - verde acinzentado claro */
+    --accent-gold: #BFA76F;     /* Links, botões - dourado envelhecido */
+    --accent-red: #7C2D2D;      /* Elementos de alerta - vermelho ferrugem */
+    --accent-blue: #233B4D;     /* Azul petróleo da navbar */
+    --border-color: #C9BA9C;    /* Borda dos inputs, cards */
+    --button-bg: #3A5134;       /* Botões principais - verde oliva escuro */
+    --button-hover: #BFA76F;    /* Hover de botão - dourado mais claro */
+    
+    /* Variáveis antigas mantidas para compatibilidade durante a transição */
+    --primary-color: var(--bg-section);
+    --secondary-color: var(--bg-main);
+    --accent-color: var(--accent-gold);
+    --accent-dark: var(--accent-blue);
+    --text-light: var(--text-main);
+    --text-dark: var(--bg-main);
+    --text-muted: var(--text-main);
+    --background: var(--bg-main);
+    --paper: var(--bg-section);
+    --border-ornament: var(--accent-gold);
+    --shadow: rgba(27, 42, 35, 0.4);
+    --shadow-light: rgba(27, 42, 35, 0.1);
+    --error-color: var(--accent-blue);
     --success-color: #4a6741;
-    --parchment: #f9f6ef;
-    --ink: #2c2c2c;
+    --parchment: var(--bg-section);
+    --ink: var(--text-main);
     
     /* Font families for different elements */
-    --font-main: 'EB Garamond', 'Crimson Text', serif;
-    --font-headings: 'Cinzel', 'Cormorant Garamond', serif;
-    --font-decorative: 'Uncial Antiqua', 'Cinzel', serif;
-    --font-skills: 'Cormorant Garamond', 'EB Garamond', serif;
+    --font-main: 'Merriweather', serif;
+    --font-headings: 'Playfair Display', serif;
+    --font-decorative: 'Playfair Display', serif;
+    --font-skills: 'Merriweather', serif;
 }
 
 * {
@@ -34,11 +46,8 @@
 
 body {
     font-family: var(--font-main);
-    background: linear-gradient(135deg, var(--background) 0%, var(--parchment) 100%);
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(139, 105, 20, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(139, 105, 20, 0.03) 0%, transparent 50%);
-    color: var(--ink);
+    background-color: var(--bg-main);
+    color: var(--text-main);
     line-height: 1.7;
     min-height: 100vh;
     position: relative;
@@ -50,8 +59,8 @@ body {
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-headings);
-    font-weight: 600;
-    color: var(--accent-dark);
+    font-weight: bold;
+    color: var(--text-header);
     margin-bottom: 1rem;
     letter-spacing: 0.5px;
 }
@@ -89,17 +98,10 @@ h6 { font-size: 1.1rem; }
     top: 0;
     left: 0;
     right: 0;
-    background: var(--primary-color);
-    background-image: 
-        linear-gradient(45deg, var(--primary-color) 25%, transparent 25%),
-        linear-gradient(-45deg, var(--primary-color) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--secondary-color) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--secondary-color) 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-    border-bottom: 3px solid var(--accent-color);
+    background-color: rgba(35, 59, 77, 0.9); /* azul petróleo translúcido */
+    border-bottom: 3px solid var(--accent-gold);
     box-shadow: 0 2px 10px var(--shadow);
-    color: var(--text-light);
+    color: var(--accent-gold);
     z-index: 100;
     padding: 10px 25px;
     display: flex;
@@ -122,11 +124,11 @@ h6 { font-size: 1.1rem; }
 }
 
 .navbar-title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     font-weight: 600;
     letter-spacing: 4px;
-    color: var(--accent-color);
+    color: var(--accent-gold);
     margin-bottom: 2px;
 }
 
@@ -138,45 +140,28 @@ h6 { font-size: 1.1rem; }
 }
 
 .navbar-btn {
+    background-color: var(--button-bg);
+    color: var(--text-main);
+    border: none;
     padding: 8px 16px;
-    border: 2px solid var(--accent-color);
-    background: var(--paper);
-    background-image: linear-gradient(135deg, var(--paper) 0%, var(--parchment) 100%);
-    color: var(--ink);
+    border-radius: 4px;
+    cursor: pointer;
     font-family: var(--font-main);
     font-size: 0.95rem;
     font-weight: 500;
-    border-radius: 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
     letter-spacing: 0.5px;
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-btn:hover {
-    background: var(--accent-color);
-    color: var(--text-light);
+    background-color: var(--button-hover);
+    color: var(--bg-main);
     transform: translateY(-1px);
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 0 2px rgba(139, 105, 20, 0.3),
-        0 4px 8px rgba(139, 105, 20, 0.4);
+    box-shadow: 0 4px 8px rgba(191, 167, 111, 0.4);
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><defs><pattern id="grain" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="30" cy="30" r="0.5" fill="%23000" opacity="0.02"/></pattern></defs><rect width="60" height="60" fill="url(%23grain)"/></svg>');
-    pointer-events: none;
-    z-index: -1;
-}
+
 
 .container {
     max-width: 1200px;
@@ -189,18 +174,11 @@ body::before {
     text-align: center;
     margin-bottom: 40px;
     padding: 30px;
-    background: var(--primary-color);
-    background-image: 
-        linear-gradient(45deg, var(--primary-color) 25%, transparent 25%),
-        linear-gradient(-45deg, var(--primary-color) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--secondary-color) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--secondary-color) 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background: var(--bg-main);
     border: 3px solid var(--accent-color);
     border-radius: 0;
     box-shadow: 
-        0 0 0 1px var(--primary-color),
+        0 0 0 1px var(--accent-gold),
         0 0 0 4px var(--accent-color),
         0 8px 25px var(--shadow);
     color: var(--text-light);
@@ -314,46 +292,28 @@ body::before {
 
 /* Buttons */
 .action-btn, .add-btn, .info-btn {
-    padding: 10px 18px;
-    border: 2px solid var(--accent-color);
-    background: var(--paper);
-    background-image: linear-gradient(135deg, var(--paper) 0%, var(--parchment) 100%);
-    color: var(--ink);
+    background-color: var(--button-bg);
+    color: var(--text-main);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
     font-family: var(--font-main);
     font-size: 1rem;
     font-weight: 500;
-    border-radius: 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
     letter-spacing: 0.3px;
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 2px 5px var(--shadow-light);
+    transition: background-color 0.3s ease;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.action-btn::before {
-    content: '';
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
-    border: 1px solid var(--accent-color);
-    opacity: 0.3;
-    pointer-events: none;
-}
+
 
 .action-btn:hover, .add-btn:hover, .info-btn:hover {
-    background: var(--accent-color);
-    background-image: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    color: var(--text-light);
+    background-color: var(--button-hover);
+    color: var(--bg-main);
     transform: translateY(-1px);
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 4px 12px var(--shadow);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(191, 167, 111, 0.4);
 }
 
 .info-btn {
@@ -364,40 +324,25 @@ body::before {
 
 /* ========= SEÇÕES GERAIS ========= */
 section {
-    background: linear-gradient(135deg, #faf8f4 0%, #f5f3ee 100%);
-    margin-bottom: 2rem;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     padding: 2rem;
-    border: 2px solid #d4af37;
-    border-radius: 12px;
-    box-shadow: 
-        0 4px 16px rgba(139, 105, 20, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
     position: relative;
 }
 
-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        #d4af37 20%, 
-        #d4af37 80%, 
-        transparent 100%);
-    border-radius: 12px 12px 0 0;
-}
+
 
 section h3 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
-    font-weight: 600;
-    color: #2c1810;
+    font-weight: bold;
+    color: var(--text-header);
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid #e8e5df;
+    border-bottom: 2px solid var(--border-color);
     text-align: center;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -410,7 +355,7 @@ section h3::after {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: #d4af37;
+    color: var(--accent-gold);
     font-size: 1.2rem;
     font-weight: normal;
 }
@@ -424,12 +369,12 @@ section h3::after {
 }
 
 section h4 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     margin-bottom: 1rem;
-    border-bottom: 1px solid #d4af37;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
     letter-spacing: 0.8px;
 }
@@ -444,30 +389,31 @@ section h4 {
 .field-group label {
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #8b6914;
-    font-family: 'Cinzel', serif;
+    color: var(--text-header);
+    font-family: 'Playfair Display', serif;
     font-size: 0.8rem;
     letter-spacing: 0.8px;
     text-transform: uppercase;
 }
 
 input[type="text"], input[type="number"], select, textarea {
-    padding: 0.875rem;
-    border: 2px solid #e8e5df;
-    border-radius: 6px;
-    font-family: 'Crimson Text', serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-main);
     font-size: 1rem;
-    background: #ffffff;
     transition: all 0.3s ease;
-    color: #2c1810;
     line-height: 1.4;
+    text-align: center;
 }
 
 input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #d4af37;
-    background: #fefefe;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    border-color: var(--accent-gold);
+    background-color: var(--bg-section);
+    box-shadow: 0 0 0 3px rgba(191, 167, 111, 0.1);
 }
 
 .resource-selector {
@@ -476,29 +422,21 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     justify-content: space-between;
     width: 100%;
     padding: 0.875rem;
-    border: 2px solid #e8e5df;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: #ffffff;
-    color: #2c1810;
-    font-family: 'Crimson Text', serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-main);
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .resource-selector:hover {
-    background: #fefefe;
-    border-color: #d4af37;
-    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
-}
-
-.resource-selector:hover {
-    border-color: var(--accent-dark);
-    background: var(--paper);
+    background-color: var(--bg-section);
+    border-color: var(--accent-gold);
     transform: translateY(-1px);
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(139, 105, 20, 0.2);
+    box-shadow: 0 2px 8px rgba(191, 167, 111, 0.2);
 }
 
 .resource-selector .arrow {
@@ -508,34 +446,19 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 /* ========= IDENTIDADE DO PERSONAGEM ========= */
 .character-identity {
-    background: linear-gradient(135deg, #faf8f4 0%, #f5f3ee 100%);
-    border: 2px solid var(--accent-color);
-    border-radius: 12px;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     padding: 2rem;
     margin: 1.5rem 0;
-    box-shadow: 
-        0 4px 16px rgba(139, 105, 20, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     display: grid;
     grid-template-columns: 220px 1fr;
     gap: 2.5rem;
     position: relative;
 }
 
-.character-identity::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        var(--accent-color) 20%, 
-        var(--accent-color) 80%, 
-        transparent 100%);
-    border-radius: 12px 12px 0 0;
-}
+
 
 .character-left {
     display: flex;
@@ -553,9 +476,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .image-placeholder {
     width: 200px;
     height: 240px;
-    border: 3px dashed #d4af37;
+    border: 3px dashed var(--border-ornament);
     border-radius: 8px;
-    background: linear-gradient(145deg, #ffffff 0%, #f9f7f4 100%);
+    background-color: var(--bg-section);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -564,20 +487,18 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .image-placeholder:hover {
-    border-color: #b8860b;
-    background: linear-gradient(145deg, #ffffff 0%, #f5f2ed 100%);
+    border-color: var(--accent-gold);
+    background-color: var(--bg-main);
     transform: translateY(-2px);
-    box-shadow: 
-        inset 0 2px 8px rgba(0, 0, 0, 0.1),
-        0 6px 20px rgba(139, 105, 20, 0.2);
+    box-shadow: 0 6px 20px rgba(191, 167, 111, 0.4);
 }
 
 .image-placeholder.has-image {
-    border: 3px solid var(--accent-color);
+    border: 3px solid var(--accent-gold);
     padding: 0;
 }
 
@@ -590,38 +511,36 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .image-icon {
     font-size: 2.5rem;
-    color: #d4af37;
+    color: var(--accent-gold);
     margin-bottom: 0.75rem;
     opacity: 0.8;
 }
 
 .image-text {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--accent-gold);
     text-align: center;
     letter-spacing: 1px;
     line-height: 1.3;
 }
 
 .image-subtitle {
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 0.65rem;
-    color: #666;
+    color: var(--text-main);
     margin-top: 0.5rem;
     font-style: italic;
 }
 
 /* ========= SISTEMA DE XP E NÍVEL ========= */
 .character-stats {
-    background: linear-gradient(135deg, #f8f6f1 0%, #f2efe8 100%);
-    border: 2px solid #d4af37;
-    border-radius: 12px;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 
-        0 4px 12px rgba(139, 105, 20, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .stats-row {
@@ -641,10 +560,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .level-section label {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -652,27 +571,23 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .level-circle {
     width: 50px;
     height: 50px;
-    border: 3px solid #d4af37;
+    border: 3px solid var(--border-color);
     border-radius: 50%;
-    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+    background-color: var(--bg-section);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 1.4rem;
     font-weight: 700;
-    color: #8b6914;
-    box-shadow: 
-        0 2px 6px rgba(139, 105, 20, 0.2),
-        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    color: var(--text-header);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .level-circle:hover {
     transform: translateY(-1px);
-    box-shadow: 
-        0 4px 8px rgba(139, 105, 20, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 8px rgba(191, 167, 111, 0.4);
 }
 
 /* XP Section - Simplified */
@@ -683,17 +598,17 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .xp-section label {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .xp-container {
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px solid #d4af37;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.4rem 0.6rem;
     display: flex;
@@ -707,25 +622,25 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 0.9rem;
     font-weight: 700;
-    color: #8b6914;
+    color: var(--text-header);
     min-width: 25px;
 }
 
 .xp-current {
-    color: #8b6914;
+    color: var(--text-header);
     font-weight: 700;
 }
 
 .xp-btn {
     width: 20px;
     height: 20px;
-    border: 1.5px solid #d4af37;
+    border: 1.5px solid var(--border-color);
     border-radius: 50%;
-    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
-    color: #8b6914;
+    background-color: var(--bg-section);
+    color: var(--text-header);
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
@@ -737,10 +652,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .xp-btn:hover {
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    color: white;
+    background-color: var(--button-hover);
+    color: var(--bg-main);
     transform: scale(1.1);
-    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 2px 6px rgba(191, 167, 111, 0.4);
 }
 
 .xp-btn:active {
@@ -802,10 +717,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .resource-box label {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -814,22 +729,22 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffffff;
-    border: 2px solid #d4af37;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 0.9rem;
     font-weight: 600;
 }
 
 .resource-selector:hover {
-    background: #fefefe;
-    border-color: #b8860b;
-    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.15);
+    background-color: var(--bg-section);
+    border-color: var(--accent-gold);
+    box-shadow: 0 2px 8px rgba(191, 167, 111, 0.15);
 }
 
 .status-box {
@@ -839,10 +754,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .status-box label {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -851,21 +766,21 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffffff;
-    border: 2px solid #d4af37;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 0.9rem;
     font-weight: 600;
 }
 
 .status-selector:hover {
-    background: #fefefe;
-    border-color: #b8860b;
+    background: var(--bg-main);
+    border-color: var(--accent-gold);
     box-shadow: 0 2px 8px rgba(139, 105, 20, 0.15);
 }
 
@@ -890,17 +805,17 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: var(--font-headings);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .form-field input,
 .form-field textarea {
-    background: #ffffff;
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.875rem;
     transition: all 0.3s ease;
     font-family: var(--font-main);
@@ -912,9 +827,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .form-field input:focus,
 .form-field textarea:focus {
     outline: none;
-    border-color: #d4af37;
+    border-color: var(--accent-gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-    background: #fefefe;
+    background: var(--bg-main);
 }
 
 .form-field textarea {
@@ -923,12 +838,12 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .selector-btn {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: #ffffff;
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.875rem;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -936,16 +851,17 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-size: 1rem;
     font-weight: 400;
     width: 100%;
+    text-align: center;
 }
 
 .selector-btn:hover {
-    background: #fefefe;
-    border-color: #d4af37;
+    background: var(--bg-main);
+    border-color: var(--accent-gold);
     box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
 }
 
 .arrow {
-    color: #d4af37;
+    color: var(--accent-gold);
     font-size: 0.9rem;
     font-weight: bold;
     transition: transform 0.3s ease;
@@ -987,7 +903,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .image-placeholder {
     width: 200px;
     height: 240px;
-    border: 3px dashed var(--border-color);
+    border: 3px dashed var(--border-ornament);
     background: transparent;
     display: flex;
     flex-direction: column;
@@ -1000,23 +916,23 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .image-placeholder:hover {
-    border-color: var(--accent-color);
-    background: rgba(139, 105, 20, 0.05);
+    border-color: var(--accent-gold);
+    background: rgba(191, 167, 111, 0.1);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(139, 105, 20, 0.2);
+    box-shadow: 0 4px 12px rgba(191, 167, 111, 0.3);
 }
 
 .image-icon {
     font-size: 2rem;
-    color: var(--accent-color);
+    color: var(--accent-gold);
     margin-bottom: 10px;
 }
 
 .image-text {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-gold);
     text-align: center;
     margin-bottom: 5px;
     line-height: 1.2;
@@ -1043,7 +959,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    background: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: opacity 0.3s ease;
     display: flex;
@@ -1057,18 +973,18 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .change-image-btn {
-    background: var(--accent-color);
+    background: var(--navbar-blue);
     color: var(--text-light);
     border: none;
     padding: 5px 10px;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .change-image-btn:hover {
-    background: var(--accent-dark);
+    background: #1a2e3b;
     transform: translateY(-1px);
 }
 
@@ -1103,28 +1019,24 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .attribute-group {
     text-align: center;
     padding: 1.5rem;
-    border: 2px solid #d4af37;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
+    background-color: var(--bg-section);
     position: relative;
-    box-shadow: 
-        0 2px 8px rgba(139, 105, 20, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .attribute-group:hover {
     transform: translateY(-2px);
-    box-shadow: 
-        0 4px 16px rgba(139, 105, 20, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 16px rgba(191, 167, 111, 0.4);
 }
 
 .attribute-group label {
     display: block;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: #8b6914;
+    color: var(--text-header);
     font-family: var(--font-headings);
     font-size: 1rem;
     letter-spacing: 1.5px;
@@ -1143,10 +1055,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     height: 70px;
     font-size: 1.8rem;
     font-weight: bold;
-    border: 3px solid #d4af37;
+    border: 3px solid var(--accent-gold);
     border-radius: 50%;
-    background: #ffffff;
-    color: #2c1810;
+    background: var(--bg-section);
+    color: var(--text-main);
     padding: 0;
     margin: 0;
     cursor: default;
@@ -1162,9 +1074,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .attribute-group input:focus {
-    border-color: #b8860b;
+    border-color: var(--accent-gold);
     box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
-    background: #fefefe;
+    background: var(--bg-main);
 }
 
 /* Remove setas do input number */
@@ -1181,7 +1093,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     width: 25px;
     height: 25px;
     background: var(--accent-color);
-    color: white;
+    color: var(--bg-main);
     border: none;
     border-radius: 50%;
     display: flex;
@@ -1230,16 +1142,16 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     align-items: center;
     margin-bottom: 0.75rem;
     padding: 0.75rem;
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 1px solid #e8e5df;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     transition: all 0.3s ease;
 }
 
 .skill-item:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
-    border-color: #d4af37;
-    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
+    background-color: var(--bg-main);
+    border-color: var(--accent-gold);
+    box-shadow: 0 2px 8px rgba(191, 167, 111, 0.2);
 }
 
 .skill-item:last-child {
@@ -1248,8 +1160,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .skill-item label {
     font-family: var(--font-skills);
-    font-size: 1rem;
-    color: #2c1810;
+    font-size: 0.8rem;
+    color: var(--text-main);
     margin: 0;
     flex: 1;
     font-weight: 500;
@@ -1270,10 +1182,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     text-align: center;
     font-size: 1.1rem;
     font-weight: bold;
-    border: 2px solid #d4af37;
+    border: 2px solid var(--accent-gold);
     border-radius: 50%;
-    background: #ffffff;
-    color: #2c1810;
+    background: var(--bg-section);
+    color: var(--text-main);
     padding: 0;
     margin: 0;
     cursor: default;
@@ -1291,9 +1203,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .skill-item input:focus {
-    border-color: #b8860b;
+    border-color: var(--accent-gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-    background: #fefefe;
+    background: var(--bg-main);
 }
 
 .skill-btn {
@@ -1303,7 +1215,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     width: 18px;
     height: 18px;
     background: var(--accent-color);
-    color: white;
+    color: var(--bg-main);
     border: none;
     border-radius: 50%;
     display: flex;
@@ -1359,8 +1271,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     padding: 20px;
     border: 2px solid var(--accent-color);
     border-radius: 0;
-    background: var(--parchment);
-    background-image: linear-gradient(135deg, var(--parchment) 0%, var(--paper) 100%);
+    background: var(--bg-section);
     position: relative;
     box-shadow: 
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
@@ -1384,7 +1295,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     margin-bottom: 18px;
     padding-bottom: 8px;
     border-bottom: 2px solid var(--accent-color);
-    color: var(--primary-color);
+    color: var(--accent-gold);
     font-size: 1.1rem;
     letter-spacing: 0.5px;
 }
@@ -1403,7 +1314,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .skill-item label {
     flex: 1;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: var(--ink);
     font-weight: 500;
 }
@@ -1449,36 +1360,31 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .archetype-selector {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid var(--accent-color);
-    border-radius: 0;
-    font-family: 'Crimson Text', serif;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: var(--font-main);
     font-size: 1rem;
-    background: var(--parchment);
-    color: var(--ink);
+    background-color: var(--bg-main);
+    color: var(--text-main);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .age-selector:hover,
 .archetype-selector:hover {
-    border-color: var(--accent-dark);
-    background: var(--paper);
+    border-color: var(--accent-gold);
+    background-color: var(--bg-section);
     transform: translateY(-1px);
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 0 0 3px rgba(139, 105, 20, 0.2),
-        0 2px 8px rgba(139, 105, 20, 0.3);
+    box-shadow: 0 2px 8px rgba(191, 167, 111, 0.3);
 }
 
 .age-selector .arrow,
 .archetype-selector .arrow {
-    color: var(--accent-color);
+    color: var(--accent-gold);
     font-size: 0.8rem;
     transition: transform 0.3s ease;
 }
@@ -1516,9 +1422,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .age-card {
-    background: var(--parchment);
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(139, 105, 20, 0.03) 0%, transparent 50%);
+    background: var(--bg-section);
     border: 2px solid var(--accent-color);
     border-radius: 0;
     padding: 20px;
@@ -1556,28 +1460,24 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .age-card.selected {
-    background: var(--accent-color);
-    background-image: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    color: var(--text-light);
-    border-color: var(--accent-dark);
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 0 0 3px rgba(139, 105, 20, 0.4),
-        0 8px 20px var(--shadow);
+    background-color: var(--button-bg);
+    color: var(--text-main);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px var(--accent-gold), 0 8px 20px rgba(191, 167, 111, 0.4);
 }
 
 .age-card.selected .age-name,
 .age-card.selected .age-range,
 .age-card.selected .age-stats,
 .age-card.selected .age-detail-label {
-    color: var(--text-light);
+    color: var(--text-main);
 }
 
 .age-name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--text-header);
     margin-bottom: 8px;
     letter-spacing: 0.5px;
     position: relative;
@@ -1612,7 +1512,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .age-detail-label {
     font-weight: 600;
     font-size: 0.85rem;
-    color: var(--secondary-color);
+    color: var(--text-header);
     margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1620,17 +1520,16 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .age-detail-value {
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--text-main);
     font-size: 1.1rem;
 }
 
 .age-select-btn {
     width: 100%;
     padding: 10px;
-    background: var(--accent-color);
-    background-image: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    border: 2px solid var(--accent-dark);
-    color: var(--text-light);
+    background: var(--accent-gold);
+    border: 2px solid var(--accent-blue);
+    color: var(--text-main);
     font-family: 'Crimson Text', serif;
     font-size: 1rem;
     font-weight: 600;
@@ -1675,47 +1574,36 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .archetype-card {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    box-shadow: 
-        0 2px 8px rgba(139, 105, 20, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .archetype-card:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
-    border-color: #d4af37;
+    background-color: var(--bg-main);
+    border-color: var(--accent-gold);
     transform: translateY(-2px);
-    box-shadow: 
-        0 4px 16px rgba(139, 105, 20, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 16px rgba(191, 167, 111, 0.4);
 }
 
 .archetype-card.selected {
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    color: #ffffff;
-    border-color: #b8860b;
-    box-shadow: 
-        0 4px 16px rgba(139, 105, 20, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background-color: var(--button-bg);
+    color: var(--text-main);
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 16px rgba(191, 167, 111, 0.5);
 }
 
-.archetype-card.selected .archetype-name,
-.archetype-card.selected .archetype-description,
-.archetype-card.selected .archetype-detail-label {
-    color: #ffffff;
-}
 
 .archetype-name {
     font-family: 'Cinzel', serif;
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--text-header);
     margin-bottom: 8px;
     text-align: center;
     letter-spacing: 0.5px;
@@ -1748,7 +1636,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .archetype-detail-label {
     font-weight: 600;
     font-size: 0.85rem;
-    color: var(--secondary-color);
+    color: var(--text-header);
     margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1756,7 +1644,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .archetype-detail-value {
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--text-main);
 }
 
 .archetype-expand-btn {
@@ -1807,7 +1695,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .archetype-detail-section h5 {
     font-family: 'Cinzel', serif;
     font-size: 0.9rem;
-    color: var(--primary-color);
+    color: var(--text-header);
     margin-bottom: 5px;
     border-bottom: 1px solid var(--border-ornament);
     padding-bottom: 2px;
@@ -1816,7 +1704,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .archetype-list {
     font-size: 0.85rem;
     line-height: 1.4;
-    color: var(--ink);
+    color: var(--text-main);
 }
 
 .archetype-list ul {
@@ -1832,7 +1720,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     width: 100%;
     padding: 10px;
     background: var(--accent-color);
-    background-image: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    background: var(--bg-section);
     border: 2px solid var(--accent-dark);
     color: var(--text-light);
     font-family: 'Crimson Text', serif;
@@ -1858,7 +1746,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     right: 20px;
     z-index: 10000;
     background: var(--accent-color);
-    background-image: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+    background: var(--bg-section);
     color: var(--text-light);
     padding: 15px 20px;
     border: 2px solid var(--accent-dark);
@@ -1906,8 +1794,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     align-items: center;
     justify-content: space-between;
     padding: 25px;
-    border-bottom: 2px solid #e8e5df;
-    background: linear-gradient(145deg, #fafafa 0%, #f5f5f5 100%);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-section);
     border-radius: 12px 12px 0 0;
 }
 
@@ -1918,8 +1806,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .back-btn {
-    background: linear-gradient(145deg, #e8e5df 0%, #d4d1c9 100%);
-    border: 2px solid #c4c1b9;
+    background: var(--bg-section);
+    border: 2px solid var(--border-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -1929,11 +1817,11 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 1.2rem;
-    color: #2c1810;
+    color: var(--text-main);
 }
 
 .back-btn:hover {
-    background: linear-gradient(145deg, #d4d1c9 0%, #c4c1b9 100%);
+    background: var(--bg-section);
     transform: translateX(-2px);
 }
 
@@ -1949,6 +1837,11 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-size: 1.1rem;
 }
 
+/* Ocultar subtítulo específico dos talentos */
+#talentCategorySubtitle {
+    display: none;
+}
+
 .talent-categories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1956,25 +1849,21 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-category-card {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
-    box-shadow: 
-        0 2px 8px rgba(139, 105, 20, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .talent-category-card:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
-    border-color: #d4af37;
+    background-color: var(--bg-main);
+    border-color: var(--accent-gold);
     transform: translateY(-2px);
-    box-shadow: 
-        0 4px 12px rgba(139, 105, 20, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 12px rgba(191, 167, 111, 0.4);
 }
 
 .talent-category-icon {
@@ -1983,10 +1872,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-category-name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2c1810;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -1997,7 +1886,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-category-count {
-    color: #d4af37;
+    color: var(--accent-gold);
     font-weight: 600;
     font-size: 0.8rem;
 }
@@ -2014,8 +1903,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-card {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     cursor: pointer;
@@ -2027,8 +1916,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-card:hover {
-    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
-    border-color: #d4af37;
+    background: var(--bg-section);
+    border-color: var(--accent-gold);
     transform: translateY(-2px);
     box-shadow: 
         0 4px 12px rgba(139, 105, 20, 0.15),
@@ -2036,11 +1925,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-card.selected {
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
-    border-color: #d4af37;
-    box-shadow: 
-        0 0 0 3px rgba(212, 175, 55, 0.2),
-        0 4px 12px rgba(139, 105, 20, 0.2);
+    background-color: var(--button-bg);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px var(--accent-gold), 0 4px 12px rgba(191, 167, 111, 0.4);
 }
 
 .talent-card-header {
@@ -2051,10 +1938,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2c1810;
+    color: var(--text-main);
     flex: 1;
 }
 
@@ -2068,40 +1955,40 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-badge.general {
-    background: linear-gradient(145deg, #4a6741 0%, #3d5436 100%);
-    color: white;
+    background: var(--accent-gold);
+    color: var(--bg-main);
 }
 
 .talent-badge.archetype {
-    background: linear-gradient(145deg, #d4af37 0%, #b8860b 100%);
-    color: white;
+    background: var(--navbar-blue);
+    color: var(--text-main);
 }
 
 .talent-description {
-    color: var(--text-muted);
+    color: var(--text-main);
     font-size: 0.9rem;
     margin-bottom: 1rem;
     line-height: 1.5;
 }
 
 .talent-validation-warning {
-    background: linear-gradient(145deg, #f5e8e8 0%, #f8f0f0 100%);
-    border: 1px solid #e8d5d5;
+    background: rgba(35, 59, 77, 0.2);
+    border: 1px solid var(--navbar-blue);
     border-radius: 4px;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    color: #8b2635;
+    color: var(--text-main);
     font-size: 0.85rem;
     font-style: italic;
 }
 
 .talent-select-btn {
-    background: linear-gradient(145deg, #d4af37 0%, #b8860b 100%);
+    background: var(--accent-gold);
     border: none;
     border-radius: 6px;
-    color: white;
+    color: var(--bg-main);
     padding: 0.75rem 1.5rem;
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -2110,14 +1997,14 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-select-btn:hover:not(.disabled) {
-    background: linear-gradient(145deg, #b8860b 0%, #8b6914 100%);
+    background: var(--button-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .talent-select-btn.disabled {
-    background: linear-gradient(145deg, #e8e5df 0%, #d4d1c9 100%);
-    color: #8b8b8b;
+    background: var(--bg-section);
+    color: var(--text-muted);
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -2136,10 +2023,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     top: 20px;
     right: 20px;
     z-index: 10000;
-    background: linear-gradient(135deg, #4a6741 0%, #3d5436 100%);
-    color: white;
+    background: var(--bg-section);
+    color: var(--text-main);
     padding: 15px 20px;
-    border: 2px solid #3d5436;
+    border: 1px solid var(--accent-gold);
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     transform: translateX(400px);
@@ -2166,24 +2053,24 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .talent-slot select {
     width: 100%;
-    background: #ffffff;
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.875rem;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Merriweather', serif;
     font-size: 1rem;
     transition: all 0.3s ease;
 }
 
 .talent-slot select:focus {
     outline: none;
-    border-color: #d4af37;
+    border-color: var(--accent-gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 .talent-slot select:hover {
-    border-color: #d4af37;
+    border-color: var(--accent-gold);
 }
 
 .talent-select-wrapper {
@@ -2195,12 +2082,12 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .talent-btn {
     flex: 1;
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    color: #2c1810;
+    color: var(--text-main);
     padding: 0.875rem;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Merriweather', serif;
     font-size: 1rem;
     text-align: left;
     cursor: pointer;
@@ -2209,13 +2096,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-btn:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background: var(--bg-section);
 }
 
 .talent-btn:focus {
     outline: none;
-    border-color: #d4af37;
+    border-color: var(--accent-gold);
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
@@ -2225,7 +2112,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .remove-talent-btn {
     background: var(--error-color);
-    color: white;
+    color: var(--bg-main);
     border: none;
     width: 32px;
     height: 32px;
@@ -2251,7 +2138,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .remove-talent-btn:hover {
-    background: #a02d42;
+    background: var(--navbar-blue);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -2263,8 +2150,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .add-talent-btn {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px dashed #d4af37;
+    background: var(--bg-section);
+    border: 2px dashed var(--accent-gold);
     border-radius: 8px;
     padding: 1rem 2rem;
     cursor: pointer;
@@ -2273,14 +2160,14 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    color: #8b6914;
+    color: var(--text-header);
     font-family: 'Cinzel', serif;
     min-width: 200px;
 }
 
 .add-talent-btn:hover {
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
-    border-color: #b8860b;
+    background: var(--bg-section);
+    border-color: var(--accent-gold);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
@@ -2297,29 +2184,29 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 /* Points counter styles */
 .points-counter {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     font-family: 'Cinzel', serif;
     font-weight: 600;
-    color: #8b6914;
+    color: var(--text-header);
     text-align: center;
     font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
 .points-counter.success {
-    background: linear-gradient(145deg, #e8f5e8 0%, #f0f8f0 100%);
-    border-color: #4a6741;
-    color: #4a6741;
+    background: var(--bg-section);
+    border-color: var(--border-color);
+    color: var(--accent-gold);
 }
 
 .points-counter.error {
-    background: linear-gradient(145deg, #f5e8e8 0%, #f8f0f0 100%);
-    border-color: #8b2635;
-    color: #8b2635;
+    background: var(--bg-section);
+    border-color: var(--border-color);
+    color: var(--accent-blue);
 }
 .talents-grid {
     display: grid;
@@ -2339,20 +2226,21 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     align-items: start;
     margin-bottom: 15px;
     padding: 15px;
-    border: 1px solid #e0ddd6;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #faf9f6;
+    background-color: var(--bg-section);
     position: relative;
     transition: all 0.3s ease;
 }
 
 .relationship-item:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-color: var(--accent-color);
+    box-shadow: 0 2px 8px rgba(191, 167, 111, 0.3);
+    border-color: var(--accent-gold);
 }
 
 .relationship-name {
     font-weight: 600;
+    color: var(--text-header);
 }
 
 .relationship-desc {
@@ -2361,8 +2249,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .remove-relationship {
-    background: var(--error-color);
-    color: white;
+    background-color: var(--accent-blue);
+    color: var(--text-main);
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
@@ -2382,7 +2270,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .remove-relationship:hover {
-    background: #a0303f;
+    background: var(--navbar-blue);
     transform: scale(1.05);
 }
 
@@ -2413,27 +2301,14 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .condition-group {
     padding: 25px;
-    border: 3px solid var(--accent-color);
-    border-radius: 0;
-    background: var(--parchment);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-section);
     position: relative;
-    box-shadow: 
-        inset 0 0 0 1px var(--paper),
-        inset 0 0 0 4px var(--accent-color),
-        0 4px 15px var(--shadow-light);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.condition-group::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    border: 1px solid var(--border-ornament);
-    opacity: 0.3;
-    pointer-events: none;
-}
+
 
 .condition-group h4 {
     text-align: center;
@@ -2478,7 +2353,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .condition-boxes span {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-gold);
     margin-bottom: 4px;
 }
 
@@ -2498,45 +2373,31 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(27, 42, 35, 0.8);
     backdrop-filter: blur(3px);
     overflow-y: auto;
 }
 
 .modal-content {
-    background: linear-gradient(135deg, #faf8f4 0%, #f5f3ee 100%);
+    background-color: var(--bg-section);
     margin: 5% auto;
     padding: 2rem;
-    border: 2px solid #d4af37;
-    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     width: 85%;
     max-width: 700px;
     max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 
-        0 8px 32px rgba(139, 105, 20, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     position: relative;
     font-family: var(--font-main);
+    color: var(--text-main);
 }
 
-.modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        #d4af37 20%, 
-        #d4af37 80%, 
-        transparent 100%);
-    border-radius: 12px 12px 0 0;
-}
+
 
 .close {
-    color: var(--text-muted);
+    color: var(--text-main);
     float: right;
     font-size: 32px;
     font-weight: bold;
@@ -2549,13 +2410,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .close:hover {
-    color: var(--primary-color);
-    text-shadow: 0 0 5px var(--accent-color);
+    color: var(--accent-gold);
+    text-shadow: 0 0 5px var(--accent-gold);
 }
 
 .modal h3 {
-    font-family: 'Cinzel', serif;
-    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    color: var(--text-header);
     margin-bottom: 25px;
     text-align: center;
     font-size: 1.8rem;
@@ -2572,13 +2433,15 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .age-table th, .age-table td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     padding: 8px;
     text-align: center;
+    background-color: var(--bg-main);
+    color: var(--text-main);
 }
 
 .age-table th {
-    background: var(--primary-color);
+    background: var(--navbar-blue);
     color: var(--text-light);
 }
 
@@ -2608,7 +2471,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 #souvenirDescription {
     font-style: italic;
-    background: #faf9f6;
+    background: var(--bg-section);
     padding: 15px;
     border-radius: 5px;
     margin: 15px 0;
@@ -2641,7 +2504,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     flex-direction: column;
     align-items: center;
     padding: 25px 20px;
-    background: linear-gradient(135deg, var(--paper) 0%, var(--parchment) 100%);
+    background: var(--bg-section);
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     cursor: pointer;
@@ -2669,7 +2532,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .large-btn .btn-text {
     font-size: 1.4rem;
     font-weight: 600;
-    color: var(--accent-dark);
+    color: var(--text-header);
     margin-bottom: 5px;
 }
 
@@ -2690,7 +2553,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .resource-card {
-    background: linear-gradient(135deg, var(--paper) 0%, var(--parchment) 100%);
+    background: var(--bg-section);
     border: 2px solid var(--accent-color);
     padding: 20px;
     cursor: pointer;
@@ -2711,12 +2574,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .resource-card.selected {
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
-    color: var(--paper);
-    border-color: var(--accent-dark);
-    box-shadow: 
-        0 6px 12px rgba(139, 105, 20, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background-color: var(--button-bg);
+    color: var(--text-main);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px var(--accent-gold), 0 6px 12px rgba(191, 167, 111, 0.4);
 }
 
 .resource-header {
@@ -2724,7 +2585,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
 }
 
 .resource-number {
@@ -2733,16 +2594,16 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     justify-content: center;
     width: 35px;
     height: 35px;
-    background: var(--accent-color);
-    color: var(--paper);
+    background-color: var(--accent-gold);
+    color: var(--bg-main);
     border-radius: 50%;
     font-weight: bold;
     font-size: 1.1rem;
 }
 
 .resource-card.selected .resource-number {
-    background: var(--paper);
-    color: var(--accent-dark);
+    background-color: var(--bg-main);
+    color: var(--accent-gold);
 }
 
 .resource-name {
@@ -2919,7 +2780,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     
     section {
         box-shadow: none;
-        border: 2px solid #000;
+        border: 2px solid var(--border-color);
         break-inside: avoid;
         background: white;
     }
@@ -2927,7 +2788,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     .header {
         background: white;
         color: black;
-        border: 3px solid #000;
+        border: 3px solid var(--border-color);
     }
     
     .main-title, .game-title, section h3 {
@@ -2985,24 +2846,24 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 /* Vaesen-specific styling touches */
 .nordic-pattern {
-    background-image: 
-        repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 10px,
-            rgba(139, 105, 20, 0.03) 10px,
-            rgba(139, 105, 20, 0.03) 20px
-        );
+    background: var(--bg-section);
 }
 
 .aged-paper {
-    background: var(--parchment);
-    background-image: 
-        radial-gradient(circle at 25% 25%, rgba(139, 105, 20, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(139, 105, 20, 0.05) 0%, transparent 50%);
+    background: var(--bg-section);
     box-shadow: 
         inset 0 0 20px rgba(139, 105, 20, 0.1),
         0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Equipment Section */
+.equipment .section-description {
+    color: var(--text-description);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 /* Equipment System */
@@ -3015,7 +2876,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .equipment-category {
     background: var(--paper);
-    border: 2px solid #e8e5df;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1rem;
     transition: all 0.3s ease;
@@ -3023,8 +2884,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 /* Equipment Dropdowns */
 .equipment-dropdown {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -3032,8 +2893,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-dropdown:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background: var(--bg-section);
 }
 
 .equipment-dropdown-header {
@@ -3048,12 +2909,12 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: 'Crimson Text', serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #2c1810;
+    color: var(--text-main);
     flex: 1;
 }
 
 .equipment-dropdown .dropdown-arrow {
-    color: #8b6914;
+    color: var(--text-header);
     font-size: 0.8rem;
     transition: transform 0.3s ease;
     margin-left: 0.5rem;
@@ -3067,13 +2928,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     max-height: 0;
     overflow: hidden;
     transition: all 0.3s ease;
-    background: rgba(248, 246, 241, 0.5);
-    border-top: 1px solid #e8e5df;
+    background: var(--bg-main);
+    border-top: 1px solid var(--border-color);
 }
 
 .equipment-dropdown.open .equipment-dropdown-content {
-    max-height: 400px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .equipment-items {
@@ -3084,15 +2945,15 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-item {
-    background: white;
-    border: 1px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 0.5rem;
     transition: all 0.3s ease;
 }
 
 .equipment-item:hover {
-    border-color: #d4af37;
+    border-color: var(--accent-gold);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -3105,7 +2966,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .equipment-name {
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
-    color: #2c1810;
+    color: var(--text-main);
     flex: 1;
 }
 
@@ -3113,7 +2974,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     width: 20px;
     height: 20px;
     background: rgba(220, 53, 69, 0.8);
-    color: white;
+    color: var(--bg-main);
     border: none;
     border-radius: 50%;
     font-size: 12px;
@@ -3133,9 +2994,9 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .add-equipment-btn {
     width: 100%;
     padding: 0.75rem;
-    background: linear-gradient(145deg, #d4af37 0%, #b8941f 100%);
-    color: white;
-    border: none;
+    background: var(--button-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
@@ -3146,8 +3007,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .add-equipment-btn:hover {
-    background: linear-gradient(145deg, #b8941f 0%, #a08419 100%);
+    background: var(--accent-gold);
+    color: var(--bg-main);
     transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* Equipment Modal */
@@ -3177,8 +3040,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-category-card {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
@@ -3187,8 +3050,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-category-card:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background: var(--bg-section);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
@@ -3203,13 +3066,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-header);
     margin-bottom: 0.5rem;
 }
 
 .equipment-category-description {
     font-family: 'Crimson Text', serif;
-    color: var(--text-muted);
+    color: var(--text-main);
     font-size: 0.9rem;
     line-height: 1.4;
     margin-bottom: 0.5rem;
@@ -3233,8 +3096,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-card {
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 1rem;
     cursor: pointer;
@@ -3242,8 +3105,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .equipment-card:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background: var(--bg-section);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -3251,14 +3114,14 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .equipment-card-header {
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e8e5df;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .equipment-card .equipment-name {
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-header);
 }
 
 .equipment-stats {
@@ -3270,7 +3133,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .equipment-stat {
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
-    color: #4a4a4a;
+    color: var(--text-main);
 }
 
 .equipment-effect {
@@ -3280,7 +3143,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-style: italic;
     margin-top: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1px solid #e8e5df;
+    border-top: 1px solid var(--border-color);
 }
 
 /* Custom Souvenir Form */
@@ -3298,18 +3161,18 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .custom-souvenir-form label {
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-header);
     font-family: 'Cinzel', serif;
 }
 
 .custom-souvenir-form textarea {
     padding: 0.875rem;
-    border: 2px solid #e8e5df;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     font-family: 'Crimson Text', serif;
     font-size: 1rem;
     background: var(--paper);
-    color: var(--text-primary);
+    color: var(--text-main);
     transition: border-color 0.3s ease;
     resize: vertical;
     min-height: 100px;
@@ -3329,13 +3192,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .action-btn.secondary {
-    background: linear-gradient(145deg, #f5f5f5 0%, #e8e8e8 100%);
-    color: #666;
-    border: 2px solid #ddd;
+    background: var(--bg-section);
+    color: var(--text-main);
+    border: 2px solid var(--border-color);
 }
 
 .action-btn.secondary:hover {
-    background: linear-gradient(145deg, #e8e8e8 0%, #ddd 100%);
+    background: var(--bg-section);
     transform: translateY(-1px);
 }
 
@@ -3348,8 +3211,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .condition-btn {
     width: 100%;
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background-color: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 1rem;
     text-align: left;
@@ -3361,55 +3224,24 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .condition-btn:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background-color: var(--bg-main);
     transform: translateY(-1px);
 }
 
 .condition-name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--accent-gold);
+    text-align: center;
 }
 
 .condition-description {
-    font-family: 'Crimson Text', serif;
+    font-family: var(--font-main);
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: var(--text-main);
     font-style: italic;
-}
-
-/* Physical Conditions - Red */
-.condition-btn.physical.active {
-    background: linear-gradient(145deg, #dc3545 0%, #c82333 100%);
-    border-color: #bd2130;
-    color: white;
-}
-
-.condition-btn.physical.active:hover {
-    background: linear-gradient(145deg, #c82333 0%, #bd2130 100%);
-}
-
-.condition-btn.physical.active .condition-name,
-.condition-btn.physical.active .condition-description {
-    color: white;
-}
-
-/* Mental Conditions - Blue */
-.condition-btn.mental.active {
-    background: linear-gradient(145deg, #007bff 0%, #0056b3 100%);
-    border-color: #004085;
-    color: white;
-}
-
-.condition-btn.mental.active:hover {
-    background: linear-gradient(145deg, #0056b3 0%, #004085 100%);
-}
-
-.condition-btn.mental.active .condition-name,
-.condition-btn.mental.active .condition-description {
-    color: white;
 }
 
 /* Talent Dropdown System */
@@ -3422,8 +3254,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .talent-dropdown {
     flex: 1;
-    background: linear-gradient(145deg, #ffffff 0%, #fefcf7 100%);
-    border: 2px solid #e8e5df;
+    background: var(--bg-section);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -3431,8 +3263,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .talent-dropdown:hover {
-    border-color: #d4af37;
-    background: linear-gradient(145deg, #f8f6f1 0%, #f5f3ee 100%);
+    border-color: var(--accent-gold);
+    background: var(--bg-section);
 }
 
 .talent-dropdown-header {
@@ -3448,12 +3280,12 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: 'Crimson Text', serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #2c1810;
+    color: var(--text-main);
     flex: 1;
 }
 
 .dropdown-arrow {
-    color: #8b6914;
+    color: var(--text-header);
     font-size: 0.8rem;
     transition: transform 0.3s ease;
     margin-left: 0.5rem;
@@ -3467,13 +3299,13 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     max-height: 0;
     overflow: hidden;
     transition: all 0.3s ease;
-    background: rgba(248, 246, 241, 0.5);
-    border-top: 1px solid #e8e5df;
+    background: var(--bg-main);
+    border-top: 1px solid var(--border-color);
 }
 
 .talent-dropdown.open .talent-dropdown-content {
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .talent-description {
@@ -3482,17 +3314,17 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
     line-height: 1.5;
-    color: #4a4a4a;
+    color: var(--text-main);
     font-style: italic;
-    border-bottom: 1px solid #e8e5df;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .change-talent-btn {
     width: 100%;
     padding: 0.75rem;
-    background: linear-gradient(145deg, #d4af37 0%, #b8941f 100%);
-    color: white;
-    border: none;
+    background: var(--button-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
     font-weight: 600;
@@ -3501,8 +3333,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .change-talent-btn:hover {
-    background: linear-gradient(145deg, #b8941f 0%, #a08419 100%);
+    background: var(--accent-gold);
+    color: var(--bg-main);
     transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* ========= STATUS BALLOONS ========= */
@@ -3535,7 +3369,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .status-balloon {
-    background: linear-gradient(135deg, var(--paper) 0%, var(--parchment) 100%);
     border: 2px solid;
     border-radius: 20px;
     padding: 12px 16px;
@@ -3554,29 +3387,20 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .status-balloon.physical {
-    border-color: #dc3545;
-    color: #dc3545;
+    border-color: var(--border-color);
+    color: var(--accent-gold);
+    background: #7C2D2D !important;
 }
 
 .status-balloon.mental {
-    border-color: #007bff;
-    color: #007bff;
-}
-
-.status-balloon:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    max-width: 250px;
-    padding: 16px 20px;
+    border-color: var(--border-color);
+    color: var(--accent-gold);
+    background: #233B4D !important;
 }
 
 /* Balões mentais (direita) se expandem para a esquerda mantendo posição fixa */
 .status-balloons-right .status-balloon {
     transform-origin: right center;
-}
-
-.status-balloons-right .status-balloon:hover {
-    transform: translateY(-2px);
 }
 
 .balloon-content {
@@ -3588,7 +3412,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .balloon-title {
     font-weight: 600;
-    white-space: nowrap;
+    line-height: 1.2;
     transition: all 0.3s ease;
 }
 
@@ -3596,22 +3420,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-size: 0.8rem;
     font-style: italic;
     margin-top: 4px;
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.status-balloon:hover .balloon-title {
-    white-space: normal;
-    line-height: 1.2;
-}
-
-.status-balloon:hover .balloon-description {
     opacity: 1;
     max-height: 50px;
-    white-space: normal;
+    overflow: visible;
+    transition: all 0.3s ease;
     line-height: 1.3;
 }
 
@@ -3663,19 +3475,20 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .condition-btn.physical.active {
     background: rgba(220, 53, 69, 0.2);
-    border-color: #dc3545;
+    border-color: var(--border-color);
 }
 
 .condition-btn.mental.active {
     background: rgba(0, 123, 255, 0.2);
-    border-color: #007bff;
+    border-color: var(--border-color);
 }
 
 .condition-name {
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--accent-gold);
     margin-bottom: 4px;
     font-size: 1rem;
+    text-align: center;
 }
 
 .condition-description {
@@ -3729,10 +3542,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .crop-canvas-container {
     position: relative;
-    border: 2px solid #d4af37;
+    border: 2px solid var(--accent-gold);
     border-radius: 8px;
     overflow: hidden;
-    background: #f5f5f5;
+    background: var(--bg-section);
     max-width: 100%;
     max-height: 100%;
 }
@@ -3746,7 +3559,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 .crop-selector {
     position: absolute;
-    border: 2px dashed #d4af37;
+    border: 2px dashed var(--accent-gold);
     background: rgba(212, 175, 55, 0.15);
     cursor: move;
     min-width: 50px;
@@ -3758,8 +3571,8 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     position: absolute;
     width: 12px;
     height: 12px;
-    background: #d4af37;
-    border: 2px solid #ffffff;
+    background: var(--accent-gold);
+    border: 2px solid var(--bg-section);
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -3789,12 +3602,41 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     cursor: se-resize;
 }
 
+/* Handles das bordas */
+.crop-handle-n {
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: n-resize;
+}
+
+.crop-handle-s {
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: s-resize;
+}
+
+.crop-handle-e {
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: e-resize;
+}
+
+.crop-handle-w {
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: w-resize;
+}
+
 .modal-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
     padding: 1rem 0;
-    border-top: 1px solid #e8e5df;
+    border-top: 1px solid var(--border-color);
 }
 
 /* Responsivo para o modal de recorte */
@@ -3823,7 +3665,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 .description {
     margin: 2rem 0;
     padding: 2rem;
-    background: linear-gradient(135deg, var(--parchment) 0%, var(--paper) 100%);
+    background: var(--bg-section);
     border: 3px solid var(--accent-color);
     border-radius: 0;
     box-shadow: 
@@ -3872,7 +3714,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     border-bottom: 2px solid var(--accent-color);
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
-    color: var(--primary-color);
+    color: var(--accent-gold);
     letter-spacing: 1px;
 }
 
@@ -3891,7 +3733,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     margin-bottom: 1.5rem;
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
-    color: var(--primary-color);
+    color: var(--accent-gold);
     letter-spacing: 0.5px;
 }
 
@@ -3926,5 +3768,306 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     .relationships-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+    }
+}
+
+/* === EQUIPMENT DETAILS MODAL === */
+.equipment-details-modal .modal-content {
+    max-width: 600px;
+    margin: 2rem auto;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.equipment-details-content {
+    background: var(--bg-section);
+    color: var(--text-main);
+}
+
+.equipment-details-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-main);
+    border-radius: 8px;
+}
+
+.equipment-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.equipment-info {
+    flex: 1;
+}
+
+.equipment-category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-gold);
+    color: var(--bg-main);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.equipment-details-header .equipment-name {
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-header);
+    margin: 0;
+}
+
+.equipment-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.equipment-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-gold);
+}
+
+.equipment-stat.penalty {
+    border-left-color: var(--accent-red);
+}
+
+.stat-label {
+    font-weight: bold;
+    color: var(--text-description);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+.equipment-stat.penalty .stat-value {
+    color: var(--accent-red);
+}
+
+.equipment-effect {
+    padding: 1rem;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.equipment-effect h5 {
+    font-family: var(--font-headings);
+    color: var(--text-header);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.equipment-effect p {
+    color: var(--text-main);
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Modal buttons */
+.modal-btn {
+    background: var(--button-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: var(--font-main);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    min-width: 120px;
+}
+
+.modal-btn:hover {
+    background: var(--button-hover);
+    color: var(--bg-main);
+    border-color: var(--button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1.5rem;
+}
+
+/* === EQUIPMENT TOAST NOTIFICATIONS === */
+.equipment-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--accent-gold), #8b7355);
+    color: var(--bg-main);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-weight: bold;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 300px;
+}
+
+.equipment-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.equipment-toast .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.equipment-toast .toast-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.equipment-toast .toast-text {
+    line-height: 1.3;
+}
+
+.equipment-toast .toast-text strong {
+    display: block;
+    font-size: 1.1rem;
+}
+
+.equipment-toast .toast-text small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+/* === SAVE/LOAD TOAST NOTIFICATIONS === */
+.save-toast, .load-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-weight: bold;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 350px;
+    min-width: 300px;
+}
+
+.save-toast.success {
+    background: linear-gradient(135deg, #4a6741, #5a7a4f);
+    color: var(--text-main);
+    border-left: 4px solid #6b8f60;
+}
+
+.load-toast.success {
+    background: linear-gradient(135deg, var(--accent-blue), #2a4a5c);
+    color: var(--text-main);
+    border-left: 4px solid #3d6076;
+}
+
+.load-toast.error {
+    background: linear-gradient(135deg, var(--accent-red), #8b3a3a);
+    color: var(--text-main);
+    border-left: 4px solid #a44444;
+}
+
+.save-toast.show, .load-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.save-toast .toast-content, .load-toast .toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.save-toast .toast-icon, .load-toast .toast-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.save-toast .toast-text, .load-toast .toast-text {
+    line-height: 1.3;
+}
+
+.save-toast .toast-text strong, .load-toast .toast-text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.save-toast .toast-text small, .load-toast .toast-text small {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: normal;
+    word-break: break-all;
+}
+
+/* Melhorar a aparência dos nomes de equipamentos clicáveis */
+.equipment-name {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+}
+
+.equipment-name:hover {
+    color: var(--accent-gold);
+    background: rgba(191, 167, 111, 0.1);
+}
+
+/* Responsividade para modal de detalhes */
+@media (max-width: 768px) {
+    .equipment-details-modal .modal-content {
+        margin: 1rem;
+        max-width: none;
+    }
+    
+    .equipment-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .equipment-details-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .equipment-icon {
+        font-size: 2.5rem;
     }
 }
