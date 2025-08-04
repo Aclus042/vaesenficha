@@ -238,5 +238,3 @@ const talentos = {
     }
   ]
 };
-
-export default talentos;
