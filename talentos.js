@@ -1,203 +1,242 @@
-const TALENTOS_VAESEN = {
-  porArquetipo: {
-    "Acadêmico": [
-      {
-        nome: "Erudição",
-        descricao: "Você pode usar LÓGICA ao invés de outros atributos em testes relacionados ao conhecimento. Uma vez por sessão, você pode lembrar de um fato obscuro mas relevante sobre a situação atual."
-      },
-      {
-        nome: "Mente Analítica",
-        descricao: "Você recebe +2 em testes de INVESTIGAÇÃO quando analisando evidências ou pistas. Você consegue estabelecer conexões que outros não percebem."
-      },
-      {
-        nome: "Especialista",
-        descricao: "Escolha uma área de conhecimento específica (História, Medicina, Ocultismo, etc.). Você é considerado um especialista nessa área e recebe +3 em todos os testes relacionados."
-      }
-    ],
-
-    "Andarilho": [
-      {
-        nome: "Sobrevivente",
-        descricao: "Você sabe como encontrar abrigo e comida na natureza. Pode encontrar recursos básicos mesmo em ambientes hostis e recebe +2 em testes de sobrevivência."
-      },
-      {
-        nome: "Conhecedor de Caminhos",
-        descricao: "Você nunca se perde e sempre conhece rotas alternativas. Pode encontrar atalhos e passagens secretas que outros não percebem."
-      },
-      {
-        nome: "Resistente",
-        descricao: "Você é acostumado a privações e dificuldades. Pode ignorar uma condição física negativa uma vez por sessão e recebe +1 em testes contra fadiga e fome."
-      }
-    ],
-
-    "Caçador": [
-      {
-        nome: "Rastreamento",
-        descricao: "Você pode seguir rastros e pistas na natureza. Recebe +2 em testes para rastrear criaturas e pode determinar informações sobre elas pelos rastros."
-      },
-      {
-        nome: "Tiro Certeiro",
-        descricao: "Você é um atirador excepcional. Recebe +2 em ataques à distância e pode atirar em alvos pequenos ou distantes sem penalidade adicional."
-      },
-      {
-        nome: "Conhecimento da Natureza",
-        descricao: "Você conhece os hábitos e fraquezas de criaturas selvagens. Pode identificar vaesen por seus sinais e sabe como se proteger deles."
-      }
-    ],
-
-    "Escritora": [
-      {
-        nome: "Observadora Perspicaz",
-        descricao: "Você nota detalhes que outros ignoram. Recebe +2 em testes de OBSERVAÇÃO e pode perceber quando alguém está mentindo ou escondendo algo."
-      },
-      {
-        nome: "Rede de Contatos",
-        descricao: "Você conhece pessoas em muitos lugares diferentes. Uma vez por sessão, pode encontrar um contato útil que pode fornecer informações ou assistência."
-      },
-      {
-        nome: "Persuasiva",
-        descricao: "Você sabe como usar palavras para conseguir o que quer. Recebe +2 em testes de MANIPULAÇÃO para convencer ou persuadir outros."
-      }
-    ],
-
-    "Médica": [
-      {
-        nome: "Conhecimento Médico",
-        descricao: "Você pode tratar ferimentos e doenças. Recebe +3 em todos os testes de MEDICINA e pode curar uma condição física negativa uma vez por sessão."
-      },
-      {
-        nome: "Diagnóstico",
-        descricao: "Você pode determinar a causa de mortes misteriosas e identificar doenças incomuns. Pode usar LÓGICA para testes médicos complexos."
-      },
-      {
-        nome: "Sangue Frio",
-        descricao: "Você mantém a calma em situações extremas. Pode ignorar uma condição mental negativa uma vez por sessão e recebe +1 em testes contra medo."
-      }
-    ],
-
-    "Ocultista": [
-      {
-        nome: "Conhecimento Proibido",
-        descricao: "Você estudou textos antigos e conhece rituais esquecidos. Pode identificar símbolos ocultos e entender a natureza dos vaesen."
-      },
-      {
-        nome: "Intuição Mística",
-        descricao: "Você pode sentir presenças sobrenaturais. Recebe +2 em testes para detectar atividade paranormal e pode perceber quando vaesen estão próximos."
-      },
-      {
-        nome: "Proteção Ritual",
-        descricao: "Você conhece rituais de proteção simples. Uma vez por sessão, pode criar uma barreira mística temporária que dificulta a aproximação de vaesen."
-      }
-    ],
-
-    "Oficial": [
-      {
-        nome: "Contato",
-        descricao: "Você tem um contato confiável que pode ajudá-lo com informações, abrigo ou equipamento, dependendo da situação. Decida quem é esse contato e onde ele vive junto com a Mestre de Jogo. Você pode usar o contato uma vez por sessão."
-      },
-      {
-        nome: "Durona",
-        descricao: "Você pode ignorar uma CONDIÇÃO física negativa uma vez por sessão sem sofrer as penalidades associadas a ela. Isso reflete sua resistência física e mental adquirida em serviço."
-      },
-      {
-        nome: "Foco",
-        descricao: "Uma vez por sessão, você pode repetir um teste de perícia, mesmo que o resultado anterior não tenha sido um fracasso. Você mantém a calma mesmo sob pressão."
-      }
-    ],
-
-    "Padre": [
-      {
-        nome: "Contato",
-        descricao: "Você tem um contato confiável que pode ajudá-lo com informações, abrigo ou equipamento, dependendo da situação. Decida quem é esse contato e onde ele vive junto com a Mestre de Jogo. Você pode usar o contato uma vez por sessão."
-      },
-      {
-        nome: "Pregador",
-        descricao: "Você recebe +2 nos testes de INSPIRAÇÃO feitos para influenciar grupos. Uma vez por sessão, você pode usar um discurso apropriado para remover uma condição emocional de todos os ouvintes."
-      },
-      {
-        nome: "Saber é Reconfortante",
-        descricao: "Você pode usar LÓGICA ao invés de EMPATIA para testes de INSPIRAÇÃO. Você acredita no poder do conhecimento e da razão, e transmite esse senso de controle aos outros."
-      }
-    ],
-
-    "Serviçal": [
-      {
-        nome: "Contato",
-        descricao: "Você tem um contato confiável que pode ajudá-lo com informações, abrigo ou equipamento, dependendo da situação. Decida quem é esse contato e onde ele vive junto com a Mestre de Jogo. Você pode usar o contato uma vez por sessão."
-      },
-      {
-        nome: "Mentiroso Convincente",
-        descricao: "Você recebe +2 nos testes de MANIPULAÇÃO feitos para mentir ou enganar os outros. Você sabe como parecer convincente e pode criar histórias plausíveis rapidamente."
-      },
-      {
-        nome: "Sombra Silenciosa",
-        descricao: "Você pode se mover silenciosamente mesmo em superfícies que normalmente fariam barulho, como pisos rangentes ou folhas secas. Você também recebe +2 nos testes de FURTIVIDADE ao se esconder em ambientes naturais."
-      }
-    ],
-
-    "Veterana": [
-      {
-        nome: "Durona",
-        descricao: "Você pode ignorar uma CONDIÇÃO física negativa uma vez por sessão sem sofrer as penalidades associadas a ela."
-      },
-      {
-        nome: "Foco",
-        descricao: "Uma vez por sessão, você pode repetir um teste de perícia, mesmo que o resultado anterior não tenha sido um fracasso."
-      },
-      {
-        nome: "Intuição",
-        descricao: "Você pode fazer um teste de EMPATIA para perceber se alguém está mentindo para você ou escondendo algo de você. Você precisa observar o alvo por alguns minutos."
-      }
-    ]
-  },
+const talentos = {
+  academica: [
+    {
+      nome: "Rato de Biblioteca",
+      descricao: "Receba +2 em APRENDIZADO quando procurar pistas em livros ou bibliotecas."
+    },
+    {
+      nome: "Erudição",
+      descricao: "Você pode passar em um teste de APRENDIZADO para estabelecer verdades sobre locais e fenômenos no jogo. Você pode saber que um certo local é renomado por seus vidraceiros, ou que uma gangue de criminosos opera na área. A Mestre de Jogo julga o que for apropriado e o que é razoável que você saiba. Você não deve ter permissão de inventar coisas sobre os vaesen."
+    },
+    {
+      nome: "Saber é Reconfortante",
+      descricao: "Ignore Condições ao fazer testes de APRENDIZADO."
+    }
+  ],
+  andarilho: [
+    {
+      nome: "Truques de Mendigos",
+      descricao: "Receba +2 em FURTIVIDADE ao tentar esconder um objeto ou a si mesmo de um humano rico."
+    },
+    {
+      nome: "Desconfiança",
+      descricao: "Ignore condições mentais ao fazer testes de VIGILÂNCIA."
+    },
+    {
+      nome: "Viajado",
+      descricao: "Uma vez por mistério, você pode fazer um teste de MANIPULAÇÃO para criar uma PNJ situada na região, e a quem já tenha encontrado antes. A Mestre de Jogo decide como ela mudou desde que vocês se encontraram e o que ela pensa de você agora. Se o teste falhar, ela ou é hostil ou precisa muito da sua ajuda."
+    }
+  ],
+  caçadora: [
+    {
+      nome: "Cão de Caça",
+      descricao: "Receba +2 em VIGILÂNCIA quando rastrear sua presa."
+    },
+    {
+      nome: "Herbalismo",
+      descricao: "Ao usar ervas selvagens, você pode usar MEDICINA sem ter acesso a suprimentos médicos."
+    },
+    {
+      nome: "Pontaria",
+      descricao: "Receba +2 em COMBATE À DISTÂNCIA na sua primeira rodada quando você conseguir emboscar ou atacar seu inimigo."
+    }
+  ],
+  detetiveParticular: [
+    {
+      nome: "Olhos de Águia",
+      descricao: "Você recebe +2 em VIGILÂNCIA quando tentar interpretar uma situação na qual não tenha envolvimento."
+    },
+    {
+      nome: "Elementar",
+      descricao: "Uma vez por sessão, você pode pedir à Mestre de Jogo para explicar como as pistas estão conectadas."
+    },
+    {
+      nome: "Foco",
+      descricao: "Ignore penalidades de Condições ao fazer testes de INVESTIGAÇÃO."
+    }
+  ],
+  escritora: [
+    {
+      nome: "Escrita Automática",
+      descricao: "Ao canalizar espíritos por meio da escrita automática, você pode usar INSPIRAÇÃO para receber pistas. A Mestre de Jogo fornece pistas mais ou menos vagas, predições sobre o futuro ou revelações momentâneas sobre os pensamentos e experiências dos seus inimigos. Sucessos extras revelam mais pistas. Em uma falha, a Mestre decide se você sofre uma Condição, fica possuída ou passa por uma mudança de personalidade (você decide de que tipo) que dura 1D6 horas. Você pode usar a Escrita Automática uma vez por sessão de jogo."
+    },
+    {
+      nome: "Jornalismo",
+      descricao: "Você pode usar INSPIRAÇÃO em vez de MANIPULAÇÃO ao encantar ou enganar alguém para obter informações."
+    },
+    {
+      nome: "Jeito com as Palavras",
+      descricao: "Ignore penalidades de Condições ao fazer testes de INSPIRAÇÃO."
+    }
+  ],
+  medica: [
+    {
+      nome: "Médica de Campo",
+      descricao: "Receba +2 em testes de Medo quando amedrontada por cadáveres ou corpos humanos feridos."
+    },
+    {
+      nome: "Médica Chefe",
+      descricao: "Quando usar MEDICINA para tratar outras personagens jogadoras, elas podem curar um total de quatro Condições em vez de três. O mesmo se aplica aos sucessos extras."
+    },
+    {
+      nome: "Medicina Emergencial",
+      descricao: "Ignore Condições físicas ao usar Medicina."
+    }
+  ],
+  ocultista: [
+    {
+      nome: "Truques de Mágica",
+      descricao: "Você pode usar FURTIVIDADE em vez de MANIPULAÇÃO ao realizar truques para influenciar as pessoas."
+    },
+    {
+      nome: "Médium",
+      descricao: "Você pode usar OBSERVAÇÃO para realizar séances nos quais você prevê os futuros das pessoas e entra em contato com os mortos. Sucessos extras fornecem mais informações, prolongam o contato ou fazem os espíritos se materializarem. Em uma falha, você recebe informações imprecisas, sofre um ataque ou uma Condição."
+    },
+    {
+      nome: "Amedrontar",
+      descricao: "Você pode amedrontar com Medo 1 (veja a página 68). Isso conta como uma ação lenta e não funciona contra os vaesen. Escolha uma vítima na sua zona. PNJs alvo devem passar em um teste de Lógica ou de Empatia. A rolagem delas recebe um bônus de dados igual ao número de indivíduos amigáveis na mesma zona."
+    }
+  ],
+  oficial: [
+    {
+      nome: "Veterano de Guerra",
+      descricao: "Você está acostumado à batalha. Ao sacar cartas na iniciativa, saque duas cartas e escolha uma delas (veja o capítulo 5)."
+    },
+    {
+      nome: "Cavalheirismo",
+      descricao: "Você recebeu treinamento para ocultar suas emoções e se comportar em situações sociais, mesmo sob pressão. Ignore penalidades de Condições mentais ao fazer testes de MANIPULAÇÃO."
+    },
+    {
+      nome: "Estrategista",
+      descricao: "Quando você passar em um teste de COMBATE A DISTÂNCIA durante o combate e tiver sucessos extras, você pode, além das alternativas normais, dar uma ordem a uma personagem amiga. Fazer isso custa um sucesso. Se ela seguir sua ordem, ela recebe +2 em seu próximo teste (pode ser escolhido múltiplas vezes para dar ordens a pessoas diferentes)."
+    }
+  ],
+  pastor: [
+    {
+      nome: "Perdão",
+      descricao: "As personagens jogadoras que se confessarem a você como uma atividade curam três Condições em vez de duas (veja a página 72)."
+    },
+    {
+      nome: "Bênção",
+      descricao: "Uma vez por sessão, você pode abençoar um objeto ou outra personagem jogadora. A personagem jogadora, ou qualquer um que utilizar o objeto, recebe a Vantagem Abençoada, adicionando +2 a um teste à escolha da pessoa. A Vantagem encerra ao ser usada ou quando o mistério terminar. Você pode abençoar a mesma personagem ou objeto apenas uma vez por mistério."
+    },
+    {
+      nome: "Confissão",
+      descricao: "Você pode usar OBSERVAÇÃO em vez de MANIPULAÇÃO quando tiver uma conversa confidencial."
+    }
+  ],
+  serviçal: [
+    {
+      nome: "Leal",
+      descricao: "Receba +2 em testes de Medo na presença de alguém que você jurou proteger."
+    },
+    {
+      nome: "Forte Como Uma Rocha",
+      descricao: "Receba +2 em FORÇA ao lutar sem armas."
+    },
+    {
+      nome: "Robustez",
+      descricao: "Você pode ignorar penalidades de Condições físicas em uma rolagem por sessão de jogo."
+    }
+  ],
   gerais: [
     {
-      nome: "Aparência Inofensiva",
-      descricao: "Você não é percebido como uma ameaça. Você pode usar EMPATIA em vez de FURTIVIDADE para se esconder ou se aproximar sem ser notado. Em situações sociais, você pode parecer inofensivo até que prove o contrário."
+      nome: "Animal de Estimação",
+      descricao: "Você tem um animal de estimação que pode usar uma vez por sessão para receber +1 em um teste à sua escolha em uma situação na qual seu animal seja claramente útil."
     },
     {
-      nome: "Artesã",
-      descricao: "Você pode construir ou consertar coisas sem ferramentas especializadas, desde que tenha acesso aos materiais necessários. Você recebe +2 em testes relacionados a reparos ou criação de objetos simples, como armadilhas, armas improvisadas ou fechaduras."
+      nome: "Artista da Fuga",
+      descricao: "Ignore penalidades de Condições ao usar AGILIDADE para fugir."
     },
     {
-      nome: "Ataques Múltiplos",
-      descricao: "Uma vez por sessão, você pode realizar dois ataques durante o mesmo turno, sem penalidade. Eles devem ser feitos com a mesma arma ou duas armas de combate corpo a corpo, e devem ter como alvo o mesmo inimigo ou inimigos próximos."
+      nome: "Contatos",
+      descricao: "Uma vez por sessão, você pode decidir que já conhece uma determinada PNJ e que seu relacionamento é positivo. A Mestre de Jogo pode não permitir, caso o contato torne o mistério menos divertido."
     },
     {
-      nome: "Autocontrole",
-      descricao: "Você pode ignorar uma CONDIÇÃO mental negativa uma vez por sessão sem sofrer as penalidades associadas a ela. Isso reflete sua força interior."
+      nome: "Coragem",
+      descricao: "Receba +1 em todos os testes de Medo."
     },
     {
-      nome: "Combate com Duas Armas",
-      descricao: "Você pode lutar com uma arma em cada mão sem penalidades. Você ainda só pode fazer um ataque por turno, a menos que tenha o talento Ataques Múltiplos."
+      nome: "Corrida",
+      descricao: "Receba +2 em AGILIDADE quando tentar ultrapassar alguém em uma corrida ou alcançar em uma perseguição."
+    },
+    {
+      nome: "Covardia",
+      descricao: "Quando ferida em combate, você pode fazer outra personagem jogadora sofrer o dano em seu lugar ao passar em um teste de FURTIVIDADE. Isso não conta como uma ação. Se o teste falhar, você é atingida e sofre 1 dano extra. Isso pode ser feito uma vez por encontro de combate."
+    },
+    {
+      nome: "Dedicação",
+      descricao: "Uma vez por sessão, você pode ignorar as Condições mentais em um teste de perícia."
+    },
+    {
+      nome: "Defensiva",
+      descricao: "A cada rodada, você recebe uma ação extra que pode ser usada apenas para esquivar ou para aparar."
+    },
+    {
+      nome: "Dinamitiosta",
+      descricao: "Recebe +2 em COMBATE A DISTÂNCIA ao usar explosivos."
+    },
+    {
+      nome: "Duas Armas",
+      descricao: "Quando usar duas armas em combate corpo a corpo, você pode usar os sucessos extras para acertar um inimigo adicional na mesma zona. Se você usar mais sucessos para aumentar o dano, você pode escolher qual dos ataques causa mais dano."
     },
     {
       nome: "Empática",
-      descricao: "Você pode usar EMPATIA para entender emoções em vez de lógica. Pode substituir LÓGICA por EMPATIA em jogadas apropriadas."
+      descricao: "Ignore penalidades de Condições ao fazer testes de OBSERVAÇÃO."
     },
     {
-      nome: "Força Sobre-Humana",
-      descricao: "Você pode carregar o dobro de peso normalmente permitido e recebe +1 em testes de FORÇA."
+      nome: "Enganação",
+      descricao: "Receba +2 em MANIPULAÇÃO quando trapacear e enganar."
     },
     {
-      nome: "Língua Adicional",
-      descricao: "Você sabe falar, ler e escrever uma língua adicional à sua escolha. Decida junto com a Mestre de Jogo qual é."
+      nome: "Experiência de Batalha",
+      descricao: "Receba +2 em MEDICINA ao tentar tratar um ferimento crítico físico."
     },
     {
-      nome: "Lutadora",
-      descricao: "Você recebe +1 em testes de COMBATE CORPO A CORPO e pode tentar desarmar sem penalidade."
+      nome: "Fama",
+      descricao: "Receba +2 em MANIPULAÇÃO ao tentar influenciar alguém que ouviu falar sobre você."
     },
     {
-      nome: "Mira Precisa",
-      descricao: "Você ignora penalidades por distância média ao atacar com armas de fogo."
+      nome: "Nove Vidas",
+      descricao: "Ao rolar um ferimento crítico, você pode decidir qual dos dados representa as dezenas e qual representa as unidades."
     },
     {
-      nome: "Motivação Clara",
-      descricao: "Se agir de forma condizente com sua Motivação, pode recuperar uma condição física ou mental uma vez por sessão."
+      nome: "O Pastor do Senhor",
+      descricao: "Receba +2 ao usar INSPIRAÇÃO para tratar um ferimento crítico mental."
     },
     {
-      nome: "Oratória",
-      descricao: "Você recebe +2 em testes de INSPIRAÇÃO feitos para públicos grandes, como discursos, sermões ou declarações públicas."
+      nome: "Pés Ligeiros",
+      descricao: "Durante o combate, você pode se mover dentro da sua zona sem usar ações."
+    },
+    {
+      nome: "Pugilismo",
+      descricao: "Cause 1 dano extra ao lutar sem armas."
+    },
+    {
+      nome: "Reflexos Rápidos",
+      descricao: "Você pode sacar armas sem usar uma ação."
+    },
+    {
+      nome: "Riqueza",
+      descricao: "Aumente Recursos em 1 (pode ser comprado várias vezes)."
+    },
+    {
+      nome: "Segurança nos Números",
+      descricao: "Receba +2 em testes de Medo quando estiver acompanhada por ao menos duas outras personagens jogadoras. Em um combate, isso se aplica somente se vocês estiverem na mesma zona."
+    },
+    {
+      nome: "Sexto Sentido",
+      descricao: "Ao fazer testes de INVESTIGAÇÃO, você pode gastar sucessos extras para descobrir se um vaesen esteve na área, obter impressões mais ou menos vagas do tipo de vaesen que é e descobrir se magia foi utilizada."
+    },
+    {
+      nome: "Símbolo Sagrado",
+      descricao: "Você tem um item religioso que lhe permite usar INSPIRAÇÃO para atacar vaesen em combate corpo a corpo, causando 1 dano."
+    },
+    {
+      nome: "Treinamento de Combate",
+      descricao: "Receba +2 em COMBATE CORPO A CORPO e FORÇA ao aparar golpes."
     }
   ]
 };
+
+export default talentos;
