@@ -99,9 +99,9 @@
 
                         <div class="form-row">
                             <div class="form-field">
-                                <label for="status">Estado do Personagem</label>
+                                <label for="status">Condições do Personagem</label>
                                 <button type="button" id="statusBtn" class="selector-btn">
-                                    <span id="statusText">Gerenciar Estado</span>
+                                    <span id="statusText">Gerenciar Condições</span>
                                     <span class="dropdown-arrow">▼</span>
                                 </button>
                             </div>
@@ -414,26 +414,19 @@
     <div id="statusModal" class="modal status-modal">
         <div class="modal-content status-modal-content">
             <span class="close">&times;</span>
-            <h3>Estado do Personagem</h3>
+            <h3>Condições do Personagem</h3>
             <div class="status-grid">
                 <div class="condition-group aged-paper">
                     <h4>Condição Física</h4>
                     <div class="condition-boxes">
                         <button type="button" class="condition-btn physical" data-condition="physical" data-index="0">
-                            <span class="condition-name">Ferido</span>
-                            <em class="condition-description">Pequenos ferimentos e contusões</em>
+                            <span class="condition-name">Abatida</span>
                         </button>
                         <button type="button" class="condition-btn physical" data-condition="physical" data-index="1">
-                            <span class="condition-name">Gravemente Ferido</span>
-                            <em class="condition-description">Ferimentos sérios que limitam ações</em>
+                            <span class="condition-name">Exausta</span>
                         </button>
                         <button type="button" class="condition-btn physical" data-condition="physical" data-index="2">
-                            <span class="condition-name">Incapacitado</span>
-                            <em class="condition-description">Mal consegue se mover</em>
-                        </button>
-                        <button type="button" class="condition-btn physical" data-condition="physical" data-index="3">
-                            <span class="condition-name">Morrendo</span>
-                            <em class="condition-description">À beira da morte</em>
+                            <span class="condition-name">Ferida</span>
                         </button>
                     </div>
                 </div>
@@ -441,20 +434,13 @@
                     <h4>Condição Mental</h4>
                     <div class="condition-boxes">
                         <button type="button" class="condition-btn mental" data-condition="mental" data-index="0">
-                            <span class="condition-name">Perturbado</span>
-                            <em class="condition-description">Ligeiramente abalado</em>
+                            <span class="condition-name">Amedrontada</span>
                         </button>
                         <button type="button" class="condition-btn mental" data-condition="mental" data-index="1">
-                            <span class="condition-name">Assombrado</span>
-                            <em class="condition-description">Visões e pesadelos persistem</em>
+                            <span class="condition-name">Apática</span>
                         </button>
                         <button type="button" class="condition-btn mental" data-condition="mental" data-index="2">
-                            <span class="condition-name">Demente</span>
-                            <em class="condition-description">Perdendo contato com a realidade</em>
-                        </button>
-                        <button type="button" class="condition-btn mental" data-condition="mental" data-index="3">
-                            <span class="condition-name">Insano</span>
-                            <em class="condition-description">Mente completamente fragmentada</em>
+                            <span class="condition-name">Furiosa</span>
                         </button>
                     </div>
                 </div>
@@ -714,3 +700,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
