@@ -2389,16 +2389,14 @@ class VaesenCharacterSheet {
         // Definir as condições e suas abreviações
         const conditions = {
             physical: [
-                { name: 'Ferido', abbrev: 'FER', description: 'Pequenos ferimentos e contusões' },
-                { name: 'Gravemente Ferido', abbrev: 'GRV', description: 'Ferimentos sérios que limitam ações' },
-                { name: 'Incapacitado', abbrev: 'INC', description: 'Mal consegue se mover' },
-                { name: 'Morrendo', abbrev: 'MOR', description: 'À beira da morte' }
+                { name: 'Abatida' },
+                { name: 'Exausta' },
+                { name: 'Ferida' }
             ],
             mental: [
-                { name: 'Perturbado', abbrev: 'PER', description: 'Ligeiramente abalado' },
-                { name: 'Assombrado', abbrev: 'ASS', description: 'Visões e pesadelos persistem' },
-                { name: 'Demente', abbrev: 'DEM', description: 'Perdendo contato com a realidade' },
-                { name: 'Insano', abbrev: 'INS', description: 'Mente completamente fragmentada' }
+                { name: 'Amedrontada' },
+                { name: 'Apática' },
+                { name: 'Furiosa' }
             ]
         };
 
@@ -2414,7 +2412,6 @@ class VaesenCharacterSheet {
                     balloon.innerHTML = `
                         <div class="balloon-content">
                             <div class="balloon-title">${condition.name}</div>
-                            <div class="balloon-description">${condition.description}</div>
                         </div>
                     `;
                     
@@ -2694,6 +2691,7 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
 
 
 
