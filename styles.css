@@ -2001,25 +2001,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     flex: 1;
 }
 
-.talent-badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-left: 0.5rem;
-}
-
-.talent-badge.general {
-    background: var(--accent-gold);
-    color: var(--bg-main);
-}
-
-.talent-badge.archetype {
-    background: var(--navbar-blue);
-    color: var(--text-main);
-}
-
 .talent-description {
     color: var(--text-main);
     font-size: 0.9rem;
@@ -4145,3 +4126,4 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
         font-size: 2.5rem;
     }
 }
+
