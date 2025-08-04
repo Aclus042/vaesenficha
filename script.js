@@ -183,45 +183,45 @@ class VaesenCharacterSheet {
 
     getSouvenirTable() {
         return {
-            11: 'Uma moeda antiga e desgasta',
-            12: 'Um pequeno espelho de mão ornamentado',
-            13: 'Uma chave sem fechadura conhecida',
-            14: 'Um relógio de bolso parado',
-            15: 'Uma fotografia desbotada de pessoas desconhecidas',
-            16: 'Um frasco vazio com aroma persistente',
-            21: 'Um anel com inscrições estranhas',
-            22: 'Um mapa incompleto de lugar desconhecido',
-            23: 'Uma boneca de porcelana rachada',
-            24: 'Um livro em idioma desconhecido',
-            25: 'Uma caixinha de música quebrada',
-            26: 'Um amuleto de material não identificado',
-            31: 'Uma carta de amor não enviada',
-            32: 'Um desenho infantil perturbador',
-            33: 'Um pedaço de tecido bordado',
-            34: 'Uma pequena estatueta de animal',
-            35: 'Um diário com páginas em branco',
-            36: 'Uma colher de prata manchada',
-            41: 'Um sino que não produz som',
-            42: 'Uma lente de aumento com arranhões',
-            43: 'Um pente de marfim partido',
-            44: 'Uma miniatura de casa desconhecida',
-            45: 'Um cordão com pingente misterioso',
-            46: 'Uma pedra polida com formato estranho',
-            51: 'Um dedal de metal escurecido',
-            52: 'Uma partitura de música inquietante',
-            53: 'Um vidro com líquido colorido',
-            54: 'Uma agulha de costura muito fina',
-            55: 'Um botão de madeira entalhada',
-            56: 'Uma folha seca perfeitamente preservada',
-            61: 'Um cristal de cor cambiante',
-            62: 'Uma miniatura de navio em garrafa',
-            63: 'Um marcador de livro ornamentado',
-            64: 'Uma pequena caixa que não abre',
-            65: 'Um lenço com bordado complexo',
-            66: 'Um objeto que muda quando não observado'
-        };
-    }
-
+            11: "Rosa vermelha seca",
+            12: "Foto de alguém próximo",
+            13: "Anel de selo com compartimento secreto",
+            14: "A bengala do seu pai",
+            15: "Chapéu com compartimento secreto",
+            16: "Livro em um idioma estrangeiro",
+            21: "Cantil de bolso com inscrição",
+            22: "Velha carta de amor",
+            23: "Um gato desgrenhado",
+            24: "Um crânio de macaco",
+            25: "Nota promissória manchada de sangue",
+            26: "Jóias de ouro usadas pela sua mãe",
+            31: "Cruz de prata em uma correntinha",
+            32: "Uma linda flauta passada de geração em geração",
+            33: "Diário (seu ou de outra pessoa)",
+            34: "Jornal de uma data que significa algo para você",
+            35: "Boneca esfarrapada",
+            36: "Pombo treinado",
+            41: "Livro de romance gasto com dedicatória",
+            42: "Projeto para uma tumba familiar",
+            43: "Mapa com anotações na margem",
+            44: "Estranho animal preservado em um jarro de vidro",
+            45: "Caixinha de música da sua infância",
+            46: "Pedra do sol (mineral lapidado)",
+            51: "Pequena garrafa de perfume que lembra alguém",
+            52: "Hinário passado de geração em geração",
+            53: "Relógio de bolso com uma foto no interior",
+            54: "Testamento sem assinatura",
+            55: "Caixa dourada de uma terra distante",
+            56: "Partitura musical de um mestre esquecido",
+            61: "Embalagem de pó compacto com pílulas para dormir",
+            62: "Um belo cachimbo ornamentado",
+            63: "Pé de coelho ou algum outro amuleto da sorte",
+            64: "Seringa e agulha em uma caixa",
+            65: "Dados gastos de ossos",
+            66: "Um manuscrito passado de geração em geração"
+          };
+        }
+    
     getResourceData() {
         return {
             1: 'Indigente - Vive na miséria, sem posses ou lar fixo. Depende da caridade alheia.',
@@ -2728,3 +2728,4 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
