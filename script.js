@@ -893,7 +893,6 @@ class VaesenCharacterSheet {
         card.innerHTML = `
             <div class="talent-card-header">
                 <div class="talent-name">${talento.nome}</div>
-                ${categoryType === 'geral' ? '<div class="talent-badge general">Geral</div>' : `<div class="talent-badge archetype">${categoryName}</div>`}
             </div>
             <div class="talent-description">${talento.descricao}</div>
             ${!isValidTalent ? `<div class="talent-validation-warning">${validationMessage}</div>` : ''}
@@ -2691,6 +2690,7 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
 
 
 
