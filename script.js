@@ -189,17 +189,17 @@ class VaesenCharacterSheet {
         }
     
     getResourceData() {
-        return {
-            1: 'Indigente - Vive na miséria, sem posses ou lar fixo. Depende da caridade alheia.',
-            2: 'Pobre - Possui o mínimo para sobreviver. Moradia precária, roupas remendadas.',
-            3: 'Classe Baixa - Trabalhador comum. Casa simples, alimentação básica garantida.',
-            4: 'Classe Média Baixa - Emprego estável. Casa própria pequena, algumas economias.',
-            5: 'Classe Média - Vida confortável. Casa bem mobiliada, pode viajar ocasionalmente.',
-            6: 'Classe Média Alta - Próspero profissional. Casa grande, empregados, luxos moderados.',
-            7: 'Rico - Pessoa abastada. Mansão, vários empregados, investimentos substanciais.',
-            8: 'Muito Rico - Extremamente rico. Múltiplas propriedades, influência política e social.'
-        };
-    }
+    return {
+        1: 'MISERÁVEL - Você é completamente dependente dos outros para a sua sobrevivência. Todo dia é uma luta por comida e você tem poucos pertences, se é que tem algum. Isso pode ter feito você contrair doenças, passar fome ou se voltar para as drogas ou álcool como alívio.',
+        2: 'POBRE - Você vive com simplicidade. Na maior parte dos dias há comida na mesa, mas sempre é insuficiente. Se você tiver filhos, eles são forçados a passar dificuldades. Você pode possuir uma muda de roupas e algumas poucas posses. Perder renda seria desastroso para você e a sua família.',
+        3: 'PASSANDO DIFICULDADE - Você tem um lar humilde e uma renda fixa. Você não tem dinheiro para economizar, mas consegue vestir a sua família para ocasiões especiais e os seus filhos têm algum acesso à educação, pelo menos por alguns anos.',
+        4: 'FINANCEIRAMENTE ESTÁVEL - Você tem uma casa própria e um emprego que lhe dá uma renda estável. Você provavelmente tem um pouco de dinheiro guardado. Ocasionalmente, você pode se dar o luxo de alguns doces, uma viagem ou um objeto bonito. Em tempos de crise, há pessoas que lhe emprestam dinheiro.',
+        5: 'CLASSE MÉDIA - Você tem um lar e um negócio. Você pode ter um ou vários empregados e sabe como investir para o futuro. Você tem dinheiro economizado e acesso a empréstimos. Você e sua família estão vivendo bem.',
+        6: 'BEM DE VIDA - Você tem uma casa ou apartamento grande. Você provavelmente tem múltiplas fontes de renda e vários empregados. Você não pensa no dinheiro como um recurso escasso, mas como um jogo para aumentar o seu capital e influência. Você anda em boa companhia e tem pouco contato com os pobres. A sua família pode sair de férias e você pode pagar por todas as inovações mais recentes.',
+        7: 'RICO - Você tem grandes fortunas em dinheiro herdado e propriedades. Você provavelmente possui várias propriedades, emprega muitos serviçais e tem diversas fontes de renda. Há poucas coisas pelas quais você não pode pagar. Você tem boas conexões com as elites da cidade e do país, e tem boas relações com oficiais experientes, políticos e nobres. O único momento em que você vê pessoas pobres é ao olhar pela janela da sua carruagem.',
+        8: 'PODRE DE RICO - Você é uma das pessoas mais ricas no país e tem contato direto com seus governantes. Você possui um ou vários castelos ou mansões. Para você, não existe isso de “caro demais”. Você pode aproveitar extravagâncias luxuosas sem jamais se preocupar com o custo.'
+    };
+}
 
     setupEventListeners() {
         // Character image
@@ -2691,6 +2691,7 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
 
 
 
