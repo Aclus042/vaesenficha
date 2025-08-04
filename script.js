@@ -118,56 +118,25 @@ class VaesenCharacterSheet {
 
     getAgeData() {
         return {
-            crianca: {
-                name: 'Criança',
-                range: '6-12 anos',
-                attributePoints: 14,
-                skillPoints: 8,
-                description: 'Crianças são curiosas e corajosas, mas também vulneráveis. Começam com menos pontos mas podem se desenvolver rapidamente.',
-                characteristics: [
-                    'Curiosidade natural e coragem inesperada',
-                    'Menor força física, mas maior agilidade mental',
-                    'Capacidade de ver coisas que adultos ignoram',
-                    'Desenvolvimento rápido de habilidades'
-                ]
-            },
-            adolescente: {
-                name: 'Adolescente',
-                range: '13-19 anos',
+            jovem: {
+                name: 'Jovem',
+                range: '17-25 anos',
                 attributePoints: 15,
-                skillPoints: 12,
-                description: 'Adolescentes estão descobrindo o mundo e si mesmos. Têm energia e determinação, mas podem ser impulsivos.',
-                characteristics: [
-                    'Energia abundante e determinação forte',
-                    'Tendência à impulsividade e rebeldia',
-                    'Rápida adaptação a novas situações',
-                    'Formação da identidade pessoal'
+                skillPoints: 10
                 ]
             },
             adulto: {
-                name: 'Adulto',
-                range: '20-49 anos',
-                attributePoints: 16,
-                skillPoints: 20,
-                description: 'Adultos são experientes e equilibrados. Têm a maior quantidade de pontos para distribuir.',
-                characteristics: [
-                    'Experiência balanceada em todas as áreas',
-                    'Maior quantidade de pontos disponíveis',
-                    'Estabilidade emocional e mental',
-                    'Pico da capacidade física e intelectual'
+                name: 'Meia-Idade',
+                range: '26-50 anos',
+                attributePoints: 14,
+                skillPoints: 12
                 ]
             },
             idoso: {
                 name: 'Idoso',
-                range: '50+ anos',
-                attributePoints: 15,
-                skillPoints: 25,
-                description: 'Idosos têm muita experiência e sabedoria, mas podem ter limitações físicas. Muitos pontos de perícia.',
-                characteristics: [
-                    'Vasta experiência de vida e sabedoria',
-                    'Maior quantidade de pontos de perícia',
-                    'Possíveis limitações físicas',
-                    'Compreensão profunda da natureza humana'
+                range: '51+ anos',
+                attributePoints: 13,
+                skillPoints: 14
                 ]
             }
         };
@@ -2728,4 +2697,5 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
 
