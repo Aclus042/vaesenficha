@@ -14,7 +14,9 @@
         <!-- Navbar fixa no topo -->
         <nav class="navbar">
             <div class="navbar-left">
-                <!-- Futuros botões serão adicionados aqui -->
+                <button id="identidadeBtn" class="navbar-page-btn active" data-page="identidade">Identidade</button>
+                <button id="basicasBtn" class="navbar-page-btn" data-page="basicas">Básicas</button>
+                <button id="equipamentosBtn" class="navbar-page-btn" data-page="equipamentos">Equipamentos</button>
             </div>
             <div class="navbar-center">
                 <span class="navbar-title">VAESEN</span>
@@ -25,285 +27,340 @@
             </div>
         </nav>
 
-        <!-- Informações Básicas -->
-        <section class="basic-info">
-            <div class="section-ornament">❦ ❦ ❦</div>
-            
-            <div class="character-identity">
-                <div class="character-left">
-                    <div class="image-placeholder" id="characterImageArea">
-                        <div class="image-icon"></div>
-                        <div class="image-text">CLIQUE PARA ADICIONAR IMAGEM</div>
-                        <div class="image-subtitle">Recorte disponível</div>
-                    </div>
-                    <input type="file" id="characterImageInput" accept="image/*" style="display: none;">
-                    
-                    <div class="character-stats">
-                        <div class="stats-row">
-                            <div class="level-section">
-                                <label>Nível</label>
-                                <div class="level-circle">
-                                    <span id="characterLevelDisplay">1</span>
+        <!-- Páginas do Sistema -->
+        
+        <!-- Página Identidade -->
+        <div id="identidadePage" class="page-content active">
+            <!-- Informações Básicas -->
+            <section class="basic-info">
+                <div class="section-ornament">❦ ❦ ❦</div>
+                
+                <div class="character-identity">
+                    <div class="character-left">
+                        <div class="image-placeholder" id="characterImageArea">
+                            <div class="image-icon"></div>
+                            <div class="image-text">CLIQUE PARA ADICIONAR IMAGEM</div>
+                            <div class="image-subtitle">Recorte disponível</div>
+                        </div>
+                        <input type="file" id="characterImageInput" accept="image/*" style="display: none;">
+                        
+                        <div class="character-stats">
+                            <div class="stats-row">
+                                <div class="level-section">
+                                    <label>Nível</label>
+                                    <div class="level-circle">
+                                        <span id="characterLevelDisplay">1</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="xp-section">
+                                    <label>Experiência</label>
+                                    <div class="xp-container">
+                                        <button type="button" class="xp-btn xp-minus" data-action="subtract">−</button>
+                                        <div class="xp-display">
+                                            <span class="xp-current" id="xpCurrent">0</span>
+                                        </div>
+                                        <button type="button" class="xp-btn xp-plus" data-action="add">+</button>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="xp-section">
-                                <label>Experiência</label>
-                                <div class="xp-container">
-                                    <button type="button" class="xp-btn xp-minus" data-action="subtract">−</button>
-                                    <div class="xp-display">
-                                        <span class="xp-current" id="xpCurrent">0</span>
-                                    </div>
-                                    <button type="button" class="xp-btn xp-plus" data-action="add">+</button>
-                                </div>
+                            <input type="hidden" id="characterXP" name="characterXP" value="0">
+                            <input type="hidden" id="characterLevel" name="characterLevel" value="1">
+                        </div>
+                    </div>
+                    
+                    <div class="character-right">
+                        <div class="form-row">
+                            <div class="form-field full-width">
+                                <label for="characterName">Nome do Personagem</label>
+                                <input type="text" id="characterName" name="characterName" placeholder="Digite o nome do personagem">
                             </div>
                         </div>
                         
-                        <input type="hidden" id="characterXP" name="characterXP" value="0">
-                        <input type="hidden" id="characterLevel" name="characterLevel" value="1">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="archetype">Arquétipo</label>
+                                <button type="button" id="archetypeBtn" class="selector-btn">
+                                    <span id="archetypeText">Escolha seu arquétipo</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                                <input type="hidden" id="archetype" name="archetype" value="">
+                            </div>
+                            <div class="form-field">
+                                <label for="age">Idade & Experiência</label>
+                                <button type="button" id="ageBtn" class="selector-btn">
+                                    <span id="ageText">Selecione a idade</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                                <input type="hidden" id="age" name="age" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="status">Estado do Personagem</label>
+                                <button type="button" id="statusBtn" class="selector-btn">
+                                    <span id="statusText">Gerenciar Estado</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                            </div>
+                            <div class="form-field">
+                                <label for="resources">Recursos</label>
+                                <button type="button" id="resourceBtn" class="selector-btn">
+                                    <span id="resourceText">3 - Classe Baixa</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                                <input type="hidden" id="resourceLevel" name="resourceLevel" value="3">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field full-width">
+                                <label for="souvenir">Souvenir Místico</label>
+                                <button type="button" id="souvenirBtn" class="selector-btn">
+                                    <span id="souvenirText">Nenhum souvenir definido</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="character-right">
+            </section>
+
+            <!-- Descrição -->
+            <section class="description">
+                <h3>Descrição do Personagem</h3>
+                <div class="description-grid">
                     <div class="form-row">
-                        <div class="form-field full-width">
-                            <label for="characterName">Nome do Personagem</label>
-                            <input type="text" id="characterName" name="characterName" placeholder="Digite o nome do personagem">
+                        <div class="form-field">
+                            <label for="appearance">Aparência</label>
+                            <textarea id="appearance" name="appearance" rows="3" placeholder="Descreva a aparência física do seu personagem"></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="motivation">Motivação</label>
+                            <textarea id="motivation" name="motivation" rows="3" placeholder="O que move seu personagem"></textarea>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-field">
-                            <label for="archetype">Arquétipo</label>
-                            <button type="button" id="archetypeBtn" class="selector-btn">
-                                <span id="archetypeText">Escolha seu arquétipo</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </button>
-                            <input type="hidden" id="archetype" name="archetype" value="">
+                            <label for="trauma">Trauma</label>
+                            <textarea id="trauma" name="trauma" rows="3" placeholder="Experiência traumática"></textarea>
                         </div>
                         <div class="form-field">
-                            <label for="age">Idade & Experiência</label>
-                            <button type="button" id="ageBtn" class="selector-btn">
-                                <span id="ageText">Selecione a idade</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </button>
-                            <input type="hidden" id="age" name="age" value="">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label for="status">Estado do Personagem</label>
-                            <button type="button" id="statusBtn" class="selector-btn">
-                                <span id="statusText">Gerenciar Estado</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </button>
-                        </div>
-                        <div class="form-field">
-                            <label for="resources">Recursos</label>
-                            <button type="button" id="resourceBtn" class="selector-btn">
-                                <span id="resourceText">3 - Classe Baixa</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </button>
-                            <input type="hidden" id="resourceLevel" name="resourceLevel" value="3">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-field full-width">
-                            <label for="souvenir">Souvenir Místico</label>
-                            <button type="button" id="souvenirBtn" class="selector-btn">
-                                <span id="souvenirText">Nenhum souvenir definido</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </button>
+                            <label for="darkSecret">Segredo Sombrio</label>
+                            <textarea id="darkSecret" name="darkSecret" rows="3" placeholder="Algo que você esconde dos outros"></textarea>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Atributos e Perícias -->
-        <section class="attributes-skills">
-            <h3>Atributos e Perícias</h3>
-            <div class="attributes-grid">
-                <div class="attribute-group">
-                    <label for="fisico">Físico</label>
-                    <div class="attribute-input-container">
-                        <button type="button" class="attribute-btn attribute-minus" data-attr="fisico">−</button>
-                        <input type="number" id="fisico" name="fisico" min="2" max="99" value="2" readonly>
-                        <button type="button" class="attribute-btn attribute-plus" data-attr="fisico">+</button>
+                <!-- Relacionamentos -->
+                <div class="relationships-subsection">
+                    <h4>Relacionamentos</h4>
+                    <div id="relationshipsContainer" class="relationships-grid">
+                        <div class="relationship-item">
+                            <input type="text" placeholder="Nome do PJ" class="relationship-name">
+                            <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
+                            <button class="remove-relationship">×</button>
+                        </div>
+                        <div class="relationship-item">
+                            <input type="text" placeholder="Nome do PJ" class="relationship-name">
+                            <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
+                            <button class="remove-relationship">×</button>
+                        </div>
+                    </div>
+                    <button id="addRelationship" class="add-btn">+ Adicionar Relacionamento</button>
+                </div>
+                <div class="ornate-divider">❦ ❦ ❦</div>
+            </section>
+        </div>
+
+        <!-- Página Básicas -->
+        <div id="basicasPage" class="page-content">
+            <!-- Atributos e Perícias -->
+            <section class="attributes-skills">
+                <h3>Atributos e Perícias</h3>
+                <div class="attributes-grid">
+                    <div class="attribute-group">
+                        <label for="fisico">Físico</label>
+                        <div class="attribute-input-container">
+                            <button type="button" class="attribute-btn attribute-minus" data-attr="fisico">−</button>
+                            <input type="number" id="fisico" name="fisico" min="2" max="99" value="2" readonly>
+                            <button type="button" class="attribute-btn attribute-plus" data-attr="fisico">+</button>
+                        </div>
+                        
+                        <!-- Dropdown de Perícias do Físico -->
+                        <div class="skills-dropdown">
+                            <div class="skill-item">
+                                <label for="agilidade">Agilidade</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="agilidade">−</button>
+                                    <input type="number" id="agilidade" name="agilidade" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="agilidade">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="combateCorpoACorpo">Combate Corpo a Corpo</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="combateCorpoACorpo">−</button>
+                                    <input type="number" id="combateCorpoACorpo" name="combateCorpoACorpo" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="combateCorpoACorpo">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="forca">Força</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="forca">−</button>
+                                    <input type="number" id="forca" name="forca" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="forca">+</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- Dropdown de Perícias do Físico -->
-                    <div class="skills-dropdown">
-                        <div class="skill-item">
-                            <label for="agilidade">Agilidade</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="agilidade">−</button>
-                                <input type="number" id="agilidade" name="agilidade" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="agilidade">+</button>
+                    <div class="attribute-group">
+                        <label for="precisao">Precisão</label>
+                        <div class="attribute-input-container">
+                            <button type="button" class="attribute-btn attribute-minus" data-attr="precisao">−</button>
+                            <input type="number" id="precisao" name="precisao" min="2" max="99" value="2" readonly>
+                            <button type="button" class="attribute-btn attribute-plus" data-attr="precisao">+</button>
+                        </div>
+                        
+                        <!-- Dropdown de Perícias de Precisão -->
+                        <div class="skills-dropdown">
+                            <div class="skill-item">
+                                <label for="combateADistancia">Combate à Distância</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="combateADistancia">−</button>
+                                    <input type="number" id="combateADistancia" name="combateADistancia" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="combateADistancia">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="furtividade">Furtividade</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="furtividade">−</button>
+                                    <input type="number" id="furtividade" name="furtividade" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="furtividade">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="medicina">Medicina</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="medicina">−</button>
+                                    <input type="number" id="medicina" name="medicina" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="medicina">+</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <label for="combateCorpoACorpo">Combate Corpo a Corpo</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="combateCorpoACorpo">−</button>
-                                <input type="number" id="combateCorpoACorpo" name="combateCorpoACorpo" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="combateCorpoACorpo">+</button>
+                    </div>
+                    
+                    <div class="attribute-group">
+                        <label for="logica">Lógica</label>
+                        <div class="attribute-input-container">
+                            <button type="button" class="attribute-btn attribute-minus" data-attr="logica">−</button>
+                            <input type="number" id="logica" name="logica" min="2" max="99" value="2" readonly>
+                            <button type="button" class="attribute-btn attribute-plus" data-attr="logica">+</button>
+                        </div>
+                        
+                        <!-- Dropdown de Perícias de Lógica -->
+                        <div class="skills-dropdown">
+                            <div class="skill-item">
+                                <label for="aprendizado">Aprendizado</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="aprendizado">−</button>
+                                    <input type="number" id="aprendizado" name="aprendizado" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="aprendizado">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="investigacao">Investigação</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="investigacao">−</button>
+                                    <input type="number" id="investigacao" name="investigacao" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="investigacao">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="vigilancia">Vigilância</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="vigilancia">−</button>
+                                    <input type="number" id="vigilancia" name="vigilancia" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="vigilancia">+</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <label for="forca">Força</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="forca">−</button>
-                                <input type="number" id="forca" name="forca" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="forca">+</button>
+                    </div>
+                    
+                    <div class="attribute-group">
+                        <label for="empatia">Empatia</label>
+                        <div class="attribute-input-container">
+                            <button type="button" class="attribute-btn attribute-minus" data-attr="empatia">−</button>
+                            <input type="number" id="empatia" name="empatia" min="2" max="99" value="2" readonly>
+                            <button type="button" class="attribute-btn attribute-plus" data-attr="empatia">+</button>
+                        </div>
+                        
+                        <!-- Dropdown de Perícias de Empatia -->
+                        <div class="skills-dropdown">
+                            <div class="skill-item">
+                                <label for="inspiracao">Inspiração</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="inspiracao">−</button>
+                                    <input type="number" id="inspiracao" name="inspiracao" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="inspiracao">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="manipulacao">Manipulação</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="manipulacao">−</button>
+                                    <input type="number" id="manipulacao" name="manipulacao" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="manipulacao">+</button>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <label for="observacao">Observação</label>
+                                <div class="skill-input-container">
+                                    <button type="button" class="skill-btn skill-minus" data-skill="observacao">−</button>
+                                    <input type="number" id="observacao" name="observacao" min="0" max="99" value="0" readonly>
+                                    <button type="button" class="skill-btn skill-plus" data-skill="observacao">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="attribute-group">
-                    <label for="precisao">Precisão</label>
-                    <div class="attribute-input-container">
-                        <button type="button" class="attribute-btn attribute-minus" data-attr="precisao">−</button>
-                        <input type="number" id="precisao" name="precisao" min="2" max="99" value="2" readonly>
-                        <button type="button" class="attribute-btn attribute-plus" data-attr="precisao">+</button>
-                    </div>
-                    
-                    <!-- Dropdown de Perícias de Precisão -->
-                    <div class="skills-dropdown">
-                        <div class="skill-item">
-                            <label for="combateADistancia">Combate à Distância</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="combateADistancia">−</button>
-                                <input type="number" id="combateADistancia" name="combateADistancia" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="combateADistancia">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="furtividade">Furtividade</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="furtividade">−</button>
-                                <input type="number" id="furtividade" name="furtividade" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="furtividade">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="medicina">Medicina</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="medicina">−</button>
-                                <input type="number" id="medicina" name="medicina" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="medicina">+</button>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Contadores lado a lado -->
+                <div class="points-counters">
+                    <span id="attributePoints" class="points-counter">Atributos usados: 8</span>
+                    <span id="skillPoints" class="points-counter">Perícias usadas: 0</span>
                 </div>
-                
-                <div class="attribute-group">
-                    <label for="logica">Lógica</label>
-                    <div class="attribute-input-container">
-                        <button type="button" class="attribute-btn attribute-minus" data-attr="logica">−</button>
-                        <input type="number" id="logica" name="logica" min="2" max="99" value="2" readonly>
-                        <button type="button" class="attribute-btn attribute-plus" data-attr="logica">+</button>
-                    </div>
-                    
-                    <!-- Dropdown de Perícias de Lógica -->
-                    <div class="skills-dropdown">
-                        <div class="skill-item">
-                            <label for="aprendizado">Aprendizado</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="aprendizado">−</button>
-                                <input type="number" id="aprendizado" name="aprendizado" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="aprendizado">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="investigacao">Investigação</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="investigacao">−</button>
-                                <input type="number" id="investigacao" name="investigacao" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="investigacao">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="vigilancia">Vigilância</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="vigilancia">−</button>
-                                <input type="number" id="vigilancia" name="vigilancia" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="vigilancia">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="attribute-group">
-                    <label for="empatia">Empatia</label>
-                    <div class="attribute-input-container">
-                        <button type="button" class="attribute-btn attribute-minus" data-attr="empatia">−</button>
-                        <input type="number" id="empatia" name="empatia" min="2" max="99" value="2" readonly>
-                        <button type="button" class="attribute-btn attribute-plus" data-attr="empatia">+</button>
-                    </div>
-                    
-                    <!-- Dropdown de Perícias de Empatia -->
-                    <div class="skills-dropdown">
-                        <div class="skill-item">
-                            <label for="inspiracao">Inspiração</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="inspiracao">−</button>
-                                <input type="number" id="inspiracao" name="inspiracao" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="inspiracao">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="manipulacao">Manipulação</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="manipulacao">−</button>
-                                <input type="number" id="manipulacao" name="manipulacao" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="manipulacao">+</button>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <label for="observacao">Observação</label>
-                            <div class="skill-input-container">
-                                <button type="button" class="skill-btn skill-minus" data-skill="observacao">−</button>
-                                <input type="number" id="observacao" name="observacao" min="0" max="99" value="0" readonly>
-                                <button type="button" class="skill-btn skill-plus" data-skill="observacao">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contadores lado a lado -->
-            <div class="points-counters">
-                <span id="attributePoints" class="points-counter">Atributos usados: 8</span>
-                <span id="skillPoints" class="points-counter">Perícias usadas: 0</span>
-            </div>
-        </section>
+            </section>
 
-        <!-- Talentos -->
-        <section class="talents">
-            <h3>Talentos</h3>
-            <div id="talentsContainer" class="talents-grid">
-                <!-- Talentos serão gerados dinamicamente pelo JavaScript -->
-            </div>
-            <button id="addCustomTalent" class="add-btn">+ Adicionar Slot de Talento</button>
-        </section>
+            <!-- Talentos -->
+            <section class="talents">
+                <h3>Talentos</h3>
+                <div id="talentsContainer" class="talents-grid">
+                    <!-- Talentos serão gerados dinamicamente pelo JavaScript -->
+                </div>
+                <button id="addCustomTalent" class="add-btn">+ Adicionar Slot de Talento</button>
+            </section>
+        </div>
 
-        <!-- Equipamentos -->
-        <section class="equipment">
-            <h3>Equipamentos & Posses</h3>
-            <p class="section-description">Gerencie suas armas, proteções e equipamentos. Clique nos itens para ver detalhes completos.</p>
-            <div class="equipment-grid">
-                <div class="equipment-category">
-                    <div class="equipment-dropdown" data-category="armas">
-                        <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">Armas</span>
-                            <span class="dropdown-arrow">▼</span>
+        <!-- Página Equipamentos -->
+        <div id="equipamentosPage" class="page-content">
+            <!-- Equipamentos -->
+            <section class="equipment">
+                <h3>Equipamentos & Posses</h3>
+                <p class="section-description">Gerencie suas armas, proteções e equipamentos. Clique nos itens para ver detalhes completos.</p>
+                <div class="equipment-grid">
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Armas</h4>
                         </div>
-                        <div class="equipment-dropdown-content">
-                            <div id="armasContainer" class="equipment-items">
+                        <div class="equipment-items-open">
+                            <div id="armasContainer" class="equipment-items-list">
                                 <!-- Armas serão geradas dinamicamente -->
                             </div>
                             <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showEquipmentModal('armas')">
@@ -311,16 +368,13 @@
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="equipment-category">
-                    <div class="equipment-dropdown" data-category="protecoes">
-                        <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">Proteções</span>
-                            <span class="dropdown-arrow">▼</span>
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Proteções</h4>
                         </div>
-                        <div class="equipment-dropdown-content">
-                            <div id="protecoesContainer" class="equipment-items">
+                        <div class="equipment-items-open">
+                            <div id="protecoesContainer" class="equipment-items-list">
                                 <!-- Proteções serão geradas dinamicamente -->
                             </div>
                             <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showEquipmentModal('protecoes')">
@@ -328,16 +382,13 @@
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="equipment-category">
-                    <div class="equipment-dropdown" data-category="equipamentos">
-                        <div class="equipment-dropdown-header">
-                            <span class="equipment-category-name">Equipamentos Gerais</span>
-                            <span class="dropdown-arrow">▼</span>
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Equipamentos Gerais</h4>
                         </div>
-                        <div class="equipment-dropdown-content">
-                            <div id="equipamentosContainer" class="equipment-items">
+                        <div class="equipment-items-open">
+                            <div id="equipamentosContainer" class="equipment-items-list">
                                 <!-- Equipamentos serão gerados dinamicamente -->
                             </div>
                             <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showEquipmentModal('equipamentos')">
@@ -346,55 +397,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Descrição -->
-        <section class="description">
-            <h3>Descrição do Personagem</h3>
-            <div class="description-grid">
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="appearance">Aparência</label>
-                        <textarea id="appearance" name="appearance" rows="3" placeholder="Descreva a aparência física do seu personagem"></textarea>
-                    </div>
-                    <div class="form-field">
-                        <label for="motivation">Motivação</label>
-                        <textarea id="motivation" name="motivation" rows="3" placeholder="O que move seu personagem"></textarea>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="trauma">Trauma</label>
-                        <textarea id="trauma" name="trauma" rows="3" placeholder="Experiência traumática"></textarea>
-                    </div>
-                    <div class="form-field">
-                        <label for="darkSecret">Segredo Sombrio</label>
-                        <textarea id="darkSecret" name="darkSecret" rows="3" placeholder="Algo que você esconde dos outros"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Relacionamentos -->
-            <div class="relationships-subsection">
-                <h4>Relacionamentos</h4>
-                <div id="relationshipsContainer" class="relationships-grid">
-                    <div class="relationship-item">
-                        <input type="text" placeholder="Nome do PJ" class="relationship-name">
-                        <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
-                        <button class="remove-relationship">×</button>
-                    </div>
-                    <div class="relationship-item">
-                        <input type="text" placeholder="Nome do PJ" class="relationship-name">
-                        <textarea placeholder="Descrição do relacionamento" class="relationship-desc"></textarea>
-                        <button class="remove-relationship">×</button>
-                    </div>
-                </div>
-                <button id="addRelationship" class="add-btn">+ Adicionar Relacionamento</button>
-            </div>
-            <div class="ornate-divider">❦ ❦ ❦</div>
-        </section>
+            </section>
+        </div>
     </div>
 
     <!-- Status Balloons -->

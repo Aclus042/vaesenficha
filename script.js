@@ -13,6 +13,7 @@ class VaesenCharacterSheet {
 
     init() {
         this.setupEventListeners();
+        this.initPageNavigation();
         this.populateTalents();
         this.populateEquipment();
         this.updateTalentSlots();
@@ -2119,32 +2120,23 @@ class VaesenCharacterSheet {
         div.className = 'equipment-item';
         
         const equipData = this.findEquipmentData(item, category);
-        const displayText = equipData ? this.formatEquipmentDisplay(equipData) : item;
+        const itemName = equipData ? equipData.nome : item;
         
         div.innerHTML = `
-            <div class="equipment-item-content">
-                <span class="equipment-name" onclick="vaesenSheet.showEquipmentDetails('${item}', '${category}')" title="Clique para ver detalhes">${displayText}</span>
+            <div class="equipment-item-header">
+                <h5 class="equipment-name">${itemName}</h5>
                 <button type="button" class="remove-equipment-btn" onclick="vaesenSheet.removeEquipment('${category}', ${index})" title="Remover item">×</button>
             </div>
         `;
         
+        // Adicionar click handler para detalhes (evitar clique no botão de remover)
+        div.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('remove-equipment-btn')) {
+                this.showEquipmentDetails(item, category);
+            }
+        });
+        
         return div;
-    }
-
-    formatEquipmentDisplay(equipData) {
-        let display = equipData.nome;
-        
-        if (equipData.dano) {
-            display += ` (Dano: ${equipData.dano})`;
-        }
-        if (equipData.protecao) {
-            display += ` (Proteção: ${equipData.protecao})`;
-        }
-        if (equipData.bonus && equipData.bonus !== '—') {
-            display += ` (${equipData.bonus})`;
-        }
-        
-        return display;
     }
 
     findEquipmentData(itemName, category) {
@@ -2690,6 +2682,42 @@ class VaesenCharacterSheet {
         if (modal) {
             modal.style.display = 'none';
             document.body.style.overflow = '';
+        }
+    }
+
+    // Page Navigation System
+    initPageNavigation() {
+        const pageButtons = document.querySelectorAll('.navbar-page-btn');
+        pageButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetPage = e.target.getAttribute('data-page');
+                this.showPage(targetPage);
+            });
+        });
+    }
+
+    showPage(pageName) {
+        // Hide all pages
+        const allPages = document.querySelectorAll('.page-content');
+        allPages.forEach(page => {
+            page.classList.remove('active');
+        });
+
+        // Show target page
+        const targetPage = document.getElementById(pageName + 'Page');
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+
+        // Update button states
+        const allButtons = document.querySelectorAll('.navbar-page-btn');
+        allButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const activeButton = document.querySelector(`[data-page="${pageName}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
         }
     }
 }
