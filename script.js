@@ -123,21 +123,18 @@ class VaesenCharacterSheet {
                 range: '17-25 anos',
                 attributePoints: 15,
                 skillPoints: 10
-                ]
             },
             adulto: {
                 name: 'Meia-Idade',
                 range: '26-50 anos',
                 attributePoints: 14,
                 skillPoints: 12
-                ]
             },
             idoso: {
                 name: 'Idoso',
                 range: '51+ anos',
                 attributePoints: 13,
                 skillPoints: 14
-                ]
             }
         };
     }
@@ -2697,5 +2694,6 @@ let vaesenSheet;
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
 });
+
 
 
