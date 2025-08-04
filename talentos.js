@@ -240,5 +240,3 @@ const TALENTOS_VAESEN = {
     }
   ]
 };
-
-export default TALENTOS_VAESEN;
