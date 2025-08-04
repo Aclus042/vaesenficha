@@ -1997,7 +1997,7 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--text-header);
     flex: 1;
     text-align: center;
 }
@@ -4127,5 +4127,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
         font-size: 2.5rem;
     }
 }
+
 
 
