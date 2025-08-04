@@ -44,6 +44,20 @@
     box-sizing: border-box;
 }
 
+@keyframes flicker {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(0.95); }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0; /* This replaces top, right, bottom, left: 0 */
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+}
+
 body {
     font-family: var(--font-main);
     background-color: var(--bg-main);
@@ -53,7 +67,9 @@ body {
     position: relative;
     padding-top: 70px; /* Espaço para a navbar fixa */
     font-size: 16px;
+    filter: sepia(10%) contrast(1.05) brightness(0.95);
     font-weight: 400;
+    animation: flicker 6s ease-in-out infinite;
 }
 
 /* Typography */
