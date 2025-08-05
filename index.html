@@ -396,6 +396,48 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Itens Poderosos</h4>
+                        </div>
+                        <div class="equipment-items-open">
+                            <div id="itensPodContainer" class="equipment-items-list">
+                                <!-- Itens Poderosos serão gerados dinamicamente -->
+                            </div>
+                            <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showModal('itensPodModal')">
+                                + Adicionar Item Poderoso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Itens Mágicos</h4>
+                        </div>
+                        <div class="equipment-items-open">
+                            <div id="itensMagContainer" class="equipment-items-list">
+                                <!-- Itens Mágicos serão gerados dinamicamente -->
+                            </div>
+                            <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showModal('itensMagModal')">
+                                + Adicionar Item Mágico
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="equipment-category">
+                        <div class="equipment-category-header">
+                            <h4>Itens Personalizados</h4>
+                        </div>
+                        <div class="equipment-items-open">
+                            <div id="itensCustomContainer" class="equipment-items-list">
+                                <!-- Itens Personalizados serão gerados dinamicamente -->
+                            </div>
+                            <button type="button" class="add-equipment-btn" onclick="vaesenSheet.showModal('itensCustomModal')">
+                                + Criar Item Personalizado
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -411,7 +453,7 @@
 
     <!-- Modais -->
     <!-- Modal de Estado do Personagem -->
-    <div id="statusModal" class="modal status-modal">
+    <div id="statusModal" class="modal status-modal" style="display: none;">
         <div class="modal-content status-modal-content">
             <span class="close">&times;</span>
             <h3>Condições do Personagem</h3>
@@ -448,7 +490,7 @@
         </div>
     </div>
 
-    <div id="ageModal" class="modal age-modal">
+    <div id="ageModal" class="modal age-modal" style="display: none;">
         <div class="modal-content age-modal-content">
             <span class="close">&times;</span>
             <h3>Faixas Etárias & Experiência</h3>
@@ -459,7 +501,7 @@
         </div>
     </div>
 
-    <div id="archetypeModal" class="modal archetype-modal">
+    <div id="archetypeModal" class="modal archetype-modal" style="display: none;">
         <div class="modal-content archetype-modal-content">
             <span class="close">&times;</span>
             <h3>Biblioteca de Arquétipos</h3>
@@ -471,7 +513,7 @@
     </div>
 
     <!-- Modal de Recursos -->
-    <div id="resourceModal" class="modal">
+    <div id="resourceModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h3>Níveis de Recursos</h3>
@@ -554,7 +596,7 @@
     </div>
 
     <!-- Modal de Souvenir -->
-    <div id="souvenirModal" class="modal">
+    <div id="souvenirModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h3>Souvenir Místico</h3>
@@ -579,7 +621,7 @@
     </div>
 
     <!-- Modal de Resultado do Souvenir -->
-    <div id="souvenirRollModal" class="modal">
+    <div id="souvenirRollModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h3>Tabela de Souvenirs (D66)</h3>
@@ -593,7 +635,7 @@
     </div>
 
     <!-- Modal de Talentos -->
-    <div id="talentModal" class="modal talent-modal">
+    <div id="talentModal" class="modal talent-modal" style="display: none;">
         <div class="modal-content talent-modal-content">
             <div class="modal-header">
                 <button id="talentBackBtn" class="back-btn" style="display: none;" title="Voltar às categorias">
@@ -621,7 +663,7 @@
     </div>
 
     <!-- Modal de Equipamentos -->
-    <div id="equipmentModal" class="modal equipment-modal">
+    <div id="equipmentModal" class="modal equipment-modal" style="display: none;">
         <div class="modal-content equipment-modal-content">
             <div class="modal-header">
                 <button id="equipmentBackBtn" class="back-btn" style="display: none;" title="Voltar às categorias">
@@ -649,8 +691,102 @@
         </div>
     </div>
 
+    <!-- Modal de Itens Poderosos -->
+    <div id="itensPodModal" class="modal equipment-modal" style="display: none;">
+        <div class="modal-content equipment-modal-content">
+            <div class="modal-header">
+                <button id="itensPodBackBtn" class="back-btn" style="display: none;" title="Voltar às categorias">
+                    <span>←</span>
+                </button>
+                <h3 id="itensPodModalTitle">Biblioteca de Itens Poderosos</h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <!-- Tela de Categorias -->
+            <div id="itensPodCategories" class="equipment-categories">
+                <div class="equipment-subtitle">Escolha uma categoria de itens</div>
+                <div class="equipment-categories-grid">
+                    <!-- Categorias serão geradas dinamicamente -->
+                </div>
+            </div>
+            
+            <!-- Tela de Itens -->
+            <div id="itensPodList" class="equipments-list" style="display: none;">
+                <div class="equipment-subtitle" id="itensPodCategorySubtitle">Itens disponíveis</div>
+                <div id="itensPodGrid" class="equipments-modal-grid">
+                    <!-- Itens serão gerados dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Itens Mágicos -->
+    <div id="itensMagModal" class="modal equipment-modal" style="display: none;">
+        <div class="modal-content equipment-modal-content">
+            <div class="modal-header">
+                <button id="itensMagBackBtn" class="back-btn" style="display: none;" title="Voltar às categorias">
+                    <span>←</span>
+                </button>
+                <h3 id="itensMagModalTitle">Biblioteca de Itens Mágicos</h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <!-- Tela de Categorias -->
+            <div id="itensMagCategories" class="equipment-categories">
+                <div class="equipment-subtitle">Escolha uma categoria de itens</div>
+                <div class="equipment-categories-grid">
+                    <!-- Categorias serão geradas dinamicamente -->
+                </div>
+            </div>
+            
+            <!-- Tela de Itens -->
+            <div id="itensMagList" class="equipments-list" style="display: none;">
+                <div class="equipment-subtitle" id="itensMagCategorySubtitle">Itens disponíveis</div>
+                <div id="itensMagGrid" class="equipments-modal-grid">
+                    <!-- Itens serão gerados dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Itens Personalizados -->
+    <div id="itensCustomModal" class="modal equipment-modal" style="display: none;">
+        <div class="modal-content equipment-modal-content">
+            <div class="modal-header">
+                <h3 id="itensCustomModalTitle">Criar Item Personalizado</h3>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="custom-item-form">
+                <div class="form-field">
+                    <label for="customItemName">Nome do Item</label>
+                    <input type="text" id="customItemName" placeholder="Digite o nome do item">
+                </div>
+                
+                <div class="form-field">
+                    <label for="customItemDescription">Descrição/Efeito</label>
+                    <textarea id="customItemDescription" placeholder="Descreva o efeito ou propriedades do item"></textarea>
+                </div>
+                
+                <div class="form-field">
+                    <label for="customItemType">Tipo do Item</label>
+                    <select id="customItemType">
+                        <option value="equipamento">Equipamento Geral</option>
+                        <option value="poderoso">Item Poderoso</option>
+                        <option value="magico">Item Mágico</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="modal-btn secondary" onclick="vaesenSheet.hideModal()">Cancelar</button>
+                    <button type="button" class="modal-btn primary" onclick="vaesenSheet.createCustomItem()">Criar Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Souvenir Personalizado -->
-    <div id="customSouvenirModal" class="modal">
+    <div id="customSouvenirModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h3>Criar Souvenir Personalizado</h3>
@@ -668,7 +804,7 @@
     </div>
 
     <!-- Modal de Recorte de Imagem -->
-    <div id="imageCropModal" class="modal image-crop-modal">
+    <div id="imageCropModal" class="modal image-crop-modal" style="display: none;">
         <div class="modal-content image-crop-content">
             <div class="crop-container">
                 <div class="crop-canvas-container">
@@ -697,9 +833,8 @@
     <script src="arquetipos.js"></script>
     <script src="talentos.js"></script>
     <script src="equipamentos.js"></script>
+    <script src="itensPod.js"></script>
+    <script src="itensMag.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
-
-

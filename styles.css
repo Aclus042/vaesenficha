@@ -2797,11 +2797,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     }
 }
 
-/* Animation for smooth transitions */
-* {
-    transition: all 0.3s ease;
-}
-
 /* Print styles */
 @media print {
     .header-actions, .info-btn, .action-btn, .add-btn, .remove-relationship {
@@ -3019,6 +3014,32 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 }
 
 .remove-equipment-btn:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.1);
+}
+
+/* Aplicar o mesmo estilo aos botões de remoção dos itens de poder e mágicos */
+.remove-equipment {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    background: rgba(220, 53, 69, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.remove-equipment:hover {
     background: rgba(220, 53, 69, 1);
     transform: scale(1.1);
 }
@@ -4127,6 +4148,5 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
         font-size: 2.5rem;
     }
 }
-
 
 

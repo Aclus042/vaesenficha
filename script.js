@@ -227,7 +227,8 @@ class VaesenCharacterSheet {
         const ageBtn = document.getElementById('ageBtn');
         if (ageBtn) {
             ageBtn.addEventListener('click', () => {
-                this.showAgeModal();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => this.showAgeModal(), 200);
             });
         }
 
@@ -235,7 +236,8 @@ class VaesenCharacterSheet {
         const archetypeBtn = document.getElementById('archetypeBtn');
         if (archetypeBtn) {
             archetypeBtn.addEventListener('click', () => {
-                this.showArchetypeModal();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => this.showArchetypeModal(), 200);
             });
         }
 
@@ -243,9 +245,12 @@ class VaesenCharacterSheet {
         const resourceBtn = document.getElementById('resourceBtn');
         if (resourceBtn) {
             resourceBtn.addEventListener('click', () => {
-                document.getElementById('resourceModal').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-                this.updateResourceSelection();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    document.getElementById('resourceModal').style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                    this.updateResourceSelection();
+                }, 200);
             });
         }
 
@@ -253,9 +258,12 @@ class VaesenCharacterSheet {
         const statusBtn = document.getElementById('statusBtn');
         if (statusBtn) {
             statusBtn.addEventListener('click', () => {
-                document.getElementById('statusModal').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-                this.updateStatusDisplay();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    document.getElementById('statusModal').style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                    this.updateStatusDisplay();
+                }, 200);
             });
         }
 
@@ -263,8 +271,11 @@ class VaesenCharacterSheet {
         const souvenirBtn = document.getElementById('souvenirBtn');
         if (souvenirBtn) {
             souvenirBtn.addEventListener('click', () => {
-                document.getElementById('souvenirModal').style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    document.getElementById('souvenirModal').style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }, 200);
             });
         }
 
@@ -759,12 +770,15 @@ class VaesenCharacterSheet {
         this.currentTalentIndex = talentIndex;
         const modal = document.getElementById('talentModal');
         
-        // Resetar para a tela de categorias
-        this.showTalentCategories();
-        
-        // Bloquear scroll do body
-        document.body.style.overflow = 'hidden';
-        modal.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            // Resetar para a tela de categorias
+            this.showTalentCategories();
+            
+            // Bloquear scroll do body
+            document.body.style.overflow = 'hidden';
+            modal.style.display = 'block';
+        }, 200);
     }
 
     showTalentCategories() {
@@ -2108,7 +2122,9 @@ class VaesenCharacterSheet {
         const categoryMap = {
             'armas': ['armasCorpoACorpo', 'armasDistancia'],
             'protecoes': ['protecoes'],
-            'equipamentos': ['equipamentosGerais']
+            'equipamentos': ['equipamentosGerais'],
+            'itensPod': ['itensPodeGerais'],
+            'itensMag': ['itensMagGerais']
         };
         
         const categories = categoryMap[category] || [];
@@ -2120,6 +2136,17 @@ class VaesenCharacterSheet {
             }
         }
         
+        // Buscar também nos arrays globais se definidos
+        if (category === 'itensPod' && typeof itensPod !== 'undefined') {
+            const found = itensPod.find(item => item.nome === itemName || item.item === itemName);
+            if (found) return found;
+        }
+        
+        if (category === 'itensMag' && typeof itensMag !== 'undefined') {
+            const found = itensMag.find(item => item.nome === itemName || item.item === itemName);
+            if (found) return found;
+        }
+        
         return null;
     }
 
@@ -2127,12 +2154,15 @@ class VaesenCharacterSheet {
         this.currentEquipmentCategory = category;
         const modal = document.getElementById('equipmentModal');
         
-        // Resetar para a tela de categorias
-        this.showEquipmentCategories(category);
-        
-        // Bloquear scroll do body
-        document.body.style.overflow = 'hidden';
-        modal.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            // Resetar para a tela de categorias
+            this.showEquipmentCategories(category);
+            
+            // Bloquear scroll do body
+            document.body.style.overflow = 'hidden';
+            modal.style.display = 'block';
+        }, 200);
     }
 
     showEquipmentCategories(targetCategory) {
@@ -2180,7 +2210,18 @@ class VaesenCharacterSheet {
         card.className = 'equipment-category-card';
         card.setAttribute('data-category', category.key);
         
-        const itemCount = this.equipmentData[category.key] ? this.equipmentData[category.key].length : 0;
+        let itemCount = 0;
+        
+        // Determinar o contador correto baseado no tipo de categoria
+        if (category.key === 'itensPodGerais') {
+            itemCount = (typeof itensPod !== 'undefined' && Array.isArray(itensPod)) ? itensPod.length : 0;
+        } else if (category.key === 'itensMagGerais') {
+            itemCount = (typeof itensMag !== 'undefined' && Array.isArray(itensMag)) ? itensMag.length : 0;
+        } else if (this.equipmentData && this.equipmentData[category.key]) {
+            itemCount = this.equipmentData[category.key].length;
+        } else {
+            itemCount = 0;
+        }
         
         card.innerHTML = `
             <div class="equipment-category-icon">${category.icon}</div>
@@ -2445,16 +2486,19 @@ class VaesenCharacterSheet {
 
     // Método para mostrar detalhes de um equipamento específico
     showEquipmentDetails(itemName, category) {
-        const equipData = this.findEquipmentData(itemName, category);
-        
-        if (!equipData) {
-            // Se não encontrar dados detalhados, mostrar informações básicas
-            this.showBasicEquipmentInfo(itemName);
-            return;
-        }
-        
-        // Criar modal de detalhes do equipamento
-        this.showEquipmentDetailsModal(equipData, category);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            const equipData = this.findEquipmentData(itemName, category);
+            
+            if (!equipData) {
+                // Se não encontrar dados detalhados, mostrar informações básicas
+                this.showBasicEquipmentInfo(itemName);
+                return;
+            }
+            
+            // Criar modal de detalhes do equipamento
+            this.showEquipmentDetailsModal(equipData, category);
+        }, 200);
     }
 
     showBasicEquipmentInfo(itemName) {
@@ -2542,6 +2586,12 @@ class VaesenCharacterSheet {
         } else if (category === 'protecoes') {
             icon = '🛡️';
             categoryName = 'Proteção';
+        } else if (category === 'itensPod') {
+            icon = '✨';
+            categoryName = 'Item Poderoso';
+        } else if (category === 'itensMag') {
+            icon = '🔮';
+            categoryName = 'Item Mágico';
         } else {
             icon = '⚒️';
             categoryName = 'Equipamento Geral';
@@ -2624,6 +2674,26 @@ class VaesenCharacterSheet {
             `;
         }
         
+        // Campos específicos para itens mágicos
+        if (equipData.risco) {
+            detailsHTML += `
+                <div class="equipment-stat penalty">
+                    <div class="stat-label">⚠️ Risco</div>
+                    <div class="stat-value">${equipData.risco}</div>
+                </div>
+            `;
+        }
+        
+        // Campos específicos para itens poderosos (se houver)
+        if (equipData.poder) {
+            detailsHTML += `
+                <div class="equipment-stat">
+                    <div class="stat-label">⚡ Poder</div>
+                    <div class="stat-value">${equipData.poder}</div>
+                </div>
+            `;
+        }
+        
         detailsHTML += `</div>`;
         
         // Adicionar efeitos se existirem
@@ -2632,6 +2702,26 @@ class VaesenCharacterSheet {
                 <div class="equipment-effect">
                     <h5>📜 Efeito Especial</h5>
                     <p>${equipData.efeito}</p>
+                </div>
+            `;
+        }
+        
+        // Adicionar descrição para itens mágicos/poderosos
+        if (equipData.descricao && equipData.descricao !== '—') {
+            detailsHTML += `
+                <div class="equipment-effect">
+                    <h5>📋 Descrição</h5>
+                    <p>${equipData.descricao}</p>
+                </div>
+            `;
+        }
+        
+        // Para itens que só têm o campo "item" como descrição
+        if (equipData.item && !equipData.efeito && !equipData.descricao) {
+            detailsHTML += `
+                <div class="equipment-effect">
+                    <h5>📋 Descrição</h5>
+                    <p>${equipData.item}</p>
                 </div>
             `;
         }
@@ -2682,6 +2772,248 @@ class VaesenCharacterSheet {
             activeButton.classList.add('active');
         }
     }
+
+    // === NOVOS MODAIS DE ITENS ===
+    showModal(modalId, category) {
+        const modal = document.getElementById(modalId);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            // Bloquear scroll do body
+            document.body.style.overflow = 'hidden';
+            modal.style.display = 'flex';
+            
+            if (modalId === 'itensPodModal') {
+                this.showItensPodCategories(category);
+            } else if (modalId === 'itensMagModal') {
+                this.showItensMagCategories(category);
+            } else if (modalId === 'itensCustomModal') {
+                this.showCustomItemForm();
+            }
+        }, 200);
+    }
+    
+    showItensPodCategories(category) {
+        // Mostrar tela de categorias, ocultar lista de itens
+        document.getElementById('itensPodCategories').style.display = 'block';
+        document.getElementById('itensPodList').style.display = 'none';
+        document.getElementById('itensPodBackBtn').style.display = 'none';
+        
+        document.getElementById('itensPodModalTitle').textContent = 'Biblioteca de Itens Poderosos';
+        
+        const categoriesGrid = document.querySelector('#itensPodModal .equipment-categories-grid');
+        categoriesGrid.innerHTML = '';
+        
+        const itemsCategory = { 
+            key: 'itensPodGerais', 
+            name: 'Itens Poderosos', 
+            icon: '✨', 
+            description: 'Objetos com poderes especiais e propriedades extraordinárias' 
+        };
+        
+        const card = this.createEquipmentCategoryCard(itemsCategory);
+        card.addEventListener('click', () => this.showItensPodList('itensPodGerais'));
+        categoriesGrid.appendChild(card);
+    }
+    
+    showItensMagCategories(category) {
+        // Mostrar tela de categorias, ocultar lista de itens
+        document.getElementById('itensMagCategories').style.display = 'block';
+        document.getElementById('itensMagList').style.display = 'none';
+        document.getElementById('itensMagBackBtn').style.display = 'none';
+        
+        document.getElementById('itensMagModalTitle').textContent = 'Biblioteca de Itens Mágicos';
+        
+        const categoriesGrid = document.querySelector('#itensMagModal .equipment-categories-grid');
+        categoriesGrid.innerHTML = '';
+        
+        const itemsCategory = { 
+            key: 'itensMagGerais', 
+            name: 'Itens Mágicos', 
+            icon: '🔮', 
+            description: 'Artefatos encantados e objetos com propriedades místicas' 
+        };
+        
+        const card = this.createEquipmentCategoryCard(itemsCategory);
+        card.addEventListener('click', () => this.showItensMagList('itensMagGerais'));
+        categoriesGrid.appendChild(card);
+    }
+    
+    showItensPodList(subcategory) {
+        document.getElementById('itensPodCategories').style.display = 'none';
+        document.getElementById('itensPodList').style.display = 'block';
+        document.getElementById('itensPodBackBtn').style.display = 'inline-block';
+        
+        document.getElementById('itensPodCategorySubtitle').textContent = 'Itens Poderosos Disponíveis';
+        
+        const itemsGrid = document.getElementById('itensPodGrid');
+        itemsGrid.innerHTML = '';
+        
+        // Carregar itens do itensPod.js
+        if (typeof itensPod !== 'undefined' && Array.isArray(itensPod)) {
+            itensPod.forEach(item => {
+                const itemCard = this.createEquipmentItemCard(item);
+                itemsGrid.appendChild(itemCard);
+            });
+        } else {
+            const noItems = document.createElement('p');
+            noItems.className = 'no-items-message';
+            noItems.textContent = 'Nenhum item poderoso disponível.';
+            itemsGrid.appendChild(noItems);
+        }
+    }
+    
+    showItensMagList(subcategory) {
+        document.getElementById('itensMagCategories').style.display = 'none';
+        document.getElementById('itensMagList').style.display = 'block';
+        document.getElementById('itensMagBackBtn').style.display = 'inline-block';
+        
+        document.getElementById('itensMagCategorySubtitle').textContent = 'Itens Mágicos Disponíveis';
+        
+        const itemsGrid = document.getElementById('itensMagGrid');
+        itemsGrid.innerHTML = '';
+        
+        // Carregar itens do itensMag.js
+        if (typeof itensMag !== 'undefined' && Array.isArray(itensMag)) {
+            itensMag.forEach(item => {
+                const itemCard = this.createEquipmentItemCard(item);
+                itemsGrid.appendChild(itemCard);
+            });
+        } else {
+            const noItems = document.createElement('p');
+            noItems.className = 'no-items-message';
+            noItems.textContent = 'Nenhum item mágico disponível.';
+            itemsGrid.appendChild(noItems);
+        }
+    }
+    
+    createEquipmentItemCard(item) {
+        const card = document.createElement('div');
+        card.className = 'equipment-card';
+        
+        // Adaptação para diferentes formatos de dados entre arquivos
+        const nome = item.nome || item.item || '';
+        const efeito = item.efeito || '';
+        const descricao = item.descricao || '';
+        const risco = item.risco || '';
+        
+        let statsHtml = '';
+        
+        if (efeito) {
+            statsHtml += `<div class="equipment-stat">Efeito: ${efeito}</div>`;
+        }
+        
+        if (descricao) {
+            statsHtml += `<div class="equipment-effect">${descricao}</div>`;
+        }
+        
+        if (risco) {
+            statsHtml += `<div class="equipment-stat equipment-risk">Risco: ${risco}</div>`;
+        }
+        
+        card.innerHTML = `
+            <div class="equipment-card-header">
+                <div class="equipment-name">${nome}</div>
+            </div>
+            <div class="equipment-stats">
+                ${statsHtml}
+            </div>
+        `;
+        
+        // Adicionar evento para adicionar o item ao inventário
+        card.addEventListener('click', () => {
+            this.addItemToInventory(item);
+            this.hideModal();
+        });
+        
+        return card;
+    }
+    
+    addItemToInventory(item) {
+        // Determinar a categoria com base no tipo de item
+        let containerSelector;
+        let category;
+        
+        // Determinar a categoria e o contêiner com base no tipo de item
+        if (item.hasOwnProperty('dano') && item.hasOwnProperty('alcance')) {
+            containerSelector = '#armasContainer';
+            category = 'armas';
+        } else if (item.hasOwnProperty('protecao')) {
+            containerSelector = '#protecoesContainer';
+            category = 'protecoes';
+        } else if (item.hasOwnProperty('risco')) {
+            // Item mágico (tem propriedade risco)
+            containerSelector = '#itensMagContainer';
+            category = 'itensMag';
+        } else {
+            // Item poderoso ou outros
+            containerSelector = '#itensPodContainer';
+            category = 'itensPod';
+        }
+        
+        // Adicionar o item no personagem
+        if (!this.character.equipment[category]) {
+            this.character.equipment[category] = [];
+        }
+        
+        // Adicionar uma cópia do item, não a referência
+        const itemCopy = JSON.parse(JSON.stringify(item));
+        this.character.equipment[category].push(itemCopy);
+        
+        // Criar o elemento na interface
+        const container = document.querySelector(containerSelector);
+        const itemElement = document.createElement('div');
+        itemElement.className = 'equipment-item';
+        
+        // Determinar o nome a ser exibido
+        const displayName = item.nome || item.item || item.name || 'Item';
+        
+        // Usar a mesma estrutura que os outros equipamentos
+        itemElement.innerHTML = `
+            <div class="equipment-item-header">
+                <h5 class="equipment-name">${displayName}</h5>
+                <button type="button" class="remove-equipment" title="Remover item">×</button>
+            </div>
+        `;
+        
+        // Adicionar evento de clique para mostrar detalhes (usando o mesmo modal dos outros equipamentos)
+        itemElement.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('remove-equipment')) {
+                this.showEquipmentDetails(displayName, category);
+            }
+        });
+        
+        // Adicionar evento para remover o item
+        itemElement.querySelector('.remove-equipment').addEventListener('click', (event) => {
+            event.stopPropagation();
+            const index = this.character.equipment[category].indexOf(itemCopy);
+            if (index > -1) {
+                this.character.equipment[category].splice(index, 1);
+                itemElement.remove();
+            }
+        });
+        
+        container.appendChild(itemElement);
+    }
+    
+    showCustomItemForm() {
+        // Esta função é chamada quando o modal de itens personalizados é aberto
+        // Resetar os campos do formulário
+        document.getElementById('customItemName').value = '';
+        document.getElementById('customItemDescription').value = '';
+        document.getElementById('customItemType').value = 'equipamento';
+    }
+
+    hideModal() {
+        // Ocultar todos os modais
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+        });
+        
+        // Restaurar scroll do body
+        document.body.style.overflow = '';
+    }
 }
 
 // Initialize the application when the page loads
@@ -2689,10 +3021,41 @@ let vaesenSheet;
 
 document.addEventListener('DOMContentLoaded', () => {
     vaesenSheet = new VaesenCharacterSheet();
+    
+    // Event listeners para fechar modais
+    ['itensPodModal', 'itensMagModal', 'itensCustomModal'].forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            const closeBtn = modal.querySelector('.close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Fechar modal clicando fora do conteúdo
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    });
+    
+    // Event listeners para botões de voltar
+    const itensPodBackBtn = document.getElementById('itensPodBackBtn');
+    if (itensPodBackBtn) {
+        itensPodBackBtn.addEventListener('click', () => {
+            vaesenSheet.showItensPodCategories();
+        });
+    }
+    
+    const itensMagBackBtn = document.getElementById('itensMagBackBtn');
+    if (itensMagBackBtn) {
+        itensMagBackBtn.addEventListener('click', () => {
+            vaesenSheet.showItensMagCategories();
+        });
+    }
 });
-
-
-
-
-
-
