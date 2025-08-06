@@ -1580,7 +1580,16 @@ class VaesenCharacterSheet {
         // Setup souvenir modal buttons
         document.getElementById('acceptSouvenir').onclick = () => {
             const description = document.getElementById('souvenirDescription').textContent;
+            
+            // Debug: log do souvenir aceito
+            console.log('Aceitando souvenir da tabela:', description);
+            console.log('Equipment antes:', this.character.equipment);
+            
             this.character.equipment.souvenir = description;
+            
+            // Debug: log depois de salvar
+            console.log('Equipment depois:', this.character.equipment);
+            
             this.updateSouvenirDisplay();
             modal.style.display = 'none';
             document.body.style.overflow = '';
@@ -1622,6 +1631,9 @@ class VaesenCharacterSheet {
         // Coletar todos os dados atuais do formulário
         this.collectFormData();
         
+        // Debug: verificar souvenir antes de salvar
+        console.log('Souvenir no character antes de salvar:', this.character.equipment?.souvenir);
+        
         // Preparar dados completos para salvar
         const characterData = {
             ...this.character,
@@ -1632,6 +1644,9 @@ class VaesenCharacterSheet {
                 system: "Vaesen RPG"
             }
         };
+        
+        // Debug: verificar souvenir nos dados a serem salvos
+        console.log('Souvenir nos dados a salvar:', characterData.equipment?.souvenir);
         
         // Criar nome do arquivo baseado no nome do personagem
         const fileName = this.character.name 
@@ -1929,14 +1944,8 @@ class VaesenCharacterSheet {
         // Equipment - os equipamentos já são gerenciados diretamente no character object
         // Não precisamos coletar do DOM pois usamos this.character.equipment diretamente
 
-        // Souvenir
-        const souvenirInput = document.getElementById('souvenir');
-        if (souvenirInput) {
-            if (!this.character.equipment) {
-                this.character.equipment = {};
-            }
-            this.character.equipment.souvenir = souvenirInput.value;
-        }
+        // Souvenir - já é gerenciado diretamente no character object
+        // Não precisamos coletar do DOM pois é atualizado via modais
 
         // Conditions - já são gerenciadas diretamente no character object
         // Image - já é gerenciada diretamente no character object quando upload é feito
@@ -2051,11 +2060,8 @@ class VaesenCharacterSheet {
             }
         }
 
-        // Souvenir
-        const souvenirInput = document.getElementById('souvenir');
-        if (souvenirInput && this.character.equipment && this.character.equipment.souvenir) {
-            souvenirInput.value = this.character.equipment.souvenir;
-        }
+        // Souvenir - atualizado via updateSouvenirDisplay()
+        this.updateSouvenirDisplay();
 
         // Equipment is handled by updateEquipmentDisplay()
         // Conditions are handled by updateStatusDisplay()
@@ -2387,8 +2393,16 @@ class VaesenCharacterSheet {
             return;
         }
         
+        // Debug: log antes de salvar
+        console.log('Salvando souvenir:', text);
+        console.log('Equipment antes:', this.character.equipment);
+        
         // Salvar souvenir
         this.character.equipment.souvenir = text;
+        
+        // Debug: log depois de salvar
+        console.log('Equipment depois:', this.character.equipment);
+        
         this.updateSouvenirDisplay();
         
         // Fechar modal
@@ -2996,6 +3010,59 @@ class VaesenCharacterSheet {
         container.appendChild(itemElement);
     }
     
+    showToast(message, type = 'info') {
+        // Criar elemento de toast
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: slideInRight 0.3s ease;
+            max-width: 300px;
+            word-wrap: break-word;
+        `;
+        
+        toast.textContent = message;
+        
+        // Adicionar animação CSS se não existir
+        if (!document.getElementById('toastStyles')) {
+            const style = document.createElement('style');
+            style.id = 'toastStyles';
+            style.textContent = `
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(toast);
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    }
+
     showCustomItemForm() {
         // Esta função é chamada quando o modal de itens personalizados é aberto
         // Resetar os campos do formulário
