@@ -749,6 +749,7 @@
         </div>
     </div>
 
+
     <!-- Modal de Itens Personalizados -->
     <div id="itensCustomModal" class="modal equipment-modal" style="display: none;">
         <div class="modal-content equipment-modal-content">
@@ -756,32 +757,12 @@
                 <h3 id="itensCustomModalTitle">Criar Item Personalizado</h3>
                 <span class="close">&times;</span>
             </div>
-            
-            <div class="custom-item-form">
-                <div class="form-field">
-                    <label for="customItemName">Nome do Item</label>
-                    <input type="text" id="customItemName" placeholder="Digite o nome do item">
-                </div>
-                
-                <div class="form-field">
-                    <label for="customItemDescription">Descrição/Efeito</label>
-                    <textarea id="customItemDescription" placeholder="Descreva o efeito ou propriedades do item"></textarea>
-                </div>
-                
-                <div class="form-field">
-                    <label for="customItemType">Tipo do Item</label>
-                    <select id="customItemType">
-                        <option value="equipamento">Equipamento Geral</option>
-                        <option value="poderoso">Item Poderoso</option>
-                        <option value="magico">Item Mágico</option>
-                    </select>
-                </div>
-                
+            <form id="customItemStepForm" style="display:block;">
+                <div id="customItemFields"></div>
                 <div class="form-actions">
-                    <button type="button" class="modal-btn secondary" onclick="vaesenSheet.hideModal()">Cancelar</button>
                     <button type="button" class="modal-btn primary" onclick="vaesenSheet.createCustomItem()">Criar Item</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 

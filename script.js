@@ -3063,12 +3063,99 @@ class VaesenCharacterSheet {
         }, 3000);
     }
 
-    showCustomItemForm() {
-        // Esta função é chamada quando o modal de itens personalizados é aberto
-        // Resetar os campos do formulário
-        document.getElementById('customItemName').value = '';
-        document.getElementById('customItemDescription').value = '';
-        document.getElementById('customItemType').value = 'equipamento';
+
+    showCustomItemForm(tipo = null) {
+    // Formulário simples: nome, tipo e descrição
+    const fields = document.getElementById('customItemFields');
+    let html = '';
+    html += `<div class="form-field"><label>Nome do Item</label><input type="text" id="customItemName" required></div>`;
+    html += `<div class="form-field"><label>Tipo</label><select id="customItemType" required><option value="arma">Arma</option><option value="protecao">Proteção</option><option value="geral">Equipamento Geral</option><option value="magico">Item Mágico</option><option value="poder">Item Poderoso</option></select></div>`;
+    html += `<div class="form-field"><label>Descrição</label><textarea id="customItemDescricao" required></textarea></div>`;
+    fields.innerHTML = html;
+        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
+    }
+
+    cancelCustomItemForm() {
+        // Volta para seleção de tipo
+        this.showCustomItemForm();
+    }
+
+    createCustomItem() {
+        // Coleta dados do formulário simples
+        const nome = document.getElementById('customItemName').value.trim();
+        const tipo = document.getElementById('customItemType').value;
+        const descricao = document.getElementById('customItemDescricao').value.trim();
+        if (!nome || !tipo || !descricao) {
+            this.showToast('Preencha todos os campos!', 'error');
+            return;
+        }
+        let item = { nome, tipo, descricao };
+        if (!this.character.equipment.itensCustom) this.character.equipment.itensCustom = [];
+        this.character.equipment.itensCustom.push(item);
+        this.renderCustomItems();
+        this.hideModal();
+        this.showToast('Item personalizado criado!', 'success');
+    }
+
+    renderCustomItems() {
+        // Renderiza lista de itens personalizados
+        const container = document.getElementById('itensCustomContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const items = this.character.equipment.itensCustom || [];
+        items.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'equipment-item';
+            div.innerHTML = `<div class='equipment-item-header'><h5 class='equipment-name'>${item.nome}</h5><button type='button' class='remove-equipment-btn' title='Remover' onclick='vaesenSheet.removeCustomItem(${idx})'>×</button></div>`;
+            div.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('remove-equipment-btn')) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    this.showCustomItemDetails(idx);
+                }
+            });
+            container.appendChild(div);
+        });
+    }
+
+    removeCustomItem(idx) {
+        if (!this.character.equipment.itensCustom) return;
+        this.character.equipment.itensCustom.splice(idx, 1);
+        this.renderCustomItems();
+    }
+
+    showCustomItemDetails(idx) {
+        const item = (this.character.equipment.itensCustom||[])[idx];
+        if (!item) return;
+        let html = `<h3>${item.nome}</h3><p>${item.descricao}</p>`;
+        if (item.tipo === 'arma') {
+            html += `<p><b>Dano:</b> ${item.dano || '-'}<br><b>Alcance:</b> ${item.alcance || '-'}<br><b>Tipo de Dano:</b> ${item.tipoDano || '-'}</p>`;
+        } else if (item.tipo === 'protecao') {
+            html += `<p><b>Proteção:</b> ${item.protecao || '-'}<br><b>Penalidade:</b> ${item.penalidade || '-'}</p>`;
+        } else if (item.tipo === 'magico') {
+            html += `<p><b>Risco:</b> ${item.risco || '-'}<br><b>Poder:</b> ${item.poder || '-'}</p>`;
+        } else if (item.tipo === 'poder') {
+            html += `<p><b>Poder:</b> ${item.poder || '-'}</p>`;
+        }
+        // Modal simples
+        let modal = document.getElementById('customItemDetailsModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'customItemDetailsModal';
+            modal.className = 'modal';
+            modal.innerHTML = `<div class='modal-content'><span class='close' onclick='vaesenSheet.hideCustomItemDetails()'>&times;</span><div id='customItemDetailsContent'></div></div>`;
+            document.body.appendChild(modal);
+        }
+        document.getElementById('customItemDetailsContent').innerHTML = html;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    hideCustomItemDetails() {
+        const modal = document.getElementById('customItemDetailsModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
     }
 
     hideModal() {

@@ -1,3 +1,149 @@
+/* === MODAL DE ITENS PERSONALIZADOS - VISUAL APRIMORADO === */
+#itensCustomModal .modal-content.equipment-modal-content {
+    background: var(--bg-section);
+    border-radius: 18px;
+    box-shadow: 0 8px 40px var(--shadow);
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+    max-width: 720px;
+    min-width: 340px;
+#customItemStepType .equipment-categories-grid {
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2.2rem;
+    justify-items: stretch;
+}
+
+@media (max-width: 900px) {
+    #itensCustomModal .modal-content.equipment-modal-content {
+        max-width: 98vw;
+        min-width: unset;
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+    }
+    #customItemStepType .equipment-categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+    margin: 7vh auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#itensCustomModal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    border-bottom: 1.5px solid var(--accent-gold);
+    padding-bottom: 0.7rem;
+}
+#itensCustomModal h3 {
+    color: var(--accent-gold);
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    margin: 0;
+}
+#itensCustomModal .close {
+    font-size: 2.1rem;
+    color: var(--accent-gold);
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-left: 1.5rem;
+}
+#itensCustomModal .close:hover {
+    color: var(--accent-red);
+}
+
+#customItemStepType .form-field {
+    margin-bottom: 2.2rem;
+    text-align: center;
+}
+#customItemStepType label {
+    color: var(--text-header);
+    font-size: 1.1rem;
+    font-family: var(--font-headings);
+    margin-bottom: 1.2rem;
+    display: block;
+}
+
+#customItemStepForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+#customItemFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 2.2rem;
+    margin-bottom: 1.2rem;
+}
+#customItemFields .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    grid-column: span 1;
+}
+#customItemFields .form-field.full-width {
+    grid-column: 1 / -1;
+}
+#customItemFields textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+#customItemStepForm .form-actions {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+#customItemStepForm .modal-btn {
+    min-width: 120px;
+    font-size: 1.08rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 7px;
+    border: 1.5px solid var(--accent-gold);
+    background: var(--button-bg);
+    color: var(--accent-gold);
+    font-family: var(--font-headings);
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    box-shadow: 0 2px 8px var(--shadow-light);
+    cursor: pointer;
+}
+#customItemStepForm .modal-btn.primary {
+    background: var(--accent-gold);
+    color: var(--bg-main);
+    border-color: var(--accent-gold);
+}
+#customItemStepForm .modal-btn.primary:hover {
+    background: var(--accent-red);
+    color: #fff;
+    border-color: var(--accent-red);
+}
+#customItemStepForm .modal-btn.secondary {
+    background: var(--bg-main);
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+}
+#customItemStepForm .modal-btn.secondary:hover {
+    background: var(--accent-gold);
+    color: var(--bg-main);
+}
+
+@media (max-width: 700px) {
+    #itensCustomModal .modal-content.equipment-modal-content {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        max-width: 98vw;
+    }
+    #customItemFields {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
 /* Vaesen Character Sheet Styles - Inspired by Johan Egerkrans' Nordic Horror */
 
 :root {
@@ -4148,5 +4294,3 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
         font-size: 2.5rem;
     }
 }
-
-
