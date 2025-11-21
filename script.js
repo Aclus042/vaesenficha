@@ -143,6 +143,10 @@ class VaesenCharacterSheet {
         return TALENTOS_VAESEN;
     }
 
+    getSkillData() {
+        return PERICIAS_VAESEN;
+    }
+
     getEquipmentData() {
         return EQUIPAMENTOS_VAESEN;
     }
@@ -354,6 +358,24 @@ class VaesenCharacterSheet {
             if (e.target.classList.contains('add-talent-btn')) {
                 this.addNewTalent();
             }
+        });
+
+        // Skill labels click to show description
+        document.querySelectorAll('.skill-item label').forEach(label => {
+            label.style.cursor = 'pointer';
+            label.addEventListener('click', (e) => {
+                const skillId = label.getAttribute('for');
+                this.showSkillModal(skillId);
+            });
+        });
+
+        // Skill labels click to show description
+        document.querySelectorAll('.skill-item label').forEach(label => {
+            label.style.cursor = 'pointer';
+            label.addEventListener('click', (e) => {
+                const skillId = label.getAttribute('for');
+                this.showSkillModal(skillId);
+            });
         });
 
         // Archetype selection
@@ -3170,6 +3192,30 @@ class VaesenCharacterSheet {
             modal.style.display = 'none';
             document.body.style.overflow = '';
         }
+    }
+
+    showSkillModal(skillId) {
+        const skillData = PERICIAS_VAESEN[skillId];
+        if (!skillData) return;
+
+        const modal = document.getElementById('skillModal');
+        document.getElementById('skillModalTitle').textContent = skillData.nome;
+        document.getElementById('skillAttribute').textContent = `Atributo: ${skillData.atributo}`;
+        document.getElementById('skillDescription').innerHTML = skillData.descricao.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+        
+        const combatSection = document.getElementById('skillCombat');
+        if (skillData.combate) {
+            combatSection.style.display = 'block';
+            combatSection.innerHTML = `<strong>Em Combate:</strong><br>${skillData.combate.replace(/\n/g, '<br>')}`;
+        } else {
+            combatSection.style.display = 'none';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }, 100);
     }
 
     hideModal() {

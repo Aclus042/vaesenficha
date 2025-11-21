@@ -4318,6 +4318,58 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     opacity: 1;
 }
 
+/* Skill Modal */
+.skill-modal .modal-content {
+    max-width: 700px;
+    width: 95%;
+}
+
+.skill-details {
+    padding: 25px;
+}
+
+.skill-attribute {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.skill-description {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin-bottom: 20px;
+}
+
+.skill-combat {
+    background: var(--bg-main);
+    border: 1px solid var(--accent-gold);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.skill-combat strong {
+    color: var(--accent-gold);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+}
+
+.skill-item label {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.skill-item label:hover {
+    color: var(--accent-gold);
+}
+
 .save-toast .toast-content, .load-toast .toast-content {
     display: flex;
     align-items: center;
