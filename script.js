@@ -689,6 +689,7 @@ class VaesenCharacterSheet {
                         <div class="talent-dropdown-header">
                             <span class="talent-name">${talentName}</span>
                             <span class="dropdown-arrow">▼</span>
+                            <button type="button" class="remove-talent-hover-btn" onclick="vaesenSheet.removeTalent(${index})" title="Remover talento">×</button>
                         </div>
                         <div class="talent-dropdown-content">
                             <p class="talent-description">${talentDescription}</p>
@@ -895,12 +896,15 @@ class VaesenCharacterSheet {
         let isValidTalent = true;
         let validationMessage = '';
         
-        if (categoryType === 'arquetipo' && this.character.archetype) {
+        // A partir do nível 2, permite escolher talentos de outros arquétipos
+        const currentLevel = this.calculateLevel(this.character.xp);
+        
+        if (categoryType === 'arquetipo' && this.character.archetype && currentLevel < 2) {
             // Verificar se o talento pertence ao arquétipo do personagem
             const playerArchetype = this.getArchetypeNameFromKey(this.character.archetype);
             if (categoryName !== playerArchetype) {
                 isValidTalent = false;
-                validationMessage = `Este talento é específico do arquétipo ${categoryName}`;
+                validationMessage = `Este talento é específico do arquétipo ${categoryName}. Disponível a partir do nível 2.`;
             }
         }
         
@@ -1542,6 +1546,15 @@ class VaesenCharacterSheet {
         
         // Atualizar slots de talentos para refletir o novo arquétipo
         this.updateTalentSlots();
+        
+        // Destacar slots de talentos para indicar que estão disponíveis
+        setTimeout(() => {
+            const talentButtons = document.querySelectorAll('.talent-btn');
+            talentButtons.forEach(btn => {
+                btn.classList.add('pulse-animation');
+                setTimeout(() => btn.classList.remove('pulse-animation'), 2000);
+            });
+        }, 500);
         
         // Fechar modal e restaurar scroll
         document.getElementById('archetypeModal').style.display = 'none';
