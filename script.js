@@ -701,9 +701,10 @@ class VaesenCharacterSheet {
                 </div>
             `;
         } else {
-            // Se não tem talento, manter botão original
+            // Se não tem talento, manter botão original com opção de remover
             slot.innerHTML = `
                 <div class="talent-select-wrapper">
+                    <button type="button" class="remove-empty-talent-btn" onclick="vaesenSheet.removeTalent(${index})" title="Remover slot de talento">×</button>
                     <button type="button" class="talent-btn" onclick="vaesenSheet.showTalentModal(${index})">
                         Selecione um talento
                     </button>
