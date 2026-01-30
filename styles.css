@@ -213,8 +213,12 @@ body {
     position: relative;
     padding-top: 70px; /* Espaço para a navbar fixa */
     font-size: 16px;
-    filter: sepia(10%) contrast(1.05) brightness(0.95);
     font-weight: 400;
+}
+
+/* Efeito visual aplicado apenas ao conteúdo das páginas, não à navbar */
+.page-content {
+    filter: sepia(10%) contrast(1.05) brightness(0.95);
     animation: flicker 6s ease-in-out infinite;
 }
 
@@ -3948,37 +3952,52 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
 
 /* ========= STATUS BALLOONS ========= */
 .status-balloons {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    height: auto !important;
     pointer-events: none;
-    z-index: 50;
-}
-
-.status-balloons-left {
-    position: absolute;
-    top: 100px;
-    left: 20px;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    gap: 8px;
 }
 
+.status-balloons-left,
 .status-balloons-right {
-    position: absolute;
-    top: 100px;
-    right: 20px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
 }
 
-@media (max-width: 1100px) {
-    .status-balloons-left,
+/* Desktop: posicionar nas laterais */
+@media (min-width: 1101px) {
+    .status-balloons {
+        top: 0 !important;
+        bottom: 0 !important;
+        padding: 0;
+        display: block;
+    }
+    
+    .status-balloons-left {
+        position: absolute;
+        top: 100px;
+        left: 20px;
+        flex-direction: column;
+    }
+    
     .status-balloons-right {
-        display: none;
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        flex-direction: column;
     }
 }
 
@@ -4115,19 +4134,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:foc
     .status-grid {
         grid-template-columns: 1fr;
         gap: 20px;
-    }
-    
-    .status-balloons-left,
-    .status-balloons-right {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 10px;
     }
 }
 
