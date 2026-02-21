@@ -37,6 +37,7 @@ class VaesenCharacterSheet {
             trauma: '',
             darkSecret: '',
             appearance: '',
+            image: '',
             attributes: {
                 fisico: 2,
                 precisao: 2,
@@ -54,6 +55,9 @@ class VaesenCharacterSheet {
                 armas: [],
                 protecoes: [],
                 equipamentos: [],
+                itensPod: [],
+                itensMag: [],
+                itensCustom: [],
                 souvenir: ''
             },
             xp: 0,
@@ -61,8 +65,8 @@ class VaesenCharacterSheet {
             resourceLevel: '3',
             relationships: [{ name: '', description: '' }],
             conditions: {
-                physical: [false, false, false, false],
-                mental: [false, false, false, false]
+                physical: [false, false, false],
+                mental: [false, false, false]
             }
         };
     }
@@ -1744,7 +1748,14 @@ class VaesenCharacterSheet {
                 };
                 
                 // Garantir que arrays e objetos necessários existam
+                console.log('ANTES de ensureCharacterStructure - loadedData.equipment:', JSON.stringify(loadedData.equipment, null, 2));
+                console.log('ANTES de ensureCharacterStructure - this.character.equipment:', JSON.stringify(this.character.equipment, null, 2));
+                
                 this.ensureCharacterStructure();
+                
+                console.log('DEPOIS de ensureCharacterStructure - this.character.equipment:', JSON.stringify(this.character.equipment, null, 2));
+                console.log('itensMag:', this.character.equipment.itensMag);
+                console.log('itensPod:', this.character.equipment.itensPod);
                 
                 // Atualizar toda a interface
                 this.populateForm();
@@ -1752,6 +1763,7 @@ class VaesenCharacterSheet {
                 this.updateSkillPoints();
                 this.updateTalentSlots();
                 this.updateEquipmentDisplay();
+                this.updateSpecialEquipmentDisplay();
                 this.updateStatusDisplay();
                 this.updateXPDisplay();
                 
@@ -1814,8 +1826,19 @@ class VaesenCharacterSheet {
             ...this.character,
             attributes: { ...defaultChar.attributes, ...(this.character.attributes || {}) },
             skills: { ...defaultChar.skills, ...(this.character.skills || {}) },
-            equipment: { ...defaultChar.equipment, ...(this.character.equipment || {}) },
             conditions: { ...defaultChar.conditions, ...(this.character.conditions || {}) }
+        };
+        
+        // Merge especial para equipment para garantir todos os arrays
+        const loadedEquipment = this.character.equipment || {};
+        this.character.equipment = {
+            armas: loadedEquipment.armas || [],
+            protecoes: loadedEquipment.protecoes || [],
+            equipamentos: loadedEquipment.equipamentos || [],
+            itensPod: loadedEquipment.itensPod || [],
+            itensMag: loadedEquipment.itensMag || [],
+            itensCustom: loadedEquipment.itensCustom || [],
+            souvenir: loadedEquipment.souvenir || ''
         };
         
         // Garantir que arrays existam
@@ -1824,6 +1847,11 @@ class VaesenCharacterSheet {
         }
         if (!Array.isArray(this.character.relationships)) {
             this.character.relationships = defaultChar.relationships;
+        }
+        
+        // Garantir que image exista
+        if (!this.character.image) {
+            this.character.image = '';
         }
     }
 
@@ -2121,6 +2149,77 @@ class VaesenCharacterSheet {
         ['armas', 'protecoes', 'equipamentos'].forEach(category => {
             this.updateEquipmentCategory(category);
         });
+        
+        // Atualizar itens poderosos, mágicos e personalizados
+        this.updateSpecialEquipmentDisplay();
+    }
+    
+    updateSpecialEquipmentDisplay() {
+        console.log('=== updateSpecialEquipmentDisplay INICIADA ===');
+        console.log('this.character.equipment completo:', this.character.equipment);
+        
+        // Itens Poderosos
+        const itensPodContainer = document.getElementById('itensPodContainer');
+        console.log('itensPodContainer encontrado?', !!itensPodContainer);
+        if (itensPodContainer) {
+            itensPodContainer.innerHTML = '';
+            const itensPod = this.character.equipment.itensPod || [];
+            console.log('Itens Poderosos a renderizar (quantidade):', itensPod.length, itensPod);
+            itensPod.forEach((item, index) => {
+                console.log('Renderizando item poderoso:', index, item);
+                const itemElement = this.createSpecialEquipmentItem(item, 'itensPod', index);
+                itensPodContainer.appendChild(itemElement);
+            });
+        }
+        
+        // Itens Mágicos
+        const itensMagContainer = document.getElementById('itensMagContainer');
+        console.log('itensMagContainer encontrado?', !!itensMagContainer);
+        if (itensMagContainer) {
+            itensMagContainer.innerHTML = '';
+            const itensMag = this.character.equipment.itensMag || [];
+            console.log('Itens Mágicos a renderizar (quantidade):', itensMag.length, itensMag);
+            itensMag.forEach((item, index) => {
+                console.log('Renderizando item mágico:', index, item);
+                const itemElement = this.createSpecialEquipmentItem(item, 'itensMag', index);
+                itensMagContainer.appendChild(itemElement);
+            });
+        }
+        
+        console.log('=== updateSpecialEquipmentDisplay FINALIZADA ===');
+        
+        // Itens Personalizados - usar o método específico
+        this.renderCustomItems();
+    }
+    
+    createSpecialEquipmentItem(item, category, index) {
+        const div = document.createElement('div');
+        div.className = 'equipment-item';
+        
+        const displayName = item.nome || item.item || item.name || 'Item';
+        
+        div.innerHTML = `
+            <div class="equipment-item-header">
+                <h5 class="equipment-name">${displayName}</h5>
+                <button type="button" class="remove-equipment" title="Remover item">×</button>
+            </div>
+        `;
+        
+        // Adicionar evento de clique para mostrar detalhes
+        div.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('remove-equipment')) {
+                this.showEquipmentDetails(displayName, category);
+            }
+        });
+        
+        // Adicionar evento para remover o item
+        div.querySelector('.remove-equipment').addEventListener('click', (event) => {
+            event.stopPropagation();
+            this.character.equipment[category].splice(index, 1);
+            this.updateSpecialEquipmentDisplay();
+        });
+        
+        return div;
     }
 
     updateEquipmentCategory(category) {
@@ -3001,6 +3100,8 @@ class VaesenCharacterSheet {
             category = 'itensPod';
         }
         
+        console.log('Adicionando item:', item.nome, 'na categoria:', category);
+        
         // Adicionar o item no personagem
         if (!this.character.equipment[category]) {
             this.character.equipment[category] = [];
@@ -3010,40 +3111,10 @@ class VaesenCharacterSheet {
         const itemCopy = JSON.parse(JSON.stringify(item));
         this.character.equipment[category].push(itemCopy);
         
-        // Criar o elemento na interface
-        const container = document.querySelector(containerSelector);
-        const itemElement = document.createElement('div');
-        itemElement.className = 'equipment-item';
+        console.log('Equipment após adicionar:', JSON.stringify(this.character.equipment, null, 2));
         
-        // Determinar o nome a ser exibido
-        const displayName = item.nome || item.item || item.name || 'Item';
-        
-        // Usar a mesma estrutura que os outros equipamentos
-        itemElement.innerHTML = `
-            <div class="equipment-item-header">
-                <h5 class="equipment-name">${displayName}</h5>
-                <button type="button" class="remove-equipment" title="Remover item">×</button>
-            </div>
-        `;
-        
-        // Adicionar evento de clique para mostrar detalhes (usando o mesmo modal dos outros equipamentos)
-        itemElement.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('remove-equipment')) {
-                this.showEquipmentDetails(displayName, category);
-            }
-        });
-        
-        // Adicionar evento para remover o item
-        itemElement.querySelector('.remove-equipment').addEventListener('click', (event) => {
-            event.stopPropagation();
-            const index = this.character.equipment[category].indexOf(itemCopy);
-            if (index > -1) {
-                this.character.equipment[category].splice(index, 1);
-                itemElement.remove();
-            }
-        });
-        
-        container.appendChild(itemElement);
+        // Atualizar a exibição
+        this.updateSpecialEquipmentDisplay();
     }
     
     showToast(message, type = 'info') {
