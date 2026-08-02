@@ -809,6 +809,25 @@ class VaesenCharacterSheet {
         }, 200);
     }
 
+    normalizeArchetypeName(archetypeName) {
+        return (archetypeName || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim();
+    }
+
+    getTalentCategoryKey(categoryName) {
+        if (!TALENTOS_VAESEN.porArquetipo) return categoryName;
+
+        const normalizedCategory = this.normalizeArchetypeName(categoryName);
+        const matchingKey = Object.keys(TALENTOS_VAESEN.porArquetipo).find(key =>
+            this.normalizeArchetypeName(key) === normalizedCategory
+        );
+
+        return matchingKey || categoryName;
+    }
+
     showTalentCategories() {
         // Mostrar tela de categorias, ocultar lista de talentos
         document.getElementById('talentCategories').style.display = 'block';
@@ -819,18 +838,21 @@ class VaesenCharacterSheet {
         const categoriesGrid = document.querySelector('.talent-categories-grid');
         categoriesGrid.innerHTML = '';
         
-        // Criar cards para arquetipos
-        Object.keys(TALENTOS_VAESEN.porArquetipo).forEach(arquetipo => {
-            const card = this.createTalentCategoryCard(arquetipo, 'arquetipo');
-            categoriesGrid.appendChild(card);
+        // Criar cards para arquetipos usando os nomes oficiais dos arquétipos
+        ARQUETIPOS_VAESEN.forEach(arquetipo => {
+            const talentKey = this.getTalentCategoryKey(arquetipo.nome);
+            if (TALENTOS_VAESEN.porArquetipo[talentKey]) {
+                const card = this.createTalentCategoryCard(arquetipo.nome, 'arquetipo', talentKey);
+                categoriesGrid.appendChild(card);
+            }
         });
         
         // Criar card para talentos gerais
-        const generalCard = this.createTalentCategoryCard('Gerais', 'geral');
+        const generalCard = this.createTalentCategoryCard('Gerais', 'geral', 'geral');
         categoriesGrid.appendChild(generalCard);
     }
 
-    createTalentCategoryCard(categoryName, categoryType) {
+    createTalentCategoryCard(categoryName, categoryType, categoryKey = categoryName) {
         const card = document.createElement('div');
         card.className = 'talent-category-card';
         
@@ -861,11 +883,11 @@ class VaesenCharacterSheet {
             <div class="talent-category-icon">${icon}</div>
             <div class="talent-category-name">${categoryName}</div>
             <div class="talent-category-description">${description}</div>
-            <div class="talent-category-count">${this.getTalentCount(categoryName, categoryType)} talentos</div>
+            <div class="talent-category-count">${this.getTalentCount(categoryKey, categoryType)} talentos</div>
         `;
         
         card.addEventListener('click', () => {
-            this.showTalentsByCategory(categoryName, categoryType);
+            this.showTalentsByCategory(categoryName, categoryType, categoryKey);
         });
         
         return card;
@@ -875,11 +897,12 @@ class VaesenCharacterSheet {
         if (categoryType === 'geral') {
             return TALENTOS_VAESEN.gerais.length;
         } else {
-            return TALENTOS_VAESEN.porArquetipo[categoryName]?.length || 0;
+            const resolvedCategoryKey = this.getTalentCategoryKey(categoryName);
+            return TALENTOS_VAESEN.porArquetipo[resolvedCategoryKey]?.length || 0;
         }
     }
 
-    showTalentsByCategory(categoryName, categoryType) {
+    showTalentsByCategory(categoryName, categoryType, categoryKey = categoryName) {
         // Ocultar categorias, mostrar lista de talentos
         document.getElementById('talentCategories').style.display = 'none';
         document.getElementById('talentsList').style.display = 'block';
@@ -894,7 +917,8 @@ class VaesenCharacterSheet {
         if (categoryType === 'geral') {
             talents = TALENTOS_VAESEN.gerais;
         } else {
-            talents = TALENTOS_VAESEN.porArquetipo[categoryName] || [];
+            const resolvedCategoryKey = this.getTalentCategoryKey(categoryKey);
+            talents = TALENTOS_VAESEN.porArquetipo[resolvedCategoryKey] || [];
         }
         
         // Criar cards para cada talento
@@ -929,7 +953,9 @@ class VaesenCharacterSheet {
         if (categoryType === 'arquetipo' && this.character.archetype && currentLevel < 2) {
             // Verificar se o talento pertence ao arquétipo do personagem
             const playerArchetype = this.getArchetypeNameFromKey(this.character.archetype);
-            if (categoryName !== playerArchetype) {
+            const currentCategoryKey = this.getTalentCategoryKey(categoryName);
+            const playerArchetypeKey = this.getTalentCategoryKey(playerArchetype);
+            if (currentCategoryKey !== playerArchetypeKey) {
                 isValidTalent = false;
                 validationMessage = `Este talento é específico do arquétipo ${categoryName}. Disponível a partir do nível 2.`;
             }

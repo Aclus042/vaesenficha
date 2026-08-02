@@ -1,6 +1,6 @@
 const TALENTOS_VAESEN = {
   porArquetipo: {
-    "Acadêmica": [
+    "Acadêmico": [
       {
         nome: "Rato de Biblioteca",
         descricao: "Receba +2 em APRENDIZADO quando procurar pistas em livros ou bibliotecas."
@@ -28,7 +28,7 @@ const TALENTOS_VAESEN = {
         descricao: "Uma vez por mistério, você pode fazer um teste de MANIPULAÇÃO para criar uma PNJ situada na região, e a quem já tenha encontrado antes. A Mestre de Jogo decide como ela mudou desde que vocês se encontraram e o que ela pensa de você agora. Se o teste falhar, ela ou é hostil ou precisa muito da sua ajuda."
       }
     ],
-    "Caçadora": [
+    "Caçador": [
       {
         nome: "Cão de Caça",
         descricao: "Receba +2 em VIGILÂNCIA quando rastrear sua presa."
